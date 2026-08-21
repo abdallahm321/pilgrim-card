@@ -112,6 +112,56 @@ body{
 
 .header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
 
+/* بطاقة إرشادية لاختيار الفوج عند فتح الرابط العام */
+.group-selector-card{
+  background:#fbf8f0;
+  border:1.5px solid var(--gold);
+  border-radius:12px;
+  padding:16px;
+  margin:14px 20px 4px;
+  text-align:center;
+}
+.group-selector-card h3{
+  font-size:15px;
+  color:var(--ink);
+  font-weight:800;
+  margin-bottom:6px;
+}
+.group-selector-card p{
+  font-size:12px;
+  color:var(--ink-soft);
+  line-height:1.5;
+  margin-bottom:12px;
+}
+.group-input-wrapper{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.group-select, .group-input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  font-size:13px;
+  font-family:'Tajawal',sans-serif;
+  outline:none;
+  background:#fff;
+}
+.group-select:focus, .group-input:focus{ border-color:var(--gold); }
+.group-btn-go{
+  padding:11px;
+  background:var(--ink);
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  transition:.15s;
+}
+.group-btn-go:active{ transform:scale(0.98); }
+
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
   padding:12px 18px 4px; background:var(--sand);
@@ -164,7 +214,6 @@ body{
 .info-value{ font-weight:700; text-align:end; }
 .editable{ border-bottom:1px dotted var(--gold); }
 
-/* صندوق الحافلة والتوجيهات */
 .transport-notes-box{
   background:#fcfaf5;
   border:1px solid var(--gold-light);
@@ -242,7 +291,6 @@ body{
   width: 100%;
 }
 
-/* بطاقة تعاقدات الشركات والدعم بالفوتر */
 .footer-partner-card{
   margin-top: 14px;
   padding: 12px 14px;
@@ -291,7 +339,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-link, .footer-partner-card{ display:none !important; }
+  .lang-row, .footer-actions, .admin-link, .footer-partner-card, .group-selector-card{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
@@ -313,11 +361,26 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
     
     <div>
-      <span class="company-badge" id="v-companyName">🏢 شركة الهدى للسياحة</span>
+      <span class="company-badge" id="v-companyName">🏢 منصة بطاقة المعتمر الذكية</span>
     </div>
 
     <h1 id="t-cardTitle">بطاقة تعريف وطوارئ المعتمر</h1>
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
+  </div>
+
+  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
+  <div class="group-selector-card" id="group-selector-box" style="display:none;">
+    <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
+    <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
+    
+    <div class="group-input-wrapper">
+      <select id="group-select" class="group-select" onchange="onSelectGroup(this.value)">
+        <option value="">-- اختر الفوج والشركة من القائمة --</option>
+      </select>
+      <div style="font-size:11.5px; color:#888; margin:2px 0;">أو اكتب الكود يدوياً:</div>
+      <input type="text" id="group-manual-input" class="group-input" placeholder="مثال: A1">
+      <button class="group-btn-go" onclick="goToManualGroup()">عرض بطاقة الرحلة 🔍</button>
+    </div>
   </div>
 
   <div class="lang-row" id="lang-row"></div>
@@ -341,14 +404,14 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
 
     <div class="info-box">
-      <div class="info-row"><span class="info-label" id="t-labelHotelMakkah">فندق مكة</span><span class="info-value editable" id="v-hotelMakkah">[ --- ]</span></div>
-      <div class="info-row"><span class="info-label" id="t-labelRoomMakkah">رقم الغرفة</span><span class="info-value editable" id="v-roomMakkah">[ --- ]</span></div>
+      <div class="info-row"><span class="info-label" id="t-labelHotelMakkah">فندق مكة</span><span class="info-value editable" id="v-hotelMakkah">[ برجاء تحديد الفوج ]</span></div>
+      <div class="info-row"><span class="info-label" id="t-labelRoomMakkah">رقم الغرفة</span><span class="info-value editable" id="v-roomMakkah">—</span></div>
     </div>
     <a href="#" target="_blank" id="btn-mapMakkah" class="btn btn-outline">📍 <span id="t-btnMapMakkah">فتح موقع فندق مكة</span></a>
 
     <div class="info-box">
-      <div class="info-row"><span class="info-label" id="t-labelHotelMadinah">فندق المدينة</span><span class="info-value editable" id="v-hotelMadinah">[ --- ]</span></div>
-      <div class="info-row"><span class="info-label" id="t-labelRoomMadinah">رقم الغرفة</span><span class="info-value editable" id="v-roomMadinah">[ --- ]</span></div>
+      <div class="info-row"><span class="info-label" id="t-labelHotelMadinah">فندق المدينة</span><span class="info-value editable" id="v-hotelMadinah">[ برجاء تحديد الفوج ]</span></div>
+      <div class="info-row"><span class="info-label" id="t-labelRoomMadinah">رقم الغرفة</span><span class="info-value editable" id="v-roomMadinah">—</span></div>
     </div>
     <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
 
@@ -360,7 +423,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
           <span class="bus-badge-label" id="t-labelBusNo">🚌 رقم الحافلة / الباص:</span>
           <span class="bus-badge-val" id="v-busNo">—</span>
         </div>
-        <div class="notes-content" id="v-notes"></div>
+        <div class="notes-content" id="v-notes">لم يتم تحديد كود فوج بعد.</div>
       </div>
     </div>
 
@@ -426,19 +489,21 @@ html[dir="ltr"] .info-value{ text-align:start; }
 const API_URL = "https://script.google.com/macros/s/AKfycbzY7X-diPTJxv0l7ocLkViEz-XkEXXRuNN1w3LGH1jwc7KyezhWfyMURnp6DtHZSIEP/exec";
 
 window.CONFIG = {
-  companyName: "شركة الهدى للسياحة",
+  companyName: "منصة بطاقة المعتمر الذكية",
   busNo: "—",
   notes: "",
-  primarySupervisorPhone: "+966500000000",
-  secondarySupervisorPhone: "+966500000000",
-  hotelMakkah:  { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" },
-  hotelMadinah: { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" }
+  primarySupervisorPhone: "+201004509977",
+  secondarySupervisorPhone: "+201004509977",
+  hotelMakkah:  { name: "[ غير محدد ]", room: "—", mapsUrl: "https://maps.google.com" },
+  hotelMadinah: { name: "[ غير محدد ]", room: "—", mapsUrl: "https://maps.google.com" }
 };
 
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
     cardTitle:"بطاقة تعريف وطوارئ المعتمر",
     cardSubtitle:"إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.",
+    selectorTitle:"🔍 اختر أو أدخل كود الفوج لعرض البطاقة",
+    selectorDesc:"برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.",
     sectionContact:"التواصل الفوري مع المشرفين",
     btnPrimary:"اتصال بالمشرف الأساسي", btnSecondary:"اتصال بالمشرف الاحتياطي",
     btnWhatsapp:"إرسال موقعي الحالي عبر واتساب",
@@ -464,6 +529,8 @@ const LANGS = {
   en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
     cardTitle:"Pilgrim ID & Emergency Card",
     cardSubtitle:"If the holder of this card is lost or needs help, please contact the supervisor immediately using the buttons below.",
+    selectorTitle:"🔍 Select or Enter Group Code to View Card",
+    selectorDesc:"Please select your group or enter the code printed on your card to view supervisor details and hotel locations.",
     sectionContact:"Contact the Supervisors",
     btnPrimary:"Call Primary Supervisor", btnSecondary:"Call Backup Supervisor",
     btnWhatsapp:"Send My Location via WhatsApp",
@@ -489,6 +556,8 @@ const LANGS = {
   ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
     cardTitle:"معتمر شناختی و ہنگامی کارڈ",
     cardSubtitle:"اگر اس کارڈ کا حامل راستہ بھول جائے یا مدد کی ضرورت ہو تو نیچے دیے گئے بٹنوں سے فوری طور پر نگران سے رابطہ کریں۔",
+    selectorTitle:"🔍 کارڈ دیکھنے کے لیے گروپ منتخب کریں یا کوڈ درج کریں",
+    selectorDesc:"نگران اور ہوٹل کے مقامات دیکھنے کے لیے براہ کرم فہرست سے اپنا گروپ منتخب کریں یا کارڈ کا کوڈ درج کریں۔",
     sectionContact:"نگران سے فوری رابطہ",
     btnPrimary:"بنیادی نگران کو کال کریں", btnSecondary:"متبادل نگران کو کال کریں",
     btnWhatsapp:"واٹس ایپ پر اپنا محل وقوع بھیجیں",
@@ -514,6 +583,8 @@ const LANGS = {
   id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
     cardTitle:"Kartu Identitas & Darurat Jamaah",
     cardSubtitle:"Jika pemegang kartu ini tersesat atau butuh bantuan, segera hubungi pembimbing melalui tombol di bawah.",
+    selectorTitle:"🔍 Pilih atau Masukkan Kode Rombongan",
+    selectorDesc:"Silakan pilih rombongan dari daftar atau masukkan kode pada kartu Anda untuk melihat detail akomodasi.",
     sectionContact:"Hubungi Pembimbing",
     btnPrimary:"Telepon Pembimbing Utama", btnSecondary:"Telepon Pembimbing Cadangan",
     btnWhatsapp:"Kirim Lokasi Saya via WhatsApp",
@@ -539,6 +610,8 @@ const LANGS = {
   fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
     cardTitle:"Carte d'Identité & d'Urgence du Pèlerin",
     cardSubtitle:"Si le porteur de cette carte est perdu ou a besoin d'aide, contactez immédiatement le superviseur via les boutons ci-dessous.",
+    selectorTitle:"🔍 Sélectionnez ou Entrez le Code du Groupe",
+    selectorDesc:"Veuillez sélectionner votre groupe ou entrer le code imprimé sur votre carte pour voir les informations.",
     sectionContact:"Contacter les Superviseurs",
     btnPrimary:"Appeler le Superviseur Principal", btnSecondary:"Appeler le Superviseur Suppléant",
     btnWhatsapp:"Envoyer ma position via WhatsApp",
@@ -564,6 +637,8 @@ const LANGS = {
   tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
     cardTitle:"Hacı/Umreci Kimlik ve Acil Durum Kartı",
     cardSubtitle:"Bu kartın sahibi kaybolur veya yardıma ihtiyaç duyarsa, lütfen aşağıdaki butonlardan derhal sorumlu ile iletişime geçin.",
+    selectorTitle:"🔍 Kartı Görüntülemek İçin Grup Seçin veya Kod Girin",
+    selectorDesc:"Sorumlu ve otel bilgilerini görmek için lütfen listeden grubu seçin veya kartınızdaki kodu girin.",
     sectionContact:"Sorumlularla İletişim",
     btnPrimary:"Ana Sorumluyu Ara", btnSecondary:"Yedek Sorumluyu Ara",
     btnWhatsapp:"Konumumu WhatsApp ile Gönder",
@@ -599,7 +674,6 @@ function renderUI(data){
   document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
   document.getElementById("v-roomMadinah").textContent = data.rd || "—";
 
-  // قسم الحافلة والملاحظات
   document.getElementById("v-busNo").textContent = data.bus_no || window.CONFIG.busNo || "—";
   
   const notesEl = document.getElementById("v-notes");
@@ -624,6 +698,38 @@ function renderUI(data){
   window.ACTIVE_PRIMARY_PHONE = pPhone;
 }
 
+async function fetchGroupsList(){
+  try {
+    const res = await fetch(`${API_URL}?action=list&t=${Date.now()}`, { method: "GET", redirect: "follow" });
+    const data = await res.json();
+    if(data.groups && data.groups.length > 0){
+      const select = document.getElementById('group-select');
+      select.innerHTML = '<option value="">-- اختر الفوج والشركة من القائمة --</option>';
+      data.groups.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.textContent = `${g.id} - ${g.name}`;
+        select.appendChild(opt);
+      });
+    }
+  } catch(e){}
+}
+
+function onSelectGroup(val){
+  if(val){
+    window.location.href = `?g=${encodeURIComponent(val)}`;
+  }
+}
+
+function goToManualGroup(){
+  const val = document.getElementById('group-manual-input').value.trim().toUpperCase();
+  if(val){
+    window.location.href = `?g=${encodeURIComponent(val)}`;
+  } else {
+    alert("يرجى إدخال كود الفوج أولاً!");
+  }
+}
+
 async function applyStatic(){
   const params = new URLSearchParams(window.location.search);
   const rawGroupId = params.get('g') || params.get('group');
@@ -634,37 +740,33 @@ async function applyStatic(){
     editBtn.href = "generator.html" + (window.location.search || "");
   }
 
-  if (groupId) {
-    try {
-      const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
-        method: "GET",
-        redirect: "follow"
-      });
-      const data = await res.json();
-      
-      if (data && !data.error) {
-        renderUI(data);
-        return;
-      }
-    } catch(err) {
-      console.warn("خطأ في جلب بيانات السحابة:", err);
-    }
+  // إذا لم يُحدد كود فوج في الرابط، نظهر بطاقة الاختيار الذكية ونجلب القائمة
+  if (!groupId) {
+    document.getElementById("group-selector-box").style.display = "block";
+    fetchGroupsList();
+    return;
   }
 
-  const fallback = {
-    company_name: params.get('c') || window.CONFIG.companyName,
-    bus_no: params.get('b') || window.CONFIG.busNo,
-    notes: params.get('n') || window.CONFIG.notes,
-    p1: params.get('p1') || window.CONFIG.primarySupervisorPhone,
-    p2: params.get('p2') || window.CONFIG.secondarySupervisorPhone,
-    hm: params.get('hm') || window.CONFIG.hotelMakkah.name,
-    rm: params.get('rm') || window.CONFIG.hotelMakkah.room,
-    mm: params.get('mm') || window.CONFIG.hotelMakkah.mapsUrl,
-    hd: params.get('hd') || window.CONFIG.hotelMadinah.name,
-    rd: params.get('rd') || window.CONFIG.hotelMadinah.room,
-    md: params.get('md') || window.CONFIG.hotelMadinah.mapsUrl
-  };
-  renderUI(fallback);
+  // إذا تم تحديد كود فوج، نجلب بياناته فوراً ونخفي صندوق الاختيار
+  document.getElementById("group-selector-box").style.display = "none";
+  try {
+    const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
+      method: "GET",
+      redirect: "follow"
+    });
+    const data = await res.json();
+    
+    if (data && !data.error) {
+      renderUI(data);
+      return;
+    } else {
+      document.getElementById("group-selector-box").style.display = "block";
+      alert("❌ كود الفوج غير موجود بالشيت، يرجى اختياره من القائمة.");
+      fetchGroupsList();
+    }
+  } catch(err) {
+    console.warn("خطأ في جلب بيانات السحابة:", err);
+  }
 }
 
 function renderLangSwitcher(){
