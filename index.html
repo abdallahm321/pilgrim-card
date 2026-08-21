@@ -112,7 +112,6 @@ body{
 
 .header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
 
-/* بطاقة إرشادية لاختيار الفوج عند فتح الرابط العام */
 .group-selector-card{
   background:#fbf8f0;
   border:1.5px solid var(--gold);
@@ -202,6 +201,7 @@ body{
 .btn-secondary{ background:var(--green); color:#fff; }
 .btn-whatsapp{ background:var(--whatsapp); color:#fff; }
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
+.btn-guide{ background: linear-gradient(135deg, #b8934a 0%, #9a7632 100%); color:#fff; }
 .btn small{ font-weight:500; opacity:.85; font-size:12px; }
 
 .info-box{
@@ -339,7 +339,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-link, .footer-partner-card, .group-selector-card{ display:none !important; }
+  .lang-row, .footer-actions, .admin-link, .footer-partner-card, .group-selector-card, .btn-guide{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
@@ -368,7 +368,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
+  <!-- صندوق اختيار الفوج التفاعلي -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -426,6 +426,11 @@ html[dir="ltr"] .info-value{ text-align:start; }
         <div class="notes-content" id="v-notes">لم يتم تحديد كود فوج بعد.</div>
       </div>
     </div>
+
+    <!-- زر دليل مناسك العمرة والأدعية المأثورة -->
+    <a href="umrah-guide.html" class="btn btn-guide">
+      📖 <span id="t-btnUmrahGuide">دليل مناسك العمرة والأدعية المأثورة</span>
+    </a>
 
     <!-- QR -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
@@ -507,6 +512,7 @@ const LANGS = {
     sectionContact:"التواصل الفوري مع المشرفين",
     btnPrimary:"اتصال بالمشرف الأساسي", btnSecondary:"اتصال بالمشرف الاحتياطي",
     btnWhatsapp:"إرسال موقعي الحالي عبر واتساب",
+    btnUmrahGuide:"📖 دليل مناسك العمرة والأدعية المأثورة",
     sectionLostSteps:"ماذا تفعل إن تهت؟",
     step1:"قف في مكانك ولا تتحرك كثيراً — يسهل العثور عليك إن بقيت ثابتاً.",
     step2:"اتصل بالمشرف الأساسي أو الاحتياطي فوراً عبر الأزرار أعلى هذه الصفحة.",
@@ -534,6 +540,7 @@ const LANGS = {
     sectionContact:"Contact the Supervisors",
     btnPrimary:"Call Primary Supervisor", btnSecondary:"Call Backup Supervisor",
     btnWhatsapp:"Send My Location via WhatsApp",
+    btnUmrahGuide:"📖 Umrah Steps & Supplications Guide",
     sectionLostSteps:"If You Get Lost",
     step1:"Stay where you are and avoid moving further — it's easier to be found if you stay put.",
     step2:"Call the primary or backup supervisor immediately using the buttons above.",
@@ -561,6 +568,7 @@ const LANGS = {
     sectionContact:"نگران سے فوری رابطہ",
     btnPrimary:"بنیادی نگران کو کال کریں", btnSecondary:"متبادل نگران کو کال کریں",
     btnWhatsapp:"واٹس ایپ پر اپنا محل وقوع بھیجیں",
+    btnUmrahGuide:"📖 عمرہ کے مناسک اور دعاؤں کی گائیڈ",
     sectionLostSteps:"اگر آپ راستہ بھول جائیں تو کیا کریں؟",
     step1:"جہاں ہیں وہیں رکیں اور زیادہ حرکت نہ کریں — اگر آپ ایک جگہ رہیں تو آپ کو ڈھونڈنا آسان ہوگا۔",
     step2:"اوپر دیے گئے بٹنوں سے فوری طور پر بنیادی یا متبادل نگران کو کال کریں۔",
@@ -588,6 +596,7 @@ const LANGS = {
     sectionContact:"Hubungi Pembimbing",
     btnPrimary:"Telepon Pembimbing Utama", btnSecondary:"Telepon Pembimbing Cadangan",
     btnWhatsapp:"Kirim Lokasi Saya via WhatsApp",
+    btnUmrahGuide:"📖 Panduan Manasik & Doa Umrah",
     sectionLostSteps:"Jika Anda Tersesat",
     step1:"Tetap di tempat Anda dan jangan banyak bergerak — lebih mudah ditemukan jika Anda diam.",
     step2:"Segera telepon pembimbing utama atau cadangan menggunakan tombol di atas.",
@@ -615,6 +624,7 @@ const LANGS = {
     sectionContact:"Contacter les Superviseurs",
     btnPrimary:"Appeler le Superviseur Principal", btnSecondary:"Appeler le Superviseur Suppléant",
     btnWhatsapp:"Envoyer ma position via WhatsApp",
+    btnUmrahGuide:"📖 Guide des Rites de la Omra & Invocations",
     sectionLostSteps:"Que Faire en Cas de Perte",
     step1:"Restez où vous êtes et évitez de trop bouger — il est plus facile de vous retrouver si vous ne bougez pas.",
     step2:"Appelez immédiatement le superviseur principal ou suppléant via les boutons ci-dessus.",
@@ -642,6 +652,7 @@ const LANGS = {
     sectionContact:"Sorumlularla İletişim",
     btnPrimary:"Ana Sorumluyu Ara", btnSecondary:"Yedek Sorumluyu Ara",
     btnWhatsapp:"Konumumu WhatsApp ile Gönder",
+    btnUmrahGuide:"📖 Umre Rehberi ve Dualar",
     sectionLostSteps:"Kaybolursanız Ne Yapmalısınız?",
     step1:"Bulunduğunuz yerde kalın ve fazla hareket etmeyin — sabit kalırsanız bulunmanız daha kolay olur.",
     step2:"Yukarıdaki butonları kullanarak hemen ana veya yedek sorumluyu arayın.",
