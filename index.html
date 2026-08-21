@@ -244,46 +244,69 @@ body{
 }
 
 /* ==================================================================
-   بطاقة باقات الشركات الذكية (المدمجة القابلة للطي)
+   بطاقة باقات وحلول الشركات المطورة (Collapsible Card)
    ================================================================== */
 .b2b-accordion-card{
-  width:100%; max-width:460px; background:#fcfaf5; border-radius:var(--radius);
-  border:1px solid var(--gold-light); box-shadow:var(--shadow); padding:14px 16px; text-align:center;
+  width:100%; max-width:460px; background:#fdfbf7; border-radius:var(--radius);
+  border:1.5px solid var(--gold-light); box-shadow:var(--shadow); padding:14px 16px;
+  transition: all .25s ease;
 }
 .b2b-toggle-header{
   display:flex; align-items:center; justify-content:space-between;
-  cursor:pointer; user-select:none;
+  cursor:pointer; user-select:none; padding:4px 0;
 }
 .b2b-header-title{
-  display:flex; align-items:center; gap:6px;
+  display:flex; align-items:center; gap:8px;
   font-size:13.5px; font-weight:800; color:var(--ink);
 }
+.b2b-toggle-badge{
+  font-size:11px; font-weight:700; background:var(--gold); color:#fff;
+  padding:2px 8px; border-radius:999px; margin-inline-start:4px;
+}
 .b2b-toggle-arrow{
-  font-size:12px; color:var(--gold); transition:transform .2s;
+  font-size:13px; color:var(--gold); font-weight:800;
+  transition: transform .25s ease;
 }
-.b2b-content{
-  display:none; margin-top:14px; border-top:1px dashed var(--gold-light); padding-top:12px; text-align:start;
-}
-.b2b-desc{ font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; text-align:center; }
 
-.pricing-table-mini{
-  width:100%; border-collapse:collapse; font-size:11px; margin-bottom:14px;
+.b2b-accordion-card.is-open .b2b-toggle-arrow{
+  transform: rotate(180deg);
 }
-.pricing-table-mini th{
-  background:#f4ece0; padding:8px 6px; font-weight:800; color:var(--ink); border:1px solid #e5d8c3; text-align:center;
+
+.b2b-content{
+  display:none; margin-top:14px; border-top:1px dashed var(--gold-light); padding-top:14px;
 }
-.pricing-table-mini td{
-  padding:6px 6px; border:1px solid #e5d8c3; color:var(--ink-soft); line-height:1.35;
+.b2b-accordion-card.is-open .b2b-content{
+  display:block;
 }
-.pricing-table-mini tr:nth-child(even){ background:#faf6ef; }
-.pricing-table-mini td:first-child{ font-weight:700; color:var(--ink); width:32%; }
-.pricing-table-mini td:nth-child(2), .pricing-table-mini td:nth-child(3){ text-align:center; }
+
+.b2b-desc{ font-size:12px; color:var(--ink-soft); line-height:1.55; margin-bottom:14px; text-align:center; }
+
+.pricing-cards-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+}
+.p-card{
+  background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 10px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.p-card.pro{
+  border:1.5px solid var(--gold); background:linear-gradient(180deg, #fffdfa 0%, #fff 100%);
+  box-shadow:0 4px 12px rgba(184,147,74,0.12);
+}
+.p-card-head{ text-align:center; padding-bottom:8px; border-bottom:1px solid #f0eae1; margin-bottom:8px; }
+.p-title{ font-size:12.5px; font-weight:800; color:var(--ink); margin-bottom:2px; }
+.p-price{ font-size:12px; font-weight:800; color:var(--green); }
+.p-card.pro .p-price{ color:var(--gold); }
+.p-features{ list-style:none; font-size:11px; color:var(--ink-soft); line-height:1.6; margin-bottom:10px; }
+.p-features li{ margin-bottom:4px; display:flex; align-items:flex-start; gap:4px; }
+.p-features li span.icon{ font-size:11px; flex:none; }
 
 .b2b-btn-row{ display:flex; gap:8px; justify-content:center; margin-bottom:12px; }
 .b2b-action-btn{
-  flex:1; padding:9px 8px; border-radius:8px; font-size:11.5px; font-weight:700;
-  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:4px;
+  flex:1; padding:10px 8px; border-radius:8px; font-size:12px; font-weight:700;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:5px;
+  transition:.15s;
 }
+.b2b-action-btn:active{ transform:scale(0.98); }
 .btn-b2b-free{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-b2b-pro{ background:var(--gold); color:#fff; }
 
@@ -490,77 +513,56 @@ html[dir="ltr"] .info-value{ text-align:start; }
   </a>
 </div>
 
-<!-- 3. بطاقة باقات الشركات الذكية (تظهر دائماً بأسلوب أكورديون مطوي أنيق) -->
+<!-- 3. بطاقة باقات وحلول الشركات المطورة (تفتح بسلاسة عبر كلاس is-open) -->
 <div class="b2b-accordion-card" id="b2b-main-card">
-  <div class="b2b-toggle-header" onclick="toggleB2BAccordion()">
+  <div class="b2b-toggle-header" id="b2b-header-btn">
     <div class="b2b-header-title">
       <span>💼</span>
-      <span id="t-b2bHeader">باقات وحلول شركات السياحة وتنظيم العمرة</span>
+      <span id="t-b2bHeader">حلول وباقات شركات السياحة وتنظيم العمرة</span>
+      <span class="b2b-toggle-badge" id="t-b2bBadge">مجاني & Pro</span>
     </div>
     <span class="b2b-toggle-arrow" id="b2b-arrow">▼</span>
   </div>
 
   <div class="b2b-content" id="b2b-content-box">
-    <p class="b2b-desc" id="t-b2bDesc">منظومة سحابية ذكية متكاملة لإدارة وتأمين أفواجك بكل سهولة ويسر وبأعلى المعايير.</p>
+    <p class="b2b-desc" id="t-b2bDesc">منظومة سحابية متكاملة لربط المعتمرين بالمشرفين وإدارة الأفواج بذكاء وأمان.</p>
     
-    <table class="pricing-table-mini">
-      <thead>
-        <tr>
-          <th id="t-thFeature">الميزة</th>
-          <th id="t-thFree">🆓 الأساسية (مجاناً)</th>
-          <th id="t-thPro">🌟 باقة Pro</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td id="t-r1Feature">الجمهور المستهدف</td>
-          <td id="t-r1Free">الشركات الناشئة والمشرفين</td>
-          <td id="t-r1Pro">كبرى الشركات والمنظمين</td>
-        </tr>
-        <tr>
-          <td id="t-r2Feature">البطاقة السحابية والـ QR</td>
-          <td id="t-r2Free">✅ مجاناً مدى الحياة</td>
-          <td id="t-r2Pro">✅ بنطاق وهوية الشركة</td>
-        </tr>
-        <tr>
-          <td id="t-r3Feature">لوحة التحكم السحابية</td>
-          <td id="t-r3Free">✅ تعديل فوري برمز PIN</td>
-          <td id="t-r3Pro">✅ إدارة فروع وصلاحيات</td>
-        </tr>
-        <tr>
-          <td id="t-r4Feature">تصدير الكروت وطباعة A4</td>
-          <td id="t-r4Free">✅ متاح بلا حدود</td>
-          <td id="t-r4Pro">✅ متاح + كروت NFC مطبوعة</td>
-        </tr>
-        <tr>
-          <td id="t-r5Feature">تطبيق المعتمر (Android / iOS)</td>
-          <td id="t-r5Free">❌ (يعمل كـ PWA ويب)</td>
-          <td id="t-r5Pro">✅ <strong>تطبيق خاص بمتجر Play</strong></td>
-        </tr>
-        <tr>
-          <td id="t-r6Feature">التنبيهات الحية (Push Alerts)</td>
-          <td id="t-r6Free">❌ غير متوفرة</td>
-          <td id="t-r6Pro">✅ <strong>إشعارات لتحرك الباصات</strong></td>
-        </tr>
-        <tr>
-          <td id="t-r7Feature">التتبع المباشر (Live GPS)</td>
-          <td id="t-r7Free">❌ (موقع يدوي فقط)</td>
-          <td id="t-r7Pro">✅ <strong>خريطة حية للمشرف</strong></td>
-        </tr>
-        <tr>
-          <td id="t-r8Feature">التكلفة</td>
-          <td id="t-r8Free"><strong>مجاناً 100%</strong></td>
-          <td id="t-r8Pro"><strong>تعاقد سنوي / لكل معتمر</strong></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="pricing-cards-grid">
+      <!-- الباقة الأساسية -->
+      <div class="p-card">
+        <div class="p-card-head">
+          <div class="p-title" id="t-planFreeTitle">🆓 الباقة الأساسية</div>
+          <div class="p-price" id="t-planFreePrice">مجاناً 100%</div>
+        </div>
+        <ul class="p-features">
+          <li><span class="icon">✅</span> <span id="t-f1Free">بطاقة سحابية دائمة لكل فوج</span></li>
+          <li><span class="icon">✅</span> <span id="t-f2Free">لوحة تحكم لتعديل الفنادق</span></li>
+          <li><span class="icon">✅</span> <span id="t-f3Free">طباعة A4 وتصدير الصور</span></li>
+          <li><span class="icon">❌</span> <span id="t-f4Free" style="opacity:0.6;">تطبيق متجر Google Play</span></li>
+        </ul>
+      </div>
+
+      <!-- باقة Pro -->
+      <div class="p-card pro">
+        <div class="p-card-head">
+          <div class="p-title" id="t-planProTitle">🌟 باقة الشركات Pro</div>
+          <div class="p-price" id="t-planProPrice">اشتراك سنوي / معتمر</div>
+        </div>
+        <ul class="p-features">
+          <li><span class="icon">✅</span> <span id="t-f1Pro"><strong>تطبيق Android باسم شركتك</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f2Pro"><strong>إشعارات حية لتحرك الباصات</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f3Pro"><strong>تتبع مباشر للمعتمرين (GPS)</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f4Pro">كروت بلاستيكية NFC مطبوعة</span></li>
+        </ul>
+      </div>
+    </div>
 
     <div class="b2b-btn-row">
       <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%84%D9%84%D9%85%D9%86%D8%B5%D8%A9" target="_blank" class="b2b-action-btn btn-b2b-free">
-        🎁 <span id="t-btnFreeAccount">تسجيل باقة مجانية</span>
+        🎁 <span id="t-btnFreeAccount">حساب مجاني</span>
       </a>
       <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20Pro%20(%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%B4%D8%B1%D9%83%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D8%AA%D8%A8%D8%B9%20%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B4%D8%B1)" target="_blank" class="b2b-action-btn btn-b2b-pro">
-        👑 <span id="t-btnProUpgrade">طلب ترقية Pro</span>
+        👑 <span id="t-btnProUpgrade">طلب باقة Pro</span>
       </a>
     </div>
 
@@ -643,7 +645,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwk1Uw_1_Dh-5vxOHJGN7tB
 window.CURRENT_RECORD = null;
 window.CURRENT_GROUP_URL = window.location.href;
 
-// 🕋 اللغات المعتمدة والترجمة الكاملة للباقات والمقارنات
+// 🕋 اللغات المعتمدة والترجمة الشاملة
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
     cardTitle:"بطاقة تعريف وطوارئ المعتمر",
@@ -670,18 +672,13 @@ const LANGS = {
     footerBtnUnified:"📤 مشاركة وطباعة وتصدير البطاقة",
     footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
     adminEditBtn:"تعديل بيانات هذه الرحلة في لوحة التحكم",
-    b2bHeader:"باقات وحلول شركات السياحة وتنظيم العمرة",
-    b2bDesc:"منظومة سحابية ذكية متكاملة لإدارة وتأمين أفواجك بكل سهولة ويسر وبأعلى المعايير.",
-    thFeature:"الميزة", thFree:"🆓 الأساسية (مجاناً)", thPro:"🌟 باقة Pro",
-    r1Feature:"الجمهور المستهدف", r1Free:"الشركات الناشئة والمشرفين", r1Pro:"كبرى الشركات والمنظمين",
-    r2Feature:"البطاقة السحابية والـ QR", r2Free:"✅ مجاناً مدى الحياة", r2Pro:"✅ بنطاق وهوية الشركة",
-    r3Feature:"لوحة التحكم السحابية", r3Free:"✅ تعديل فوري برمز PIN", r3Pro:"✅ إدارة فروع وصلاحيات",
-    r4Feature:"تصدير الكروت وطباعة A4", r4Free:"✅ متاح بلا حدود", r4Pro:"✅ متاح + كروت NFC مطبوعة",
-    r5Feature:"تطبيق المعتمر (Android / iOS)", r5Free:"❌ (يعمل كـ PWA ويب)", r5Pro:"✅ تطبيق خاص بمتجر Play",
-    r6Feature:"التنبيهات الحية (Push Alerts)", r6Free:"❌ غير متوفرة", r6Pro:"✅ إشعارات لتحرك الباصات",
-    r7Feature:"التتبع المباشر (Live GPS)", r7Free:"❌ (موقع يدوي فقط)", r7Pro:"✅ خريطة حية للمشرف",
-    r8Feature:"التكلفة", r8Free:"مجاناً 100%", r8Pro:"تعاقد سنوي / لكل معتمر",
-    btnFreeAccount:"تسجيل باقة مجانية", btnProUpgrade:"طلب ترقية Pro",
+    b2bHeader:"حلول وباقات شركات السياحة وتنظيم العمرة", b2bBadge:"مجاني & Pro",
+    b2bDesc:"منظومة سحابية متكاملة لربط المعتمرين بالمشرفين وإدارة الأفواج بذكاء وأمان.",
+    planFreeTitle:"🆓 الباقة الأساسية", planFreePrice:"مجاناً 100%",
+    f1Free:"بطاقة سحابية دائمة لكل فوج", f2Free:"لوحة تحكم لتعديل الفنادق", f3Free:"طباعة A4 وتصدير الصور", f4Free:"تطبيق متجر Google Play",
+    planProTitle:"🌟 باقة الشركات Pro", planProPrice:"اشتراك سنوي / معتمر",
+    f1Pro:"تطبيق Android باسم شركتك", f2Pro:"إشعارات حية لتحرك الباصات", f3Pro:"تتبع مباشر للمعتمرين (GPS)", f4Pro:"كروت بلاستيكية NFC مطبوعة",
+    btnFreeAccount:"حساب مجاني", btnProUpgrade:"طلب باقة Pro",
     btnSupport:"☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن",
     modalHeaderTitle:"📤 مركز المشاركة وتصدير الكروت", modalHeaderSubtitle:"اختر ما يناسبك لحفظ أو طباعة أو إرسال بيانات الفوج",
     opt1Title:"🔗 1. مشاركة الرابط المباشر للفوج", opt1Desc:"إرسال رابط الفوج الحالي عبر واتساب مع كامل بيانات الفندق والمشرفين.", btnShareLink:"📲 إرسال / نسخ الرابط",
@@ -716,18 +713,13 @@ const LANGS = {
     footerBtnUnified:"📤 Bagikan, Cetak & Ekspor Kartu",
     footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
     adminEditBtn:"Edit Data Grup di Panel Kontrol",
-    b2bHeader:"Paket & Solusi Biro Travel Umrah",
-    b2bDesc:"Sistem cloud cerdas terintegrasi untuk mengelola dan mengamankan jamaah Anda.",
-    thFeature:"Fitur", thFree:"🆓 Standar (Gratis)", thPro:"🌟 Paket Pro",
-    r1Feature:"Target Pengguna", r1Free:"Travel Rintisan & Pembimbing", r1Pro:"Biro Travel Besar & Korporat",
-    r2Feature:"Kartu Cloud & Kode QR", r2Free:"✅ Gratis Seumur Hidup", r2Pro:"✅ Branding & Domain Sendiri",
-    r3Feature:"Panel Kontrol Cloud", r3Free:"✅ Edit Cepat dengan PIN", r3Pro:"✅ Multi-Cabang & Hak Akses",
-    r4Feature:"Ekspor & Cetak A4", r4Free:"✅ Tanpa Batas", r4Pro:"✅ Tersedia + Kartu Fisik NFC",
-    r5Feature:"Aplikasi Jamaah (Android/iOS)", r5Free:"❌ (Format PWA Web)", r5Pro:"✅ Aplikasi Khusus di Play Store",
-    r6Feature:"Notifikasi Langsung", r6Free:"❌ Tidak Tersedia", r6Pro:"✅ Peringatan Jadwal Bus",
-    r7Feature:"Pelacakan Langsung (Live GPS)", r7Free:"❌ (Kirim Lokasi Manual)", r7Pro:"✅ Peta Langsung Pembimbing",
-    r8Feature:"Biaya", r8Free:"Gratis 100%", r8Pro:"Langganan Tahunan / Jamaah",
-    btnFreeAccount:"Daftar Akun Gratis", btnProUpgrade:"Ajukan Upgrade Pro",
+    b2bHeader:"Solusi & Paket Biro Travel Umrah", b2bBadge:"Gratis & Pro",
+    b2bDesc:"Sistem cloud terintegrasi untuk menghubungkan jamaah dengan pembimbing secara aman.",
+    planFreeTitle:"🆓 Paket Dasar", planFreePrice:"Gratis 100%",
+    f1Free:"Kartu cloud permanen per rombongan", f2Free:"Panel kontrol edit data hotel", f3Free:"Cetak A4 & ekspor gambar", f4Free:"Aplikasi Google Play Store",
+    planProTitle:"🌟 Paket Travel Pro", planProPrice:"Langganan / Jamaah",
+    f1Pro:"Aplikasi Android dengan nama travel", f2Pro:"Notifikasi langsung jadwal bus", f3Pro:"Pelacakan lokasi jamaah (GPS)", f4Pro:"Kartu fisik NFC tercetak",
+    btnFreeAccount:"Akun Gratis", btnProUpgrade:"Ajukan Paket Pro",
     btnSupport:"☕ Donasi untuk Pengembangan Layanan Jamaah",
     modalHeaderTitle:"📤 Pusat Berbagi & Cetak Kartu", modalHeaderSubtitle:"Pilih format yang sesuai untuk menyimpan atau membagikan data rombongan",
     opt1Title:"🔗 1. Bagikan Tautan Rombongan", opt1Desc:"Kirim tautan langsung dengan detail akomodasi via WhatsApp.", btnShareLink:"📲 Kirim / Salin Tautan",
@@ -762,18 +754,13 @@ const LANGS = {
     footerBtnUnified:"📤 کارڈ شیئر، پرنٹ اور محفوظ کریں",
     footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
     adminEditBtn:"کنٹرول پینل میں اس گروپ کا ڈیٹا تبدیل کریں",
-    b2bHeader:"ٹریول ایجنسیوں کے لیے اسمارٹ پیکیجز",
-    b2bDesc:"حجاج و معتمرین کے انتظام کے لیے کلاؤڈ سسٹم۔",
-    thFeature:"خصوصیات", thFree:"🆓 بنیادی (مفت)", thPro:"🌟 پرو پیکیج",
-    r1Feature:"مطلوبہ صارفین", r1Free:"چھوٹی کمپنیاں اور نگران", r1Pro:"بڑی ٹریول ایجنسیاں",
-    r2Feature:"کلاؤڈ کارڈ اور کیو آر", r2Free:"✅ تاحیات مفت", r2Pro:"✅ کمپنی برانڈنگ اور ڈومین",
-    r3Feature:"کلاؤڈ کنٹرول پینل", r3Free:"✅ پن کوڈ کے ساتھ ایڈٹ", r3Pro:"✅ برانچز اور اختیارات کا نظام",
-    r4Feature:"کارڈز پرنٹنگ اور A4", r4Free:"✅ لامحدود پرنٹنگ", r4Pro:"✅ دستیاب + این ایف سی کارڈز",
-    r5Feature:"موبائل ایپ (Android/iOS)", r5Free:"❌ (ویب پی ڈبلیو اے)", r5Pro:"✅ پلے اسٹور پر مخصوص ایپ",
-    r6Feature:"لائیو الرٹس اور پیغامات", r6Free:"❌ دستیاب نہیں", r6Pro:"✅ بس روانگی کی اطلاع",
-    r7Feature:"لائیو لوکیشن ٹریکنگ", r7Free:"❌ (صرف دستی لوکیشن)", r7Pro:"✅ نگران کے لیے لائیو نقشہ",
-    r8Feature:"قیمت", r8Free:"100% مفت", r8Pro:"سالانہ معاہدہ / فی معتمر",
-    btnFreeAccount:"مفت اکاؤنٹ بنائیں", btnProUpgrade:"پرو اپ گریڈ کی درخواست",
+    b2bHeader:"ٹریول ایجنسیوں کے لیے اسمارٹ پیکجز", b2bBadge:"مفت اور پرو",
+    b2bDesc:"حجاج و معتمرین کے محفوظ انتظام کے لیے کلاؤڈ سسٹم۔",
+    planFreeTitle:"🆓 بنیادی پیکج", planFreePrice:"100% مفت",
+    f1Free:"ہر گروپ کے لیے کلاؤڈ کارڈ", f2Free:"ہوٹل تبدیل کرنے کا کنٹرول پینل", f3Free:"پرنٹنگ اور تصاویر ایکسپورٹ", f4Free:"گوگل پلے ایپ",
+    planProTitle:"🌟 ایجنسی پرو پیکج", planProPrice:"سالانہ معاہدہ",
+    f1Pro:"کمپنی کے نام کی اینڈرائیڈ ایپ", f2Pro:"بس روانگی کے لائیو الرٹس", f3Pro:"معتمرین کی لائیو لوکیشن", f4Pro:"پرنٹ شدہ این ایف سی کارڈز",
+    btnFreeAccount:"مفت اکاؤنٹ", btnProUpgrade:"پرو پیکج لیں",
     btnSupport:"☕ زائرین حرم کی خدمت کے لیے تعاون",
     modalHeaderTitle:"📤 کارڈ شیئرنگ اور پرنٹنگ سینٹر", modalHeaderSubtitle:"ڈیٹا محفوظ کرنے، پرنٹ کرنے یا بھیجنے کا طریقہ منتخب کریں",
     opt1Title:"🔗 1. گروپ لنک شیئر کریں", opt1Desc:"مکمل معلومات کے ساتھ گروپ کا لنک واٹس ایپ پر بھیجیں۔", btnShareLink:"📲 لنک بھیجیں / کاپی کریں",
@@ -808,18 +795,13 @@ const LANGS = {
     footerBtnUnified:"📤 Kartı Paylaş, Yazdır ve İndir",
     footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
     adminEditBtn:"Kontrol Panelinde Grup Verilerini Düzenle",
-    b2bHeader:"Seyahat Acenteleri İçin Akıllı Çözümler",
+    b2bHeader:"Acenteler İçin Akıllı Çözümler ve Paketler", b2bBadge:"Ücretsiz & Pro",
     b2bDesc:"Kafilelerinizi yönetmek ve güvenliğini sağlamak için akıllı bulut sistemi.",
-    thFeature:"Özellik", thFree:"🆓 Standart (Ücretsiz)", thPro:"🌟 Pro Paket",
-    r1Feature:"Hedef Kitle", r1Free:"Yeni Acenteler ve Kafile Başkanları", r1Pro:"Büyük Turizm Şirketleri",
-    r2Feature:"Bulut Kartı ve QR", r2Free:"✅ Ömür Boyu Ücretsiz", r2Pro:"✅ Şirket Markası ve Özel Alan Adı",
-    r3Feature:"Bulut Kontrol Paneli", r3Free:"✅ PIN Kodu ile Hızlı Düzenleme", r3Pro:"✅ Şube ve Yetki Yönetimi",
-    r4Feature:"Kart Dışa Aktarma & A4", r4Free:"✅ Sınırsız Baskı", r4Pro:"✅ Mevcut + Baskılı NFC Kartlar",
-    r5Feature:"Mobil Uygulama (Android/iOS)", r5Free:"❌ (Web PWA Formatı)", r5Pro:"✅ Play Store'da Özel Uygulama",
-    r6Feature:"Canlı Bildirimler", r6Free:"❌ Mevcut Değil", r6Pro:"✅ Otobüs Hareket Uyarıları",
-    r7Feature:"Canlı Konum Takibi", r7Free:"❌ (Yalnızca Manuel Konum)", r7Pro:"✅ Sorumlu İçin Canlı Harita",
-    r8Feature:"Maliyet", r8Free("%100 Ücretsiz"), r8Pro:"Yıllık Anlaşma / Kişi Başı",
-    btnFreeAccount:"Ücretsiz Hesap Aç", btnProUpgrade:"Pro Yükseltme Talebi",
+    planFreeTitle:"🆓 Temel Paket", planFreePrice("%100 Ücretsiz"),
+    f1Free:"Her kafile için kalıcı bulut kartı", f2Free:"Otel düzenleme kontrol paneli", f3Free:"A4 baskı ve resim kaydetme", f4Free:"Google Play Store uygulaması",
+    planProTitle:"🌟 Acente Pro Paketi", planProPrice:"Yıllık / Kişi Başı",
+    f1Pro:"Şirketiniz adına özel Android uygulaması", f2Pro:"Otobüs hareket bildirimleri", f3Pro:"Canlı hacı/umreci takibi (GPS)", f4Pro:"Baskılı NFC akıllı kartlar",
+    btnFreeAccount:"Ücretsiz Hesap", btnProUpgrade:"Pro Paket Talebi",
     btnSupport:"☕ Platformun Devamlılığına Katkıda Bulun",
     modalHeaderTitle:"📤 Kart Paylaşım ve Yazdırma Merkezi", modalHeaderSubtitle:"Grup verilerini kaydetmek, yazdırmak veya göndermek için seçin",
     opt1Title:"🔗 1. Doğrudan Grup Bağlantısını Paylaş", opt1Desc:"Tüm otel ve sorumlu bilgileriyle WhatsApp üzerinden bağlantı gönderin.", btnShareLink:"📲 Bağlantıyı Paylaş / Kopyala",
@@ -854,18 +836,13 @@ const LANGS = {
     footerBtnUnified:"📤 Share, Print & Export Card",
     footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
     adminEditBtn:"Edit Group Data in Control Panel",
-    b2bHeader:"Travel Agency Packages & Smart Solutions",
+    b2bHeader:"Travel Agency Packages & Smart Solutions", b2bBadge:"Free & Pro",
     b2bDesc:"Integrated cloud system to manage and secure your pilgrim groups efficiently.",
-    thFeature:"Feature", thFree:"🆓 Standard (Free)", thPro:"🌟 Pro Plan",
-    r1Feature:"Target Audience", r1Free:"Startups & Group Leaders", r1Pro:"Major Agencies & Tour Operators",
-    r2Feature:"Cloud Card & QR", r2Free:"✅ 100% Free Lifetime", r2Pro:"✅ Custom Brand & Domain",
-    r3Feature:"Cloud Control Panel", r3Free:"✅ Quick PIN Edit", r3Pro:"✅ Multi-Branch & Permissions",
-    r4Feature:"Card Export & A4 Print", r4Free:"✅ Unlimited Export", r4Pro:"✅ Available + Printed NFC Cards",
-    r5Feature:"Pilgrim Mobile App", r5Free:"❌ (PWA Web Format)", r5Pro:"✅ Dedicated App on Play Store",
-    r6Feature:"Live Push Alerts", r6Free:"❌ Not Available", r6Pro:"✅ Bus Movement Notifications",
-    r7Feature:"Live GPS Tracking", r7Free:"❌ (Manual Share Only)", r7Pro:"✅ Live Map for Supervisor",
-    r8Feature:"Pricing", r8Free:"100% Free", r8Pro:"Annual Contract / Per Pilgrim",
-    btnFreeAccount:"Activate Free Account", btnProUpgrade:"Request Pro Upgrade",
+    planFreeTitle:"🆓 Standard Plan", planFreePrice:"100% Free",
+    f1Free:"Permanent cloud card per group", f2Free:"Hotel details edit control panel", f3Free:"A4 printing & image export", f4Free:"Google Play Store App",
+    planProTitle:"🌟 Agency Pro Plan", planProPrice:"Annual / Per Pilgrim",
+    f1Pro:"Custom Android App with your branding", f2Pro:"Live bus departure push alerts", f3Pro:"Live pilgrim location tracking (GPS)", f4Pro:"Printed smart NFC physical cards",
+    btnFreeAccount:"Free Account", btnProUpgrade:"Request Pro Plan",
     btnSupport:"☕ Support Platform Continuity for Pilgrims",
     modalHeaderTitle:"📤 Card Sharing & Export Hub", modalHeaderSubtitle:"Choose the best format to save, print, or share group information",
     opt1Title:"🔗 1. Share Direct Group Link", opt1Desc:"Send direct link via WhatsApp with complete hotel and supervisor details.", btnShareLink:"📲 Send / Copy Link",
@@ -900,18 +877,13 @@ const LANGS = {
     footerBtnUnified:"📤 Partager, Imprimer et Exporter",
     footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
     adminEditBtn:"Modifier les données dans le panneau de contrôle",
-    b2bHeader:"Solutions Intelligentes pour Agences de Voyage",
-    b2bDesc:"Système cloud intégré pour gérer et sécuriser vos groupes de pèlerins.",
-    thFeature:"Fonctionnalité", thFree:"🆓 Standard (Gratuit)", thPro:"🌟 Formule Pro",
-    r1Feature:"Cible", r1Free:"Nouvelles agences & Guides", r1Pro:"Grandes agences & Organisateurs",
-    r2Feature:"Carte Cloud & QR", r2Free:"✅ Gratuit à vie", r2Pro:"✅ Marque & Domaine Dédié",
-    r3Feature:"Panneau de Contrôle Cloud", r3Free:"✅ Modif rapide avec PIN", r3Pro:"✅ Multi-Agences & Permissions",
-    r4Feature:"Export & Impression A4", r4Free:"✅ Illimité", r4Pro:"✅ Disponible + Cartes NFC",
-    r5Feature:"Application Mobile Dédiée", r5Free:"❌ (Format Web PWA)", r5Pro:"✅ Application sur Play Store",
-    r6Feature:"Alertes en Direct (Push)", r6Free:"❌ Non disponible", r6Pro:"✅ Notifications départ bus",
-    r7Feature:"Suivi GPS en Direct", r7Free:"❌ (Position manuelle)", r7Pro:"✅ Carte en direct superviseur",
-    r8Feature:"Tarif", r8Free:"100% Gratuit", r8Pro:"Contrat Annuel / Par Pèlerin",
-    btnFreeAccount:"Créer un Compte Gratuit", btnProUpgrade:"Demander l'Offre Pro",
+    b2bHeader:"Solutions & Offres Agences de Voyage", b2bBadge:"Gratuit & Pro",
+    b2bDesc:"Système cloud intégré pour gérer et sécuriser vos groupes en toute sérénité.",
+    planFreeTitle:"🆓 Formule de Base", planFreePrice:"100% Gratuit",
+    f1Free:"Carte cloud permanente par groupe", f2Free:"Panneau d'édition des hôtels", f3Free:"Impression A4 & export HD", f4Free:"Application Google Play Store",
+    planProTitle:"🌟 Formule Agence Pro", planProPrice:"Abonnement / Pèlerin",
+    f1Pro:"Application Android à votre marque", f2Pro:"Alertes push départs de bus", f3Pro:"Suivi GPS direct des pèlerins", f4Pro:"Cartes physiques NFC imprimées",
+    btnFreeAccount:"Compte Gratuit", btnProUpgrade:"Demander l'Offre Pro",
     btnSupport:"☕ Soutenir la continuité du service pour les pèlerins",
     modalHeaderTitle:"📤 Centre de Partage et d'Impression", modalHeaderSubtitle:"Choisissez le format adapté pour enregistrer ou envoyer les données",
     opt1Title:"🔗 1. Partager le Lien Direct du Groupe", opt1Desc:"Envoyez le lien complet avec hôtels et contacts via WhatsApp.", btnShareLink:"📲 Envoyer / Copier le Lien",
@@ -1084,13 +1056,12 @@ document.getElementById("btn-whatsapp").addEventListener("click", function(){
   }, { timeout: 8000 });
 });
 
-/* التحكم في فتح وغلق أكورديون باقات الشركات */
+/* فتح وغلق أكورديون باقات الشركات بدون أي خطأ */
 function toggleB2BAccordion(){
-  const box = document.getElementById('b2b-content-box');
-  const arrow = document.getElementById('b2b-arrow');
-  const isOpen = (box.style.display === 'block');
-  box.style.display = isOpen ? 'none' : 'block';
-  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  const card = document.getElementById('b2b-main-card');
+  if(card){
+    card.classList.toggle('is-open');
+  }
 }
 
 /* نافذة وخيارات الطباعة والمشاركة */
@@ -1270,7 +1241,12 @@ function copyIBAN(){
   applyStatic();
   setLang("ar");
 
-  // تفعيل التخزين المؤقت عبر مشغل الخدمة PWA
+  // تفعيل مستمع النقر لفتح وإغلاق أكورديون الشركات
+  const headerBtn = document.getElementById('b2b-header-btn');
+  if(headerBtn){
+    headerBtn.addEventListener('click', toggleB2BAccordion);
+  }
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./sw.js").catch(() => {});
