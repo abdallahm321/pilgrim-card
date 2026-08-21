@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>دليل مناسك العمرة والأدعية المأثورة</title>
+<title>الدليل الشامل لمناسك العمرة والأدعية المأثورة</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -17,9 +23,14 @@
   --gold:#b8934a;
   --gold-light:#e8d9b5;
   --green:#2f5233;
+  --green-soft:#f4f7f4;
+  --maroon:#7a2e2e;
+  --maroon-soft:#fdf3f2;
   --line:#e7ded0;
-  --radius:14px;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(28,28,30,.08);
 }
+
 *{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
 
 body{
@@ -33,12 +44,12 @@ body{
 
 .box{
   width:100%;
-  max-width:500px;
+  max-width:520px;
   background:var(--card);
   border-radius:var(--radius);
   border:1px solid var(--line);
   padding:22px 18px;
-  box-shadow:0 8px 30px rgba(28,28,30,0.06);
+  box-shadow:var(--shadow);
 }
 
 .nav-back{
@@ -50,20 +61,77 @@ body{
   font-weight:700;
   font-size:13px;
   margin-bottom:14px;
+  background:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  transition:.15s;
+}
+.nav-back:active{ transform:scale(0.97); }
+
+.guide-header{
+  text-align:center;
+  margin-bottom:20px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:16px;
+}
+.guide-header h1{
+  font-family:'Reem Kufi',sans-serif;
+  font-size:22px;
+  color:var(--ink);
+  margin-bottom:6px;
+}
+.guide-header p{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.5;
 }
 
-.guide-header{ text-align:center; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:14px; }
-.guide-header h1{ font-family:'Reem Kufi',sans-serif; font-size:20px; color:var(--ink); margin-bottom:4px; }
-.guide-header p{ font-size:12.5px; color:var(--ink-soft); }
+/* عداد أشواط تفاعلي مصغر */
+.counter-card{
+  background:#fff;
+  border:1.5px solid var(--gold);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 14px rgba(184,147,74,0.12);
+}
+.counter-info h4{ font-size:13px; font-weight:800; color:var(--ink); }
+.counter-info p{ font-size:11px; color:#777; }
+.counter-ctrl{ display:flex; align-items:center; gap:10px; }
+.counter-btn{
+  width:32px; height:32px; border-radius:50%; border:none;
+  background:var(--ink); color:#fff; font-size:16px; font-weight:bold;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.counter-btn:active{ transform:scale(0.92); }
+.counter-num{ font-size:20px; font-weight:800; color:var(--green); min-width:24px; text-align:center; }
 
-.step-card{
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:800;
+  color:var(--ink-soft);
+  margin:20px 0 12px;
+  text-transform:uppercase;
+}
+.section-head .star{ width:14px; height:14px; flex:none; color:var(--gold); }
+.section-head span.line{ flex:1; height:1px; background:var(--line); }
+
+.card-item{
   background:#fff;
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.02);
 }
-.step-title{
+.card-item-title{
   display:flex;
   align-items:center;
   gap:8px;
@@ -72,134 +140,250 @@ body{
   color:var(--green);
   margin-bottom:8px;
 }
-.step-num{
-  width:24px; height:24px;
+.badge-num{
+  width:26px; height:26px;
   background:var(--gold);
   color:#fff;
   border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:800; flex:none;
+  font-size:13px; font-weight:800; flex:none;
 }
-.step-desc{
+.card-desc{
   font-size:13px;
-  line-height:1.65;
+  line-height:1.7;
   color:var(--ink);
 }
 
 .dua-box{
   background:#fcfaf5;
   border-right:3px solid var(--gold);
-  padding:10px 12px;
-  border-radius:6px;
+  padding:12px;
+  border-radius:8px;
   font-size:12.5px;
-  color:var(--ink-soft);
-  margin-top:8px;
-  line-height:1.6;
+  color:var(--ink);
+  margin-top:10px;
+  line-height:1.7;
+  position:relative;
+}
+.dua-copy-tag{
+  display:inline-block;
+  margin-top:6px;
+  font-size:10.5px;
+  font-weight:bold;
+  color:var(--gold);
+  cursor:pointer;
+  background:#fff;
+  border:1px solid var(--gold-light);
+  padding:2px 8px;
+  border-radius:4px;
 }
 
-.fatwa-card{
-  background:#f6f8f5;
-  border:1px solid #d5e2d3;
+.prohibition-box{
+  background:var(--maroon-soft);
+  border:1px solid #ebd4d2;
+  border-radius:12px;
+  padding:12px 14px;
+  margin-top:10px;
+}
+.prohibition-box h5{ font-size:12.5px; font-weight:800; color:var(--maroon); margin-bottom:6px; }
+.prohibition-list{ font-size:12px; line-height:1.65; color:#5c2222; padding-right:16px; }
+
+.fatwa-box{
+  background:var(--green-soft);
+  border:1px solid #dbe6da;
   border-radius:12px;
   padding:14px;
-  margin-top:16px;
+  margin-top:8px;
 }
 .fatwa-title{
   font-size:14px;
   font-weight:800;
   color:var(--green);
   margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
-.fatwa-item{
+.fatwa-row{
   font-size:12.5px;
-  line-height:1.6;
-  padding:4px 0;
+  line-height:1.65;
+  padding:6px 0;
   color:var(--ink);
 }
-.fatwa-item + .fatwa-item{ border-top:1px dashed #d5e2d3; }
+.fatwa-row + .fatwa-row{ border-top:1px dashed #c9d8c8; }
 
-.fatwa-call-btn{
+.contact-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  margin-top:16px;
+  text-align:center;
+}
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.contact-btn{
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-  width:100%;
-  padding:12px;
-  background:var(--green);
-  color:#fff;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  font-size:13.5px;
-  margin-top:14px;
+  gap:6px;
 }
+.btn-gov{ background:var(--green); color:#fff; }
+.btn-general{ background:var(--ink); color:#fff; }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <a href="javascript:history.back()" class="nav-back">➔ العودة للبطاقة الشخصية</a>
+  <a href="javascript:history.back()" class="nav-back">➔ العودة لبطاقة المعتمر</a>
 
   <div class="guide-header">
-    <h1>دليل مناسك العمرة والأدعية</h1>
-    <p>شرح ميسر وسريع لأركان العمرة الأربعة خطوة بخطوة</p>
+    <h1>الدليل الكامل لمناسك العمرة</h1>
+    <p>شرح تفصيلي وميسر لسنن وأركان وأحكام العمرة خطوة بخطوة</p>
   </div>
 
-  <!-- الركن الأول -->
-  <div class="step-card">
-    <div class="step-title"><span class="step-num">1</span> الإحرام من الميقات</div>
-    <div class="step-desc">
-      الاغتسال والتنظف وارتداء ملابس الإحرام (للرجال رداء وإزار أبيضين، وللنساء ملابسها العادية الساترة دون نقاب أو قفازين)، ثم عقد النية والتلبية:
+  <!-- عداد الطواف والسعي التفاعلي -->
+  <div class="counter-card">
+    <div class="counter-info">
+      <h4>عداد الأشواط التفاعلي</h4>
+      <p>اضغط بعد إتمام كل شوط (طواف أو سعي)</p>
     </div>
-    <div class="dua-box">
-      <strong>النية والتلبية:</strong> "لَبَّيْكَ عُمْرَةً.. لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ لا شَرِيكَ لَكَ".
-    </div>
-  </div>
-
-  <!-- الركن الثاني -->
-  <div class="step-card">
-    <div class="step-title"><span class="step-num">2</span> طواف العمرة (7 أشواط)</div>
-    <div class="step-desc">
-      يبدأ كل شوط من محاذاة الحجر الأسود بالتكبير، وتجعل الكعبة عن يسارك وتطوف سبعة أشواط كاملة.
-    </div>
-    <div class="dua-box">
-      <strong>بين الركن اليماني والحجر الأسود:</strong> "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ".
-      <br><strong>بعد الطواف:</strong> ركعتان خلف مقام إبراهيم إن تيسر، أو في أي مكان بالحرم.
+    <div class="counter-ctrl">
+      <button class="counter-btn" onclick="adjustCount(-1)">-</button>
+      <span class="counter-num" id="lap-counter">0</span>
+      <button class="counter-btn" onclick="adjustCount(1)">+</button>
     </div>
   </div>
 
-  <!-- الركن الثالث -->
-  <div class="step-card">
-    <div class="step-title"><span class="step-num">3</span> السعي بين الصفا والمروة (7 أشواط)</div>
-    <div class="step-desc">
-      يبدأ الشوط الأول من الصفا وينتهي عند المروة (الذهاب شوط والرجوع شوط حتى تكتمل 7 أشواط تنتهي عند المروة).
-    </div>
-    <div class="dua-box">
-      <strong>عند صعود الصفا والمروة:</strong> "أَبْدَأُ بِمَا بَدَأَ اللَّهُ بِهِ، إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ.. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ".
-    </div>
-  </div>
+  <!-- أولاً: الاستعداد والإحرام -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>أولاً: الاستعداد وما قبل الإحرام</span><span class="line"></span></div>
 
-  <!-- الركن الرابع -->
-  <div class="step-card">
-    <div class="step-title"><span class="step-num">4</span> الحلق أو التقصير</div>
-    <div class="step-desc">
-      حلق شعر الرأس بالكامل أو تقصيره من جميع الجهات (الحلق أفضل للرجال)، وتقص المرأة من أطراف شعرها قدر أنملة (حوالي 2 سم)، وبهذا تمت العمرة وحلّ المعتمر من إحرامه.
+  <div class="card-item">
+    <div class="card-desc">
+      • <strong>النظافة الشخصية:</strong> يُسن الاغتسال (الغسل)، تقليم الأظافر، قص الشارب، إزالة الشعر الزائد، والتطيب في البدن فقط (وليس على ملابس الإحرام).<br>
+      • <strong>لباس الإحرام للرجال:</strong> إزار ورداء أبيضين طاهرين غير مخيطين، ونعلين يكشفان ظهور القدمين.<br>
+      • <strong>لباس المرأة:</strong> ملابسها العادية الساترة والفضفاضة الخالية من الزينة الصريحة، وتجتنب النقاب والقفازين (وتسدل على وجهها إذا مر أجانب).
     </div>
   </div>
 
-  <!-- فتاوى وتنبيهات ميسرة -->
-  <div class="fatwa-card">
-    <div class="fatwa-title">💡 تيسيرات وتنبيهات شرعية هامة</div>
-    <div class="fatwa-item">• <strong>الشك في عدد الأشواط:</strong> ابنِ على اليقين وهو الأقل (إذا شككت هل طفت 3 أم 4 أشواط اعتبرها 3 وأكمل).</div>
-    <div class="fatwa-item">• <strong>انقطاع الطواف لصلاة الفريضة:</strong> صلِّ مع الجماعة ثم أكمل شوطك من حيث توقفت.</div>
-    <div class="fatwa-item">• <strong>الاشتراط للمريض أو الخائف:</strong> يجوز قول: "فإن حبسني حابس فمحلي حيث حبستني" ليتحلل إن عاقه عائق دون فدية.</div>
+  <!-- ثانياً: أركان العمرة الأربعة -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>ثانياً: أركان العمرة خطوة بخطوة</span><span class="line"></span></div>
+
+  <!-- 1. الإحرام -->
+  <div class="card-item">
+    <div class="card-item-title"><span class="badge-num">1</span> الإحرام من الميقات</div>
+    <div class="card-desc">
+      تنعقد نية العمرة بالقلب عند محاذاة الميقات، ويُسن التلفظ بها والبدء بالتلبية فوراً:
+    </div>
+    <div class="dua-box" id="d1">
+      «لَبَّيْكَ عُمْرَةً.. لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ لا شَرِيكَ لَكَ».
+      <br><span class="dua-copy-tag" onclick="copyText('d1')">📋 نسخ نص التلبية</span>
+    </div>
+    <div class="prohibition-box">
+      <h5>⚠️ محظورات الإحرام (بعد عقد النية):</h5>
+      <div class="prohibition-list">
+        يحرم: قص الشعر أو الأظافر، التطيب، لبس المخيط والمحيط للرجال وتغطية الرأس بملاصق، الجماع ودواعيه، عقد النكاح، الصيد، وقطع شجر الحرم.
+      </div>
+    </div>
   </div>
 
-  <!-- زر إفتاء الحرمين المباشر -->
-  <a href="tel:8002451000" class="fatwa-call-btn">
-    📞 الاتصال بإفتاء الحرمين الشريفين (مجاني)
-  </a>
+  <!-- 2. الطواف -->
+  <div class="card-item">
+    <div class="card-item-title"><span class="badge-num">2</span> طواف العمرة (7 أشواط)</div>
+    <div class="card-desc">
+      • <strong>البداية:</strong> يبدأ الطواف بمحاذاة الحجر الأسود واستقباله، والإشارة إليه باليد اليمنى قائلاً: <em>«بِسمِ اللَّهِ، وَاللَّهُ أَكْبَرُ»</em>.<br>
+      • <strong>الصفة:</strong> تجعل الكعبة المشرفة عن يسارك وتطوف سبعة أشواط كاملة.<br>
+      • <strong>الذكر والدعاء:</strong> لا يوجد دعاء مخصوص لكل شوط، ادعُ بما تحب من خيري الدنيا والآخرة.
+    </div>
+    <div class="dua-box" id="d2">
+      <strong>بين الركن اليماني والحجر الأسود:</strong><br>
+      «رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ».
+      <br><span class="dua-copy-tag" onclick="copyText('d2')">📋 نسخ الدعاء</span>
+    </div>
+    <div class="card-desc" style="margin-top:10px;">
+      • <strong>بعد الطواف:</strong> صلاة ركعتين خلف مقام إبراهيم (أو بأي مكان بالحرم) تقرأ فيهما الكافرون والإخلاص، ثم الشرب من ماء زمزم والتضلع منه.
+    </div>
+  </div>
+
+  <!-- 3. السعي -->
+  <div class="card-item">
+    <div class="card-item-title"><span class="badge-num">3</span> السعي بين الصفا والمروة (7 أشواط)</div>
+    <div class="card-desc">
+      • <strong>البداية:</strong> الصعود على الصفا وقراءة: <em>«إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوْ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا»</em>.<br>
+      • تستقبل القبلة وترفع يديك للدعاء:
+    </div>
+    <div class="dua-box" id="d3">
+      «أَبْدَأُ بِمَا بَدَأَ اللَّهُ بِهِ.. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الْأَحْزَابَ وَحْدَهُ». (تُكرر ٣ مرات مع الدعاء بينها).
+      <br><span class="dua-copy-tag" onclick="copyText('d3')">📋 نسخ ذكر الصفا والمروة</span>
+    </div>
+    <div class="card-desc" style="margin-top:10px;">
+      • <strong>الصفة:</strong> السعي ٧ أشواط كاملة (الذهاب من الصفا للمروة شوط، والعودة للصفا شوط آخر، وينتهي الشوط السابع عند المروة)، مع الهرولة للرجال بين العلمين الأخضرين.
+    </div>
+  </div>
+
+  <!-- 4. الحلق أو التقصير -->
+  <div class="card-item">
+    <div class="card-item-title"><span class="badge-num">4</span> الحلق أو التقصير (التحلل)</div>
+    <div class="card-desc">
+      • <strong>للرجال:</strong> الحلق الكامل بالموس (وهو الأفضل والأعظم أجراً) أو التقصير الشامل لجميع شعر الرأس بالتساوي.<br>
+      • <strong>للنساء:</strong> تقص المرأة من أطراف ضفائر شعرها قدر أنملة الإصبع (حوالي ٢ سم).<br>
+      • <strong>النتيجة:</strong> بحلق الرأس أو تقصيره، تتم أعمال العمرة كاملة ويحل للمعتمر كل ما حُرم عليه بالإحرام.
+    </div>
+  </div>
+
+  <!-- ثالثاً: الفتاوى والتيسيرات -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>ثالثاً: فتاوى وتيسيرات شرعية</span><span class="line"></span></div>
+
+  <div class="fatwa-box">
+    <div class="fatwa-title">💡 تنبيهات فقهية هامة للمعتمر:</div>
+    <div class="fatwa-row">• <strong>الشك في عدد الأشواط:</strong> ابنِ على اليقين وهو الأقل (إذا شككت هل طفت ٣ أم ٤ أشواط اعتبرها ٣ وأكمل).</div>
+    <div class="fatwa-row">• <strong>إقامة الصلاة المفروضة أثناء الطواف:</strong> اقطع الطواف وصلِّ الفريضة مع الجماعة، ثم أكمل شوطك من حيث توقفت دون إعادة الشوط من أوله.</div>
+    <div class="fatwa-row">• <strong>الاشتراط عند الإحرام:</strong> للمريض أو الخائف أن يقول: <em>«فإن حبسني حابس فمحلي حيث حبستني»</em>، فإن منعه مانع تحلل ولا شيء عليه.</div>
+    <div class="fatwa-row">• <strong>نسيان الواجبات أو ارتكاب المحظورات:</strong> من ارتكب محظوراً ناسياً أو جاهلاً فلا إثم عليه، ولكن تلزمه فدية بحسب نوع الفعل إذا كان متعمداً أو ترك واجباً كالإحرام من الميقات.</div>
+  </div>
+
+  <!-- رابعاً: أرقام الطوارئ والإفتاء الرسمية -->
+  <div class="contact-card">
+    <h4 style="font-size:13px; font-weight:800; color:var(--ink);">📞 أرقام الاستعلامات والإفتاء الرسمية بالحرمين</h4>
+    <div class="contact-grid">
+      <a href="tel:8001222400" class="contact-btn btn-gov">
+        رئاسة شؤون الحرمين (مجاني)<br>8001222400
+      </a>
+      <a href="tel:8002451000" class="contact-btn btn-general">
+        إفتاء التوعية الإسلامية<br>8002451000
+      </a>
+    </div>
+  </div>
+
 </div>
 
+<script>
+let count = 0;
+function adjustCount(val){
+  count = Math.max(0, Math.min(7, count + val));
+  const el = document.getElementById('lap-counter');
+  el.textContent = count;
+  if(count === 7){
+    alert("✨ الحمد لله، أتممت 7 أشواط كاملة!");
+  }
+}
+
+function copyText(id){
+  const el = document.getElementById(id);
+  const text = el.innerText.replace("📋 نسخ نص التلبية", "").replace("📋 نسخ الدعاء", "").replace("📋 نسخ ذكر الصفا والمروة", "").trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    alert("✅ تم نسخ الذكر بنجاح!");
+  });
+}
+</script>
 </body>
 </html>
