@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>بطاقة تعريف وطوارئ المعتمر</title>
 
-<!-- إضافة كأيقونة على شاشة الجوال (PWA) -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon-32.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -15,7 +14,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="بطاقة المعتمر">
 
-<!-- معاينة مشاركة احترافية (واتساب / تليجرام / فيسبوك) -->
 <meta name="description" content="بطاقة طوارئ رقمية للمعتمر — اتصال فوري بالمشرف، مواقع الفنادق، وإرشادات في حال التوهان.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="بطاقة تعريف وطوارئ المعتمر">
@@ -48,8 +46,7 @@
 *{box-sizing:border-box; margin:0; padding:0;}
 
 body{
-  background:
-    radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
   color:var(--ink);
   padding:22px 14px 60px;
   display:flex;
@@ -71,7 +68,6 @@ body{
   position:relative;
 }
 
-/* --- Islamic geometric strip (signature motif) --- */
 .pattern-strip{
   height:10px;
   background-image: linear-gradient(45deg, var(--gold) 25%, transparent 25%),
@@ -80,7 +76,6 @@ body{
   opacity:.55;
 }
 
-/* --- Header / stamp emblem --- */
 .header{
   background: linear-gradient(160deg, var(--ink) 0%, #2c2c2e 100%);
   color:#fff;
@@ -100,7 +95,6 @@ body{
   margin-bottom:6px;
 }
 
-/* شريط اسم شركة السياحة البارز */
 .company-badge{
   display:inline-flex;
   align-items:center;
@@ -114,12 +108,10 @@ body{
   padding:5px 16px;
   border-radius:999px;
   margin-bottom:10px;
-  letter-spacing:.3px;
 }
 
 .header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
 
-/* --- Language switcher --- */
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
   padding:12px 18px 4px; background:var(--sand);
@@ -148,7 +140,6 @@ body{
 .section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-title span.line{ flex:1; height:1px; background:var(--line); }
 
-/* --- Buttons --- */
 .btn{
   display:flex; align-items:center; justify-content:center; gap:10px;
   width:100%; padding:15px 14px; margin-bottom:10px;
@@ -163,7 +154,6 @@ body{
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn small{ font-weight:500; opacity:.85; font-size:12px; }
 
-/* --- Info boxes --- */
 .info-box{
   background:#fff; border:1px solid var(--line); border-radius:12px;
   padding:14px; margin-bottom:12px;
@@ -174,7 +164,6 @@ body{
 .info-value{ font-weight:700; text-align:end; }
 .editable{ border-bottom:1px dotted var(--gold); }
 
-/* --- Lost-pilgrim steps --- */
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
   counter-increment:step;
@@ -189,13 +178,11 @@ body{
   display:flex; align-items:center; justify-content:center;
 }
 
-/* --- Emergency grid --- */
 .em-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .em-card{ background:#fbf3f2; border:1px solid #ecd8d6; border-radius:10px; padding:10px; text-align:center; }
 .em-num{ font-size:17px; font-weight:800; color:var(--maroon); direction:ltr; }
 .em-label{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
 
-/* --- QR block --- */
 .qr-box{
   display:flex; align-items:center; gap:14px;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;
@@ -203,7 +190,6 @@ body{
 .qr-box img{ width:84px; height:84px; border-radius:8px; border:1px solid var(--line); flex:none; }
 .qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
 
-/* --- Footer --- */
 .footer{ padding:6px 20px 22px; text-align:center; }
 .footer-actions{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
 .footer-actions button{
@@ -251,7 +237,6 @@ html[dir="ltr"] .info-value{ text-align:start; }
       </svg>
     </div>
     
-    <!-- اسم شركة السياحة أو الحملة -->
     <div>
       <span class="company-badge" id="v-companyName">🏢 شركة الهدى للسياحة</span>
     </div>
@@ -264,7 +249,6 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
   <div class="body">
 
-    <!-- الاتصال الفوري -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionContact">التواصل الفوري مع المشرفين</span><span class="line"></span></div>
 
     <a href="#" id="btn-primary" class="btn btn-primary">
@@ -277,7 +261,6 @@ html[dir="ltr"] .info-value{ text-align:start; }
       <span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span>
     </button>
 
-    <!-- الإقامة -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
 
     <div class="info-box">
@@ -292,14 +275,12 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
     <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
 
-    <!-- QR -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
     <div class="qr-box">
       <img id="qr-img" src="" alt="QR">
       <p id="t-qrHint">امسح الرمز بكاميرا الجوال لفتح محادثة واتساب مباشرة مع المشرف الأساسي دون الحاجة لكتابة الرقم.</p>
     </div>
 
-    <!-- طوارئ رسمية -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionEmergency">أرقام الطوارئ الرسمية (السعودية)</span><span class="line"></span></div>
     <div class="em-grid">
       <div class="em-card"><div class="em-num">911 / 999</div><div class="em-label" id="t-emSecurity">الأمن والشرطة</div></div>
@@ -308,7 +289,6 @@ html[dir="ltr"] .info-value{ text-align:start; }
       <div class="em-card"><div class="em-num">998</div><div class="em-label" id="t-emCivilDefense">الدفاع المدني</div></div>
     </div>
 
-    <!-- ماذا تفعل إن تهت -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionLostSteps">ماذا تفعل إن تهت؟</span><span class="line"></span></div>
     <div class="info-box steps-box">
       <ol>
@@ -336,12 +316,8 @@ html[dir="ltr"] .info-value{ text-align:start; }
 </div>
 
 <script>
-/* ================================================================
-   الرابط البرمجي لقاعدة البيانات السحابية (Google Apps Script API)
-   ================================================================ */
-const API_URL = "https://script.google.com/macros/s/AKfycbym7UuoDjcJkqrp7XqRpzkJdwm3h5ecwY814hxYmdD60fLMKZPqMt0cQFbJPKTteQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzSfLIEMwxxxbppJppKnmpAvVb8QGZHeiLRgWbdFJyZwJQhhM2bOQbKh9Rh8iZF9g_1/exec";
 
-/* حماية احتياطية: قيم افتراضية تُستخدم إن تعذّر تحميل config.js وفشل الاتصال */
 window.CONFIG = {
   companyName: "شركة الهدى للسياحة",
   primarySupervisorPhone: "+966500000000",
@@ -423,7 +399,7 @@ const LANGS = {
     sectionLostSteps:"Jika Anda Tersesat",
     step1:"Tetap di tempat Anda dan jangan banyak bergerak — lebih mudah ditemukan jika Anda diam.",
     step2:"Segera telepon pembimbing utama atau cadangan menggunakan tombol di atas.",
-    step3:"Jika tidak bisa dihubungi, pergi ke petugas keamanan atau pusat informasi terdekat dan katakan Anda tersesat dari rombongan.",
+    step3:"Jika tidak bisa dihubungi, pergi ke petugas keamanan atau pusat معلومات terdekat dan katakan Anda tersesat dari rombongan.",
     step4:"Tunjukkan kartu kelompok/identitas Anda kepada yang membantu agar mereka bisa mengenali kelompok Anda.",
     step5:"Ingat titik kumpul yang dikenal di Masjid (misalnya pintu tertentu) sebagai referensi.",
     sectionAccommodation:"Akomodasi", labelHotelMakkah:"Hotel Makkah", labelRoomMakkah:"Nomor Kamar",
@@ -483,86 +459,71 @@ let currentLang = "ar";
 
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
+function renderUI(data){
+  document.getElementById("v-companyName").textContent = "🏢 " + (data.company_name || window.CONFIG.companyName);
+  document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
+  document.getElementById("v-roomMakkah").textContent = data.rm || "—";
+  document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
+  document.getElementById("v-roomMadinah").textContent = data.rd || "—";
+
+  const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
+  const sPhone = data.p2 || window.CONFIG.secondarySupervisorPhone;
+
+  document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
+  document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
+  document.getElementById("btn-mapMakkah").href = data.mm || window.CONFIG.hotelMakkah.mapsUrl;
+  document.getElementById("btn-mapMadinah").href = data.md || window.CONFIG.hotelMadinah.mapsUrl;
+
+  const waNum = digitsOnly(pPhone).replace("+","");
+  document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
+  
+  window.ACTIVE_PRIMARY_PHONE = pPhone;
+}
+
 async function applyStatic(){
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get('g') || params.get('group');
 
-  // تحديث رابط المشرف في الفوتر
   const editBtn = document.getElementById("admin-edit-btn");
   if(editBtn){
     editBtn.href = "generator.html" + (window.location.search || "");
   }
 
-  // 1. جلب البيانات السحابية إن وُجد معرّف الفوج g=...
   if (groupId) {
+    const cached = localStorage.getItem("cache_group_" + groupId);
+    if(cached){
+      try { renderUI(JSON.parse(cached)); } catch(e){}
+    }
+
     try {
-      const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`, {
+      const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}`, {
         method: "GET",
         redirect: "follow"
       });
       const data = await res.json();
       
       if (data && !data.error) {
-        // تحديث اسم شركة السياحة
-        const comp = data.company_name || window.CONFIG.companyName || "شركة الهدى للسياحة";
-        document.getElementById("v-companyName").textContent = "🏢 " + comp;
-
-        // تحديث الفنادق والغرف
-        document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
-        document.getElementById("v-roomMakkah").textContent = data.rm || "—";
-        document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
-        document.getElementById("v-roomMadinah").textContent = data.rd || "—";
-
-        // تحديث أرقام المشرفين
-        const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
-        const sPhone = data.p2 || window.CONFIG.secondarySupervisorPhone;
-
-        document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
-        document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
-        document.getElementById("btn-mapMakkah").href = data.mm || window.CONFIG.hotelMakkah.mapsUrl;
-        document.getElementById("btn-mapMadinah").href = data.md || window.CONFIG.hotelMadinah.mapsUrl;
-
-        // تحديث QR الواتساب للمشرف الأساسي
-        const waNum = digitsOnly(pPhone).replace("+","");
-        document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
-        
-        window.ACTIVE_PRIMARY_PHONE = pPhone;
+        localStorage.setItem("cache_group_" + groupId, JSON.stringify(data));
+        renderUI(data);
         return;
       }
     } catch(err) {
-      console.warn("جاري استخدام البيانات المحلية والافتراضية:", err);
+      console.warn("خطأ في جلب بيانات السحابة:", err);
     }
   }
 
-  // 2. في حال عدم استخدام معرّف أو انقطاع السيرفر: قراءة معاملات الرابط المباشرة أو config.js
-  const comp = params.get('c') || window.CONFIG.companyName || "شركة الهدى للسياحة";
-  document.getElementById("v-companyName").textContent = "🏢 " + comp;
-
-  const pPhone = params.get('p1') || window.CONFIG.primarySupervisorPhone;
-  const sPhone = params.get('p2') || window.CONFIG.secondarySupervisorPhone;
-  
-  const makkahName = params.get('hm') || window.CONFIG.hotelMakkah.name;
-  const makkahRoom = params.get('rm') || window.CONFIG.hotelMakkah.room;
-  const makkahMap  = params.get('mm') || window.CONFIG.hotelMakkah.mapsUrl;
-
-  const madinahName = params.get('hd') || window.CONFIG.hotelMadinah.name;
-  const madinahRoom = params.get('rd') || window.CONFIG.hotelMadinah.room;
-  const madinahMap  = params.get('md') || window.CONFIG.hotelMadinah.mapsUrl;
-
-  document.getElementById("v-hotelMakkah").textContent = makkahName;
-  document.getElementById("v-roomMakkah").textContent = makkahRoom;
-  document.getElementById("v-hotelMadinah").textContent = madinahName;
-  document.getElementById("v-roomMadinah").textContent = madinahRoom;
-
-  document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
-  document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
-  document.getElementById("btn-mapMakkah").href = makkahMap;
-  document.getElementById("btn-mapMadinah").href = madinahMap;
-
-  const waNum = digitsOnly(pPhone).replace("+","");
-  document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
-
-  window.ACTIVE_PRIMARY_PHONE = pPhone;
+  const fallback = {
+    company_name: params.get('c') || window.CONFIG.companyName,
+    p1: params.get('p1') || window.CONFIG.primarySupervisorPhone,
+    p2: params.get('p2') || window.CONFIG.secondarySupervisorPhone,
+    hm: params.get('hm') || window.CONFIG.hotelMakkah.name,
+    rm: params.get('rm') || window.CONFIG.hotelMakkah.room,
+    mm: params.get('mm') || window.CONFIG.hotelMakkah.mapsUrl,
+    hd: params.get('hd') || window.CONFIG.hotelMadinah.name,
+    rd: params.get('rd') || window.CONFIG.hotelMadinah.room,
+    md: params.get('md') || window.CONFIG.hotelMadinah.mapsUrl
+  };
+  renderUI(fallback);
 }
 
 function renderLangSwitcher(){
