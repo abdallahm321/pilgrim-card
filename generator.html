@@ -3,401 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>لوحة التحكم السحابية وإدارة الأفواج</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<title>لوحة التحكم الإدارية للأفواج</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-:root{
-  --ink:#1c1c1e;
-  --sand:#f7f3ea;
-  --card:#fffdf8;
-  --gold:#b8934a;
-  --gold-light:#e8d9b5;
-  --line:#e7ded0;
-  --green:#2f5233;
-  --green-hover:#244027;
-  --danger:#8a2a2a;
-  --radius:14px;
-}
-*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
+:root{ --ink:#1c1c1e; --gold:#b8934a; --green:#2f5233; --line:#e7ded0; --card:#fffdf8; }
+body{ background:#f7f3ea; padding:20px; font-family:'Tajawal',sans-serif; }
+.box{ max-width:500px; margin:auto; background:var(--card); padding:20px; border-radius:16px; border:1px solid var(--line); box-shadow:0 10px 25px rgba(0,0,0,0.05); }
 
-body{
-  background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
-  color:var(--ink);
-  padding:22px 14px 60px;
-  display:flex;
-  justify-content:center;
-  min-height:100vh;
-}
+.mode-selector{ display:flex; gap:10px; margin-bottom:20px; }
+.mode-btn{ flex:1; padding:10px; border:1px solid var(--gold); background:transparent; color:var(--gold); border-radius:8px; cursor:pointer; font-weight:700; }
+.mode-btn.active{ background:var(--gold); color:#fff; }
 
-.box{
-  width:100%;
-  max-width:520px;
-  background:var(--card);
-  border-radius:var(--radius);
-  border:1px solid var(--line);
-  padding:24px 20px;
-  box-shadow:0 8px 30px rgba(28,28,30,0.06);
-}
+.generator-field{ margin-bottom:12px; }
+label{ font-size:12px; font-weight:700; color:#555; display:block; margin-bottom:4px; }
+input, textarea{ width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; outline:none; }
+input:focus{ border-color:var(--gold); }
 
-.header-title{ text-align:center; margin-bottom:18px; }
-.header-title h2{ font-size:19px; font-weight:800; color:var(--ink); margin-bottom:4px; }
-.header-title p{ font-size:12.5px; color:#666; line-height:1.5; }
+.btn-main{ width:100%; padding:14px; background:var(--green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer; }
+.btn-random{ background:#eee; color:var(--ink); border:none; padding:5px 10px; border-radius:4px; font-size:10px; cursor:pointer; }
 
-.section-tag{
-  display:flex; align-items:center; gap:8px;
-  font-size:13px; font-weight:800; color:var(--gold);
-  margin:18px 0 8px; border-bottom:1px solid var(--line);
-  padding-bottom:5px; text-transform:uppercase;
-}
-
-label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
-input, textarea{
-  width:100%; padding:10px 12px;
-  border:1px solid var(--line); border-radius:8px;
-  font-size:13.5px; outline:none; background:#fff;
-  transition:border-color .15s, box-shadow .15s;
-  margin-bottom:6px;
-}
-input:focus, textarea:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15); }
-textarea{ min-height:75px; resize:vertical; }
-.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-
-.btn-save{
-  width:100%; padding:14px; background:var(--green);
-  color:#fff; font-size:15.5px; font-weight:700;
-  border:none; border-radius:10px; cursor:pointer;
-  margin-top:18px; transition:background .15s, transform .1s;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-}
-.btn-save:hover{ background:var(--green-hover); }
-.btn-save:active{ transform:scale(0.98); }
-.btn-save:disabled{ opacity:0.65; cursor:not-allowed; }
-
-#result-panel{
-  display:none; flex-direction:column; align-items:center;
-  margin-top:20px; padding-top:18px; border-top:1px dashed var(--line);
-}
-#qrcode{
-  background:#fff; padding:12px;
-  border:1px solid var(--line); border-radius:10px;
-  margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.04);
-}
-.url-box{
-  background:#fff; border:1px solid var(--line);
-  border-radius:8px; padding:8px 12px; width:100%;
-  font-size:11.5px; color:#0066cc; word-break:break-all;
-  text-align:center; margin-bottom:12px; line-height:1.4;
-}
-
-.action-row{ display:flex; gap:8px; width:100%; }
-.action-row a, .action-row button{
-  flex:1; text-align:center; padding:10px;
-  font-size:12.5px; font-weight:700; border-radius:8px;
-  text-decoration:none; cursor:pointer; border:none;
-  display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  transition:.15s;
-}
-.btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line) !important; }
-.btn-copy{ background:var(--ink); color:#fff; }
-.btn-download{ background:var(--gold); color:#fff; }
-.action-row a:active, .action-row button:active{ transform:scale(0.97); }
-
-.status-badge{
-  font-size:11px; padding:2px 8px; border-radius:4px;
-  background:#eef4ed; color:var(--green); font-weight:700;
-  display:inline-block; margin-right:auto;
-}
-
-.b2b-section{
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-.b2b-card{
-  background: #fbf9f4;
-  border: 1px solid var(--gold-light);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  margin-bottom: 12px;
-}
-.b2b-card h3{
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-.b2b-card p{
-  font-size: 12px;
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-.b2b-btns{
-  display: flex;
-  gap: 8px;
-}
-.b2b-btn{
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: .15s;
-}
-.btn-contract{
-  background: var(--gold);
-  color: #fff;
-}
-.btn-help{
-  background: #fff;
-  color: var(--ink);
-  border: 1px solid var(--line);
-}
-.b2b-btn:active{ transform: scale(0.97); }
+#result-panel{ display:none; margin-top:20px; text-align:center; padding-top:20px; border-top:1px dashed var(--line); }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <div class="header-title">
-    <h2>لوحة التحكم السحابية للأفواج</h2>
-    <p>أدخل معرّف الفوج والرمز السري لتعديل وحفظ بيانات الرحلة فوراً في السحابة</p>
+  <div class="mode-selector">
+    <button class="mode-btn active" id="btn-add" onclick="setMode('add')">➕ فوج جديد</button>
+    <button class="mode-btn" id="btn-edit" onclick="setMode('edit')">✏️ تعديل فوج</button>
   </div>
 
-  <div class="section-tag">
-    <span>بيانات الفوج والاعتماد</span>
-    <span id="load-status" class="status-badge" style="display:none;">جاري جلب البيانات...</span>
+  <h2 id="form-title" style="text-align:center; margin-bottom:15px;">إضافة فوج جديد</h2>
+
+  <div class="generator-field">
+    <label>معرّف الفوج (Group ID): <button class="btn-random" onclick="generateRandomID()">توليد كود</button></label>
+    <input type="text" id="group_id" placeholder="مثال: H-2026-X1">
   </div>
   
-  <div class="grid-2">
-    <div>
-      <label>معرّف الفوج (Group ID):</label>
-      <input type="text" id="group_id" placeholder="مثال: A1" onchange="autoFetch()">
-    </div>
-    <div>
-      <label>الرمز السري (PIN):</label>
-      <input type="password" id="pin" placeholder="الرمز السري">
-    </div>
+  <div class="generator-field">
+    <label>الرمز السري (PIN) - للحماية:</label>
+    <input type="password" id="pin" placeholder="يجب حفظ هذا الرمز لتعديل بياناتك لاحقاً">
   </div>
 
-  <label>اسم شركة السياحة / الحملة:</label>
-  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
+  <div id="form-fields" style="display:none;">
+    <label>اسم الشركة:</label>
+    <input type="text" id="company_name">
+    
+    <label>رقم هاتف المشرف الأساسي:</label>
+    <input type="text" id="p1" placeholder="+966...">
+    
+    <label>رقم هاتف المشرف الاحتياطي:</label>
+    <input type="text" id="p2">
 
-  <div class="section-tag">أرقام هواتف المشرفين</div>
-  <label>رقم المشرف الأساسي (بصيغة دولية):</label>
-  <input type="text" id="p1" placeholder="+966500000000">
-
-  <label>رقم المشرف الاحتياطي:</label>
-  <input type="text" id="p2" placeholder="+966500000000">
-
-  <div class="section-tag">فندق مكة المكرمة</div>
-  <div class="grid-2">
-    <div>
-      <label>اسم الفندق والشارع:</label>
-      <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div><label>فندق مكة:</label><input type="text" id="hm"></div>
+        <div><label>غرفة مكة:</label><input type="text" id="rm"></div>
     </div>
-    <div>
-      <label>رقم الغرفة:</label>
-      <input type="text" id="rm" placeholder="مثال: 402">
+    <label>رابط موقع مكة:</label>
+    <input type="text" id="mm">
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div><label>فندق المدينة:</label><input type="text" id="hd"></div>
+        <div><label>غرفة المدينة:</label><input type="text" id="rd"></div>
     </div>
+    <label>رابط موقع المدينة:</label>
+    <input type="text" id="md">
+
+    <label>ملاحظات:</label>
+    <textarea id="notes"></textarea>
+
+    <button class="btn-main" onclick="saveToCloud()">حفظ وإصدار البطاقة ☁️</button>
   </div>
-  <label>رابط خرائط جوجل لفندق مكة:</label>
-  <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
-
-  <div class="section-tag">فندق المدينة المنورة</div>
-  <div class="grid-2">
-    <div>
-      <label>اسم الفندق والمنطقة:</label>
-      <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
-    </div>
-    <div>
-      <label>رقم الغرفة:</label>
-      <input type="text" id="rd" placeholder="مثال: 215">
-    </div>
-  </div>
-  <label>رابط خرائط جوجل لفندق المدينة:</label>
-  <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
-
-  <div class="section-tag">الحافلة وتوجيهات الرحلة</div>
-  <label>رقم الحافلة / الباص:</label>
-  <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
-
-  <label>ملاحظات وتوجيهات خاصة للفوج:</label>
-  <textarea id="notes" placeholder="اكتب هنا أي مواعيد تحرك، نقطة تجمع بالحرم، أو أرقام غرف الأطباء..."></textarea>
-
-  <button class="btn-save" id="save-btn" onclick="saveToCloud()">
-    <span>حفظ التعديلات في السحابة ☁️</span>
-  </button>
 
   <div id="result-panel">
-    <div id="qrcode"></div>
-    <div class="url-box" id="link-preview"></div>
-    <div class="action-row">
-      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة 👁️</a>
-      <button class="btn-copy" onclick="copyLink()">نسخ الرابط 📋</button>
-      <button class="btn-download" onclick="downloadQR()">تحميل QR 💾</button>
-    </div>
+    <div id="qrcode" style="display:inline-block;"></div>
+    <p id="link-preview" style="font-size:12px; margin:10px 0;"></p>
   </div>
-
-  <!-- قسم تعاقدات الشركات والدعم الفني -->
-  <div class="b2b-section">
-    <div class="b2b-card">
-      <h3>💼 لشركات السياحة وتنظيم رحلات العمرة</h3>
-      <p>احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
-      
-      <div class="b2b-btns">
-        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="b2b-btn btn-contract">
-          🤝 طلب تعاقد جديد
-        </a>
-        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D9%84%D9%88%D8%AD%D8%A9%20%D8%A7%D9%84%D8%AA%D8%AD%D9%83%D9%85%20%D9%88%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D9%81%D9%88%D8%AC" target="_blank" class="b2b-btn btn-help">
-          💬 المساعدة والدعم
-        </a>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwk1Uw_1_Dh-5vxOHJGN7tBP_GKhJX7V5SFIgTJXtynamC6ikoU4KTFf2r16tHCCOT3/exec";
-let currentGroupUrl = "";
 
-window.onload = function(){
-  const p = new URLSearchParams(window.location.search);
-  const rawG = p.get('g') || p.get('group');
-  if(rawG){
-    const g = rawG.trim().toUpperCase();
-    document.getElementById('group_id').value = g;
-    fetchGroupData(g);
-  }
-};
-
-function autoFetch(){
-  const g = document.getElementById('group_id').value.trim().toUpperCase();
-  if(g) fetchGroupData(g);
+function setMode(mode) {
+  document.getElementById('btn-add').classList.toggle('active', mode === 'add');
+  document.getElementById('btn-edit').classList.toggle('active', mode === 'edit');
+  document.getElementById('form-fields').style.display = 'block';
+  document.getElementById('form-title').textContent = mode === 'add' ? "إضافة فوج جديد" : "تعديل فوج قائم";
+  document.getElementById('group_id').readOnly = (mode === 'edit');
 }
 
-async function fetchGroupData(groupId){
-  const badge = document.getElementById('load-status');
-  badge.style.display = "inline-block";
-  badge.textContent = "جاري الجلب...";
-  
-  try {
-    const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
-      method: "GET",
-      redirect: "follow"
-    });
-    const data = await res.json();
-    if(!data.error){
-      document.getElementById('company_name').value = data.company_name || "";
-      document.getElementById('bus_no').value = data.bus_no || "";
-      document.getElementById('p1').value = data.p1 || "";
-      document.getElementById('p2').value = data.p2 || "";
-      document.getElementById('hm').value = data.hm || "";
-      document.getElementById('rm').value = data.rm || "";
-      document.getElementById('mm').value = data.mm || "";
-      document.getElementById('hd').value = data.hd || "";
-      document.getElementById('rd').value = data.rd || "";
-      document.getElementById('md').value = data.md || "";
-      document.getElementById('notes').value = data.notes || "";
-      badge.textContent = "تم استرجاع البيانات ✓";
-    } else {
-      badge.textContent = "فوج جديد";
-    }
-  } catch(e){
-    badge.textContent = "فشل الاتصال";
-  }
+function generateRandomID() {
+  const id = 'F-' + Math.floor(Math.random() * 9000 + 1000);
+  document.getElementById('group_id').value = id;
 }
 
-async function saveToCloud(){
+async function saveToCloud() {
   const get = id => document.getElementById(id).value.trim();
-  const groupId = get('group_id').toUpperCase();
+  const groupId = get('group_id');
   const pin = get('pin');
 
-  if(!groupId || !pin){
-    alert("يرجى إدخال معرّف الفوج والرمز السري أولاً!");
-    return;
-  }
+  if(!groupId || !pin) return alert("يرجى إدخال المعرف والرمز السري");
 
-  const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  btn.innerHTML = "<span>جاري التحديث والحفظ بالسحابة... ⏳</span>";
-
-  const params = new URLSearchParams({
-    action: "update",
-    group_id: groupId,
-    pin: pin,
-    company_name: get('company_name'),
-    bus_no: get('bus_no'),
-    p1: get('p1'),
-    p2: get('p2'),
-    hm: get('hm'),
-    rm: get('rm'),
-    mm: get('mm'),
-    hd: get('hd'),
-    rd: get('rd'),
-    md: get('md'),
-    notes: get('notes')
-  });
-
+  // ملاحظة: الـ Google Script هو من سيتأكد من مطابقة الـ PIN الموجودة في الشيت
+  // الحماية هنا: الـ API لا يعيد البيانات إلا إذا تطابق الـ PIN
+  const btn = document.querySelector('.btn-main');
+  btn.innerText = "جاري الحفظ...";
+  
+  // بناء الرابط المباشر
+  const url = `${API_URL}?action=update&group_id=${groupId}&pin=${pin}&company_name=${get('company_name')}&p1=${get('p1')}&p2=${get('p2')}&hm=${get('hm')}&rm=${get('rm')}&mm=${get('mm')}&hd=${get('hd')}&rd=${get('rd')}&md=${get('md')}&bus_no=${get('bus_no')}&notes=${get('notes')}`;
+  
   try {
-    const res = await fetch(`${API_URL}?${params.toString()}&t=${Date.now()}`, {
-      method: "GET",
-      redirect: "follow"
-    });
-    const result = await res.json();
-
-    if(result.success){
-      alert("✅ تم حفظ وتحديث بيانات الفوج في السحابة بنجاح!");
-      showQR(groupId);
+    const response = await fetch(url);
+    const result = await response.json();
+    if(result.success) {
+      alert("تم الحفظ بنجاح");
+      document.getElementById('result-panel').style.display = 'block';
+      new QRCode(document.getElementById('qrcode'), `https://abdallahm321.github.io/pilgrim-card/?g=${groupId}`);
     } else {
-      alert("❌ خطأ: " + (result.msg || "تعذر الحفظ"));
+      alert("خطأ: تأكد من صحة الرمز السري إذا كنت تعدل فوجاً موجوداً");
     }
-  } catch(err){
-    alert("❌ حدث خطأ أثناء الاتصال بالسيرفر");
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = "<span>حفظ التعديلات في السحابة ☁️</span>";
-  }
-}
-
-function showQR(groupId){
-  currentGroupUrl = `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(groupId)}`;
-  const panel = document.getElementById('result-panel');
-  const qrBox = document.getElementById('qrcode');
-  qrBox.innerHTML = "";
-  new QRCode(qrBox, { text: currentGroupUrl, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.H });
-
-  document.getElementById('link-preview').textContent = currentGroupUrl;
-  document.getElementById('view-btn').href = currentGroupUrl;
-  panel.style.display = "flex";
-  panel.scrollIntoView({ behavior: 'smooth' });
-}
-
-function copyLink(){
-  if(!currentGroupUrl) return;
-  navigator.clipboard.writeText(currentGroupUrl).then(() => {
-    alert("📋 تم نسخ رابط بطاقة الفوج بنجاح!");
-  });
-}
-
-function downloadQR(){
-  const img = document.querySelector('#qrcode img');
-  if(!img) return;
-  const link = document.createElement('a');
-  link.download = `QR-${document.getElementById('group_id').value || 'Group'}.png`;
-  link.href = img.src;
-  link.click();
+  } catch(e) { alert("خطأ في الاتصال"); }
+  btn.innerText = "حفظ وإصدار البطاقة";
 }
 </script>
 </body>
