@@ -50,7 +50,9 @@ body{
   color:var(--ink);
   padding:22px 14px 60px;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
   font-family:'Tajawal','Inter',sans-serif;
   min-height:100vh;
 }
@@ -202,7 +204,6 @@ body{
 .btn-whatsapp{ background:var(--whatsapp); color:#fff; }
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-guide{ background: linear-gradient(135deg, #b8934a 0%, #9a7632 100%); color:#fff; }
-.btn small{ font-weight:500; opacity:.85; font-size:12px; }
 
 .info-box{
   background:#fff; border:1px solid var(--line); border-radius:12px;
@@ -291,61 +292,72 @@ body{
   width: 100%;
 }
 
-.footer-partner-card{
-  margin-top: 14px;
-  padding: 12px 14px;
-  background: #fbf9f4;
-  border: 1px solid var(--gold-light);
-  border-radius: 12px;
-  text-align: center;
+/* ==================================================================
+   البطاقة السفلية الجديدة (دليل المناسك وتعاقدات الشركات)
+   ================================================================== */
+.bottom-extra-card{
+  width:100%;
+  max-width:460px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  border:1px solid var(--line);
+  padding:16px 18px;
+  text-align:center;
 }
-.footer-partner-card p{
-  font-size: 11.5px;
-  color: var(--ink-soft);
-  line-height: 1.5;
-  margin-bottom: 8px;
-  font-weight: 500;
+.bottom-extra-card h4{
+  font-size:13.5px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:6px;
 }
-.partner-links{
-  display: flex;
-  gap: 8px;
-  justify-content: center;
+.bottom-extra-card p{
+  font-size:11.5px;
+  color:var(--ink-soft);
+  line-height:1.5;
+  margin-bottom:12px;
 }
-.partner-btn{
-  flex: 1;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 7px 10px;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  transition: .15s;
+.bottom-partner-btns{
+  display:flex;
+  gap:8px;
+  justify-content:center;
 }
-.partner-btn-contract{
-  background: var(--gold);
-  color: #fff;
+.bottom-btn{
+  flex:1;
+  font-size:12px;
+  font-weight:700;
+  padding:9px 10px;
+  border-radius:8px;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  transition:.15s;
 }
-.partner-btn-help{
-  background: #fff;
-  color: var(--ink);
-  border: 1px solid var(--line);
+.bottom-btn-contract{
+  background:var(--gold);
+  color:#fff;
 }
-.partner-btn:active{ transform: scale(0.97); }
+.bottom-btn-help{
+  background:#fff;
+  color:var(--ink);
+  border:1px solid var(--line);
+}
+.bottom-btn:active{ transform:scale(0.97); }
 
 html[dir="ltr"] .info-value{ text-align:start; }
 
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-link, .footer-partner-card, .group-selector-card, .btn-guide{ display:none !important; }
+  .lang-row, .footer-actions, .admin-link, .bottom-extra-card, .group-selector-card{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
 </head>
 <body>
 
+<!-- 1. بطاقة المعتمر الأساسية (طوارئ وإقامة وتواصل فقط) -->
 <div class="card" id="card">
 
   <div class="pattern-strip"></div>
@@ -368,7 +380,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي -->
+  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -427,11 +439,6 @@ html[dir="ltr"] .info-value{ text-align:start; }
       </div>
     </div>
 
-    <!-- زر دليل مناسك العمرة والأدعية المأثورة -->
-    <a href="umrah-guide.html" class="btn btn-guide">
-      📖 <span id="t-btnUmrahGuide">دليل مناسك العمرة والأدعية المأثورة</span>
-    </a>
-
     <!-- QR -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
     <div class="qr-box">
@@ -472,22 +479,29 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <div>
       <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في المولد</span></a>
     </div>
-
-    <!-- قسم تعاقدات الشركات والدعم الفني للمنصة -->
-    <div class="footer-partner-card">
-      <p id="t-partnerCardText">💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:</p>
-      <div class="partner-links">
-        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="partner-btn partner-btn-contract">
-          🤝 <span id="t-partnerBtnContract">طلب تعاقد</span>
-        </a>
-        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="partner-btn partner-btn-help">
-          💬 <span id="t-partnerBtnHelp">الدعم والمساعدة</span>
-        </a>
-      </div>
-    </div>
-
   </div>
 
+</div>
+
+<!-- 2. بطاقة الخدمات الإضافية والتعاقدات (بطاقة منفصلة بالأسفل لعدم تشتيت المعتمر) -->
+<div class="bottom-extra-card">
+  <!-- زر دليل العمرة والمناسك -->
+  <a href="umrah-guide.html" class="btn btn-guide" style="margin-bottom:14px;">
+    <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
+  </a>
+
+  <!-- خدمات الشركات والدعم الفني -->
+  <h4 id="t-partnerCardTitle">💼 خدمات الشركات ومنظمي الرحلات</h4>
+  <p id="t-partnerCardText">لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني والاستفسار:</p>
+  
+  <div class="bottom-partner-btns">
+    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="bottom-btn bottom-btn-contract">
+      🤝 <span id="t-partnerBtnContract">طلب تعاقد</span>
+    </a>
+    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="bottom-btn bottom-btn-help">
+      💬 <span id="t-partnerBtnHelp">الدعم والمساعدة</span>
+    </a>
+  </div>
 </div>
 
 <script>
@@ -528,7 +542,8 @@ const LANGS = {
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
     footerPrint:"طباعة البطاقة", footerShare:"مشاركة البطاقة", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
     adminEditBtn:"تعديل بيانات هذه الرحلة في المولد",
-    partnerCardText:"💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:",
+    partnerCardTitle:"💼 خدمات الشركات ومنظمي الرحلات",
+    partnerCardText:"لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني والاستفسار:",
     partnerBtnContract:"طلب تعاقد", partnerBtnHelp:"الدعم والمساعدة",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع."
   }},
@@ -556,7 +571,8 @@ const LANGS = {
     emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
     footerPrint:"Print Card", footerShare:"Share Card", footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
     adminEditBtn:"Edit Group Data in Generator",
-    partnerCardText:"💼 For custom smart cards & cloud management for your agency:",
+    partnerCardTitle:"💼 Travel Agencies & Services",
+    partnerCardText:"For custom smart cards, cloud management or technical support:",
     partnerBtnContract:"Agency Partnership", partnerBtnHelp:"Help & Support",
     locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it."
   }},
@@ -584,7 +600,8 @@ const LANGS = {
     emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
     footerPrint:"کارڈ پرنٹ کریں", footerShare:"کارڈ شیئر کریں", footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
     adminEditBtn:"جنریٹر میں اس گروپ کا ڈیٹا تبدیل کریں",
-    partnerCardText:"💼 اپنی کمپنی کے لیے اسمارٹ کارڈز اور کلاؤڈ سسٹم کے لیے:",
+    partnerCardTitle:"💼 کمپنیوں اور ایجنسیوں کے لیے خدمات",
+    partnerCardText:"اپنی کمپنی کے لیے اسمارٹ کارڈز اور کلاؤڈ سسٹم یا سپورٹ کے لیے رابطہ کریں:",
     partnerBtnContract:"نئے معاہدے کی درخواست", partnerBtnHelp:"مدد اور سپورٹ",
     locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔"
   }},
@@ -612,7 +629,8 @@ const LANGS = {
     emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah (Ambulans)", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
     footerPrint:"Cetak Kartu", footerShare:"Bagikan Kartu", footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
     adminEditBtn:"Edit Data Grup di Generator",
-    partnerCardText:"💼 Untuk kartu pintar & sistem cloud kustom biro travel Anda:",
+    partnerCardTitle:"💼 Layanan Biro Travel & Agensi",
+    partnerCardText:"Untuk kartu pintar kustom, sistem cloud atau bantuan teknis:",
     partnerBtnContract:"Kemitraan Baru", partnerBtnHelp:"Bantuan & Dukungan",
     locating:"Mencari lokasi Anda...", locFail:"Lokasi tidak ditemukan — WhatsApp akan terbuka tanpa lokasi."
   }},
@@ -640,7 +658,8 @@ const LANGS = {
     emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
     footerPrint:"Imprimer la Carte", footerShare:"Partager la Carte", footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
     adminEditBtn:"Modifier les données du groupe",
-    partnerCardText:"💼 Pour équiper votre agence de cartes intelligentes et gestion cloud:",
+    partnerCardTitle:"💼 Services Agences de Voyage",
+    partnerCardText:"Pour des cartes personnalisées, gestion cloud ou support technique:",
     partnerBtnContract:"Partenariat d'agence", partnerBtnHelp:"Aide & Support",
     locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle."
   }},
@@ -668,7 +687,8 @@ const LANGS = {
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
     footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
     adminEditBtn:"Grup Verilerini Düzenle",
-    partnerCardText:"💼 Acenteniz için akıllı kartlar ve bulut sistemi oluşturmak için:",
+    partnerCardTitle:"💼 Seyahat Acentesi Hizmetleri",
+    partnerCardText:"Özel akıllı kartlar, bulut sistemi veya teknik destek için:",
     partnerBtnContract:"Acente Anlaşması", partnerBtnHelp:"Yardım & Destek",
     locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak."
   }}
