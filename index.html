@@ -757,6 +757,7 @@ const LANGS = {
 let currentLang = "ar";
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
+// توليد الباركود محلياً داخل المتصفح كـ Vector Canvas مباشر
 function generateLocalQR(elementId, text, size) {
   const container = document.getElementById(elementId);
   if (!container) return;
@@ -799,6 +800,7 @@ function renderUI(data){
   document.getElementById("btn-mapMakkah").href = data.mm || "https://maps.google.com";
   document.getElementById("btn-mapMadinah").href = data.md || "https://maps.google.com";
 
+  // توليد فوري للباركود بالرابط السحابي
   generateLocalQR("qr-local-container", groupDirectUrl, 84);
   
   window.ACTIVE_PRIMARY_PHONE = pPhone;
@@ -837,6 +839,7 @@ async function applyStatic(){
 
   const b2bCard = document.getElementById("conditional-b2b-support-card");
 
+  // 1. إذا فُتح الرابط العام بدون كود فوج
   if (!groupId) {
     document.getElementById("group-selector-box").style.display = "block";
     if (b2bCard) b2bCard.style.display = "block";
@@ -844,22 +847,35 @@ async function applyStatic(){
     return;
   }
 
+  // 2. إذا فُتح الرابط بكود فوج خاص بشركة (?g=...)
   document.getElementById("group-selector-box").style.display = "none";
   if (b2bCard) b2bCard.style.display = "none";
 
+  // محاولة استرجاع البيانات المخزنة محلياً عند انقطاع الإنترنت (Offline Cache)
+  const localCached = localStorage.getItem(`pilgrim_data_${groupId}`);
+  if(localCached){
+    try {
+      renderUI(JSON.parse(localCached));
+    } catch(e){}
+  }
+
+  // جلب البيانات المحدثة من السحابة وتحديث الذاكرة المحلية
   try {
     const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
       method: "GET", redirect: "follow"
     });
     const data = await res.json();
     if (data && !data.error) {
+      localStorage.setItem(`pilgrim_data_${groupId}`, JSON.stringify(data));
       renderUI(data);
-    } else {
+    } else if(!localCached) {
       document.getElementById("group-selector-box").style.display = "block";
       if (b2bCard) b2bCard.style.display = "block";
       fetchGroupsList();
     }
-  } catch(err){}
+  } catch(err){
+    console.warn("جاري استخدام البيانات المحفوظة محلياً لعدم توفر اتصال بالشبكة.");
+  }
 }
 
 function renderLangSwitcher(){
@@ -910,7 +926,7 @@ document.getElementById("btn-whatsapp").addEventListener("click", function(){
   }, { timeout: 8000 });
 });
 
-/* نافذة وخيارات الطباعة */
+/* نافذة وخيارات الطباعة والمشاركة */
 function openPrintModal(){ document.getElementById('print-modal').style.display = 'flex'; }
 function closePrintModal(){ document.getElementById('print-modal').style.display = 'none'; }
 
@@ -1086,6 +1102,13 @@ function copyIBAN(){
 (function init(){
   applyStatic();
   setLang("ar");
+
+  // تفعيل التخزين المؤقت عبر مشغل الخدمة PWA
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    });
+  }
 })();
 </script>
 </body>
