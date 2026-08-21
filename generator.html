@@ -137,7 +137,7 @@ input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15
   </div>
 
   <label>اسم شركة السياحة / الحملة:</label>
-  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة" value="شركة الهدى للسياحة">
+  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
 
   <div class="section-tag">أرقام هواتف المشرفين</div>
   <label>رقم المشرف الأساسي (بصيغة دولية):</label>
@@ -190,7 +190,7 @@ input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbym7UuoDjcJkqrp7XqRpzkJdwm3h5ecwY814hxYmdD60fLMKZPqMt0cQFbJPKTteQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzSfLIEMwxxxbppJppKnmpAvVb8QGZHeiLRgWbdFJyZwJQhhM2bOQbKh9Rh8iZF9g_1/exec";
 let currentGroupUrl = "";
 
 window.onload = function(){
@@ -213,13 +213,13 @@ async function fetchGroupData(groupId){
   badge.textContent = "جاري الجلب...";
   
   try {
-    const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`, {
+    const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}`, {
       method: "GET",
       redirect: "follow"
     });
     const data = await res.json();
     if(!data.error){
-      document.getElementById('company_name').value = data.company_name || "شركة الهدى للسياحة";
+      document.getElementById('company_name').value = data.company_name || "";
       document.getElementById('p1').value = data.p1 || "";
       document.getElementById('p2').value = data.p2 || "";
       document.getElementById('hm').value = data.hm || "";
@@ -230,7 +230,7 @@ async function fetchGroupData(groupId){
       document.getElementById('md').value = data.md || "";
       badge.textContent = "تم استرجاع البيانات ✓";
     } else {
-      badge.textContent = "فوج جديد غير مسجل";
+      badge.textContent = "فوج جديد";
     }
   } catch(e){
     badge.textContent = "فشل الاتصال";
@@ -251,10 +251,11 @@ async function saveToCloud(){
   btn.disabled = true;
   btn.innerHTML = "<span>جاري التحديث والحفظ بالسحابة... ⏳</span>";
 
-  const payload = {
+  const params = new URLSearchParams({
+    action: "update",
     group_id: groupId,
     pin: pin,
-    company_name: get('company_name') || "شركة الهدى للسياحة",
+    company_name: get('company_name'),
     p1: get('p1'),
     p2: get('p2'),
     hm: get('hm'),
@@ -263,16 +264,17 @@ async function saveToCloud(){
     hd: get('hd'),
     rd: get('rd'),
     md: get('md')
-  };
+  });
 
   try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
+    const res = await fetch(`${API_URL}?${params.toString()}`, {
+      method: "GET",
+      redirect: "follow"
     });
     const result = await res.json();
 
     if(result.success){
+      localStorage.removeItem("cache_group_" + groupId);
       alert("✅ تم حفظ وتحديث بيانات الفوج في السحابة بنجاح!");
       showQR(groupId);
     } else {
