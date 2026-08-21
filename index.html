@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>بطاقة تعريف وطوارئ المعتمر</title>
 
+<!-- إضافة كأيقونة على شاشة الجوال (PWA) -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon-32.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -14,6 +15,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="بطاقة المعتمر">
 
+<!-- معاينة مشاركة احترافية (واتساب / تليجرام / فيسبوك) -->
 <meta name="description" content="بطاقة طوارئ رقمية للمعتمر — اتصال فوري بالمشرف، مواقع الفنادق، وإرشادات في حال التوهان.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="بطاقة تعريف وطوارئ المعتمر">
@@ -46,7 +48,8 @@
 *{box-sizing:border-box; margin:0; padding:0;}
 
 body{
-  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
   color:var(--ink);
   padding:22px 14px 60px;
   display:flex;
@@ -68,6 +71,7 @@ body{
   position:relative;
 }
 
+/* --- Islamic geometric strip (signature motif) --- */
 .pattern-strip{
   height:10px;
   background-image: linear-gradient(45deg, var(--gold) 25%, transparent 25%),
@@ -76,15 +80,16 @@ body{
   opacity:.55;
 }
 
+/* --- Header / stamp emblem --- */
 .header{
   background: linear-gradient(160deg, var(--ink) 0%, #2c2c2e 100%);
   color:#fff;
-  padding:26px 22px 22px;
+  padding:24px 22px 20px;
   text-align:center;
   position:relative;
 }
 .emblem{
-  width:56px; height:56px; margin:0 auto 10px;
+  width:52px; height:52px; margin:0 auto 8px;
   display:flex; align-items:center; justify-content:center;
 }
 .emblem svg{ width:100%; height:100%; }
@@ -92,13 +97,32 @@ body{
   font-family:'Reem Kufi','Inter',sans-serif;
   font-size:20px;
   letter-spacing:.2px;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
-.header p{ font-size:13px; color:#d8d3c6; line-height:1.6; max-width:340px; margin:0 auto; }
 
+/* شريط اسم شركة السياحة البارز */
+.company-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  background:rgba(184, 147, 74, 0.18);
+  border:1px solid var(--gold);
+  color:var(--gold-light);
+  font-size:13.5px;
+  font-weight:700;
+  padding:5px 16px;
+  border-radius:999px;
+  margin-bottom:10px;
+  letter-spacing:.3px;
+}
+
+.header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
+
+/* --- Language switcher --- */
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
-  padding:14px 18px 4px; background:var(--sand);
+  padding:12px 18px 4px; background:var(--sand);
 }
 .lang-chip{
   border:1px solid var(--line);
@@ -113,17 +137,18 @@ body{
 .lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
 .lang-chip:active{ transform:scale(.96); }
 
-.body{ padding:18px 20px 8px; }
+.body{ padding:16px 20px 8px; }
 
 .section-title{
   display:flex; align-items:center; gap:8px;
   font-size:14px; font-weight:800; color:var(--ink-soft);
-  margin:20px 0 12px;
+  margin:18px 0 12px;
   text-transform:uppercase; letter-spacing:.4px;
 }
 .section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-title span.line{ flex:1; height:1px; background:var(--line); }
 
+/* --- Buttons --- */
 .btn{
   display:flex; align-items:center; justify-content:center; gap:10px;
   width:100%; padding:15px 14px; margin-bottom:10px;
@@ -138,6 +163,7 @@ body{
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn small{ font-weight:500; opacity:.85; font-size:12px; }
 
+/* --- Info boxes --- */
 .info-box{
   background:#fff; border:1px solid var(--line); border-radius:12px;
   padding:14px; margin-bottom:12px;
@@ -148,6 +174,7 @@ body{
 .info-value{ font-weight:700; text-align:end; }
 .editable{ border-bottom:1px dotted var(--gold); }
 
+/* --- Lost-pilgrim steps --- */
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
   counter-increment:step;
@@ -162,11 +189,13 @@ body{
   display:flex; align-items:center; justify-content:center;
 }
 
+/* --- Emergency grid --- */
 .em-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .em-card{ background:#fbf3f2; border:1px solid #ecd8d6; border-radius:10px; padding:10px; text-align:center; }
 .em-num{ font-size:17px; font-weight:800; color:var(--maroon); direction:ltr; }
 .em-label{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
 
+/* --- QR block --- */
 .qr-box{
   display:flex; align-items:center; gap:14px;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;
@@ -174,6 +203,7 @@ body{
 .qr-box img{ width:84px; height:84px; border-radius:8px; border:1px solid var(--line); flex:none; }
 .qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
 
+/* --- Footer --- */
 .footer{ padding:6px 20px 22px; text-align:center; }
 .footer-actions{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
 .footer-actions button{
@@ -220,6 +250,12 @@ html[dir="ltr"] .info-value{ text-align:start; }
         <rect x="44" y="58" width="12" height="18" rx="1.5" fill="#cda868"/>
       </svg>
     </div>
+    
+    <!-- اسم شركة السياحة أو الحملة -->
+    <div>
+      <span class="company-badge" id="v-companyName">🏢 شركة الهدى للسياحة</span>
+    </div>
+
     <h1 id="t-cardTitle">بطاقة تعريف وطوارئ المعتمر</h1>
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
@@ -307,6 +343,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbym7UuoDjcJkqrp7XqRpzkJ
 
 /* حماية احتياطية: قيم افتراضية تُستخدم إن تعذّر تحميل config.js وفشل الاتصال */
 window.CONFIG = {
+  companyName: "شركة الهدى للسياحة",
   primarySupervisorPhone: "+966500000000",
   secondarySupervisorPhone: "+966500000000",
   hotelMakkah:  { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" },
@@ -450,22 +487,33 @@ async function applyStatic(){
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get('g') || params.get('group');
 
+  // تحديث رابط المشرف في الفوتر
   const editBtn = document.getElementById("admin-edit-btn");
   if(editBtn){
     editBtn.href = "generator.html" + (window.location.search || "");
   }
 
+  // 1. جلب البيانات السحابية إن وُجد معرّف الفوج g=...
   if (groupId) {
     try {
-      const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`);
+      const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`, {
+        method: "GET",
+        redirect: "follow"
+      });
       const data = await res.json();
       
-      if (!data.error) {
+      if (data && !data.error) {
+        // تحديث اسم شركة السياحة
+        const comp = data.company_name || window.CONFIG.companyName || "شركة الهدى للسياحة";
+        document.getElementById("v-companyName").textContent = "🏢 " + comp;
+
+        // تحديث الفنادق والغرف
         document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
         document.getElementById("v-roomMakkah").textContent = data.rm || "—";
         document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
         document.getElementById("v-roomMadinah").textContent = data.rd || "—";
 
+        // تحديث أرقام المشرفين
         const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
         const sPhone = data.p2 || window.CONFIG.secondarySupervisorPhone;
 
@@ -474,6 +522,7 @@ async function applyStatic(){
         document.getElementById("btn-mapMakkah").href = data.mm || window.CONFIG.hotelMakkah.mapsUrl;
         document.getElementById("btn-mapMadinah").href = data.md || window.CONFIG.hotelMadinah.mapsUrl;
 
+        // تحديث QR الواتساب للمشرف الأساسي
         const waNum = digitsOnly(pPhone).replace("+","");
         document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
         
@@ -481,9 +530,13 @@ async function applyStatic(){
         return;
       }
     } catch(err) {
-      console.warn("جاري استخدام البيانات الافتراضية...");
+      console.warn("جاري استخدام البيانات المحلية والافتراضية:", err);
     }
   }
+
+  // 2. في حال عدم استخدام معرّف أو انقطاع السيرفر: قراءة معاملات الرابط المباشرة أو config.js
+  const comp = params.get('c') || window.CONFIG.companyName || "شركة الهدى للسياحة";
+  document.getElementById("v-companyName").textContent = "🏢 " + comp;
 
   const pPhone = params.get('p1') || window.CONFIG.primarySupervisorPhone;
   const sPhone = params.get('p2') || window.CONFIG.secondarySupervisorPhone;
