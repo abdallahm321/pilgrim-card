@@ -5,10 +5,10 @@
 
 const CONFIG = {
   // رقم المشرف الأساسي — بصيغة دولية تبدأ بـ +
-  primarySupervisorPhone: "+966500000000",
+  primarySupervisorPhone: "+201117337737",
 
   // رقم المشرف الاحتياطي
-  secondarySupervisorPhone: "+966500000000",
+  secondarySupervisorPhone: "+201004509977",
 
   // فندق مكة المكرمة
   hotelMakkah: {
