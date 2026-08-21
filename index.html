@@ -424,10 +424,17 @@ html[dir="ltr"] .info-value{ text-align:start; }
   </a>
 </div>
 
-<!-- 3. بطاقة الانتقال لصفحة باقات الشركات المستقلة -->
+<!-- بطاقة القبلة ومواقيت الصلاة بالحرمين -->
 <div class="bottom-action-card">
-  <a href="business.html" class="btn btn-b2b-link" style="margin:0;">
-    <span id="t-btnBusinessPage">💼 حلول وباقات شركات السياحة (مجاني & Pro)</span>
+  <a href="qibla-prayer.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
+    <span>🧭 القبلة ومواقيت الصلاة في الحرمين</span>
+  </a>
+</div>
+
+<!-- بطاقة خريطة المعالم ومحطات النقل بالحرمين -->
+<div class="bottom-action-card">
+  <a href="landmarks.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
+    <span>🗺️ خريطة المعالم ومحطات النقل بالحرمين</span>
   </a>
 </div>
 
@@ -500,7 +507,6 @@ const LANGS = {
     btnPrimary:"اتصال بالمشرف الأساسي", btnSecondary:"اتصال بالمشرف الاحتياطي",
     btnWhatsapp:"إرسال موقعي الحالي عبر واتساب",
     btnUmrahGuide:"📖 دليل مناسك العمرة والأدعية المأثورة",
-    btnBusinessPage:"💼 حلول وباقات شركات السياحة (مجاني & Pro)",
     sectionLostSteps:"ماذا تفعل إن تهت؟",
     step1:"قف في مكانك ولا تتحرك كثيراً — يسهل العثور عليك إن بقيت ثابتاً.",
     step2:"اتصل بالمشرف الأساسي أو الاحتياطي فوراً عبر الأزرار أعلى هذه الصفحة.",
@@ -524,176 +530,6 @@ const LANGS = {
     opt4Title:"🏢 4. كروت الشركات الذكية الدائمة (A4 / بادج)", opt4Desc:"كروت مختصرة باسم الشركة والباركود الدائم دون كتابة أسماء الفنادق لتصلح لكل المواسم.", btnBadge:"💳 بادج مفرد", btnA4Sheet:"📄 طباعة 8 كروت (A4)",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع.",
     waLostMsg:"السلام عليكم، معي معتمر يحتاج مساعدة. موقعه الحالي: "
-  }},
-  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
-    cardTitle:"Kartu Identitas & Darurat Jamaah",
-    cardSubtitle:"Jika pemegang kartu ini tersesat atau butuh bantuan, segera hubungi pembimbing melalui tombol di bawah.",
-    selectorTitle:"🔍 Pilih atau Masukkan Kode Rombongan",
-    selectorDesc:"Silakan pilih rombongan dari daftar atau masukkan kode pada kartu Anda untuk melihat detail hotel dan pembimbing.",
-    sectionContact:"Hubungi Pembimbing",
-    btnPrimary:"Telepon Pembimbing Utama", btnSecondary:"Telepon Pembimbing Cadangan",
-    btnWhatsapp:"Kirim Lokasi Saya via WhatsApp",
-    btnUmrahGuide:"📖 Panduan Manasik & Doa Umrah",
-    btnBusinessPage:"💼 Solusi & Paket Biro Travel (Gratis & Pro)",
-    sectionLostSteps:"Jika Anda Tersesat",
-    step1:"Tetap di tempat Anda dan jangan banyak bergerak — lebih mudah ditemukan jika Anda diam.",
-    step2:"Segera hubungi pembimbing utama atau cadangan melalui tombol di atas.",
-    step3:"Jika tidak bisa dihubungi, datangi petugas keamanan terdekat dan beritahu bahwa Anda terpisah dari rombongan.",
-    step4:"Tunjukkan kartu identitas ini kepada petugas agar rombongan Anda mudah dikenali.",
-    step5:"Ingat titik kumpul yang jelas di Masjid (seperti nomor pintu tertentu) sebagai patokan.",
-    sectionAccommodation:"Akomodasi", labelHotelMakkah:"Hotel Makkah", labelRoomMakkah:"Nomor Kamar",
-    labelHotelMadinah:"Hotel Madinah", labelRoomMadinah:"Nomor Kamar",
-    btnMapMakkah:"Buka Lokasi Hotel Makkah", btnMapMadinah:"Buka Lokasi Hotel Madinah",
-    sectionTransportNotes:"Bus & Petunjuk Rombongan", labelBusNo:"🚌 Nomor Bus:",
-    sectionQr:"Pindai Cepat untuk Kontak", qrHint:"Pindai dengan kamera HP untuk melihat data hotel dan kontak langsung dengan pembimbing.",
-    sectionEmergency:"Nomor Darurat Resmi (Arab Saudi)",
-    emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
-    footerBtnUnified:"📤 Bagikan, Cetak & Ekspor Kartu",
-    footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
-    adminEditBtn:"Edit Data Grup di Panel Kontrol",
-    modalHeaderTitle:"📤 Pusat Berbagi & Cetak Kartu", modalHeaderSubtitle:"Pilih format yang sesuai untuk menyimpan atau membagikan data rombongan",
-    opt1Title:"🔗 1. Bagikan Tautan Rombongan", opt1Desc:"Kirim tautan langsung dengan detail akomodasi via WhatsApp.", btnShareLink:"📲 Kirim / Salin Tautan",
-    opt2Title:"👤 2. Kartu Jamaah Saat Ini", opt2Desc:"Cetak kartu atau simpan sebagai gambar resolusi tinggi.", btnPrintStd:"🖨️ Cetak Kartu", btnSaveImg:"🖼️ Simpan Gambar",
-    opt3Title:"📱 3. Wallpaper Layar Kunci (Lock Screen)", opt3Desc:"Gambar ukuran ponsel dengan kode QR dan nomor darurat pembimbing.", btnLockScreen:"📲 Buat Wallpaper",
-    opt4Title:"🏢 4. Kartu Travel Permanen (PVC / A4)", opt4Desc:"Format ringkas dengan nama travel dan QR permanen.", btnBadge:"💳 Kartu Satuan", btnA4Sheet:"📄 Cetak 8 Kartu (A4)",
-    locating:"Mencari lokasi Anda...", locFail:"Gagal mendapatkan lokasi — WhatsApp akan terbuka tanpa lokasi.",
-    waLostMsg:"Halo, saya bersama jamaah umrah yang butuh bantuan. Lokasi saat ini: "
-  }},
-  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
-    cardTitle:"معتمر شناختی و ہنگامی کارڈ",
-    cardSubtitle:"اگر اس کارڈ کا حامل راستہ بھول جائے یا مدد کی ضرورت ہو تو فوری طور پر نگران سے رابطہ کریں۔",
-    selectorTitle:"🔍 کارڈ دیکھنے کے لیے گروپ منتخب کریں یا کوڈ درج کریں",
-    selectorDesc:"نگران اور ہوٹل کے مقامات دیکھنے کے لیے براہ کرم فہرست سے اپنا گروپ منتخب کریں یا کارڈ کا کوڈ درج کریں۔",
-    sectionContact:"نگران سے فوری رابطہ",
-    btnPrimary:"بنیادی نگران کو کال کریں", btnSecondary:"متبادل نگران کو کال کریں",
-    btnWhatsapp:"واٹس ایپ پر اپنا محل وقوع بھیجیں",
-    btnUmrahGuide:"📖 عمرہ کے مناسک اور دعاؤں کی گائیڈ",
-    btnBusinessPage:"💼 ٹریول ایجنسی پیکجز (مفت اور پرو)",
-    sectionLostSteps:"اگر آپ راستہ بھول جائیں تو کیا کریں؟",
-    step1:"جہاں ہیں وہیں رکیں اور زیادہ حرکت نہ کریں — آپ کو ڈھونڈنا آسان ہوگا۔",
-    step2:"اوپر دیے گئے بٹنوں سے فوری طور پر بنیادی یا متبادل نگران کو کال کریں۔",
-    step3:"اگر رابطہ نہ ہو سکے تو قریبی سیکیورٹی اہلکار کو بتائیں کہ آپ بچھڑ گئے ہیں۔",
-    step4:"مدد کرنے والے کو یہ شناختی کارڈ دکھائیں تاکہ وہ آپ کے گروپ کو پہچان سکے۔",
-    step5:"حرم میں کسی معروف مقام (جیسے مخصوص دروازہ) کو یاد رکھیں۔",
-    sectionAccommodation:"رہائش", labelHotelMakkah:"مکہ ہوٹل", labelRoomMakkah:"کمرہ نمبر",
-    labelHotelMadinah:"مدینہ ہوٹل", labelRoomMadinah:"کمرہ نمبر",
-    btnMapMakkah:"مکہ ہوٹل کا مقام کھولیں", btnMapMadinah:"مدینہ ہوٹل کا مقام کھولیں",
-    sectionTransportNotes:"بس اور ہدایات", labelBusNo:"🚌 بس نمبر:",
-    sectionQr:"فوری رابطے کے لیے اسکین کریں", qrHint:"ہوٹل اور نگران کی معلومات کے لیے کیمرے سے بارکوڈ اسکین کریں۔",
-    sectionEmergency:"سرکاری ہنگامی نمبرز (سعودی عرب)",
-    emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
-    footerBtnUnified:"📤 کارڈ شیئر، پرنٹ اور محفوظ کریں",
-    footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
-    adminEditBtn:"کنٹرول پینل میں اس گروپ کا ڈیٹا تبدیل کریں",
-    modalHeaderTitle:"📤 کارڈ شیئرنگ اور پرنٹنگ سینٹر", modalHeaderSubtitle:"ڈیٹا محفوظ کرنے، پرنٹ کرنے یا بھیجنے کا طریقہ منتخب کریں",
-    opt1Title:"🔗 1. گروپ لنک شیئر کریں", opt1Desc:"مکمل معلومات کے ساتھ گروپ کا لنک واٹس ایپ پر بھیجیں۔", btnShareLink:"📲 لنک بھیجیں / کاپی کریں",
-    opt2Title:"👤 2. ذاتی معتمر کارڈ", opt2Desc:"کارڈ پرنٹ کریں یا تصویر کے طور پر محفوظ کریں۔", btnPrintStd:"🖨️ پرنٹ کارڈ", btnSaveImg:"🖼️ تصویر محفوظ کریں",
-    opt3Title:"📱 3. موبائل لاک اسکرین وال پیپر", opt3Desc:"موبائل کے لیے وال پیپر جس میں کیو آر کوڈ اور ایمرجنسی نمبرز ہوں۔", btnLockScreen:"📲 وال پیپر بنائیں",
-    opt4Title:"🏢 4. ٹریول ایجنسی سمارٹ کارڈز", opt4Desc:"کمپنی کے نام اور بارکوڈ کے ساتھ کارڈز۔", btnBadge:"💳 سنگل بیج", btnA4Sheet:"📄 8 کارڈز شیٹ (A4)",
-    locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔",
-    waLostMsg:"السلام علیکم، میرے پاس ایک معتمر ہیں جنہیں مدد کی ضرورت ہے۔ موجودہ مقام: "
-  }},
-  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
-    cardTitle:"Hacı/Umreci Kimlik ve Acil Durum Kartı",
-    cardSubtitle:"Bu kartın sahibi kaybolur veya yardıma ihtiyaç duyarsa, lütfen aşağıdaki butonlardan derhal sorumlu ile iletişime geçin.",
-    selectorTitle:"🔍 Kartı Görüntülemek İçin Grup Seçin veya Kod Girin",
-    selectorDesc:"Sorumlu ve otel bilgilerini görmek için lütfen listeden grubu seçin veya kartınızdaki kodu girin.",
-    sectionContact:"Sorumlularla İletişim",
-    btnPrimary:"Ana Sorumluyu Ara", btnSecondary:"Yedek Sorumluyu Ara",
-    btnWhatsapp:"Konumumu WhatsApp ile Gönder",
-    btnUmrahGuide:"📖 Umre Rehberi ve Dualar",
-    btnBusinessPage:"💼 Acenteler İçin Çözümler (Ücretsiz & Pro)",
-    sectionLostSteps:"Kaybolursanız Ne Yapmalısınız?",
-    step1:"Bulunduğunuz yerde kalın ve fazla hareket etmeyin — sabit kalırsanız bulunmanız daha kolay olur.",
-    step2:"Yukarıdaki butonları kullanarak hemen ana veya yedek sorumluyu arayın.",
-    step3:"Ulaşamazsanız en yakın güvenlik görevlisine grubunuzdan ayrı düştüğünüzü söyleyin.",
-    step4:"Size yardım edene bu kartı gösterin ki grubunuzu tanıyabilsin.",
-    step5:"Camideki bilinen bir buluşma noktasını (belirli bir kapı numarası gibi) referans olarak hatırlayın.",
-    sectionAccommodation:"Konaklama", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
-    labelHotelMadinah:"Medine Oteli", labelRoomMadinah:"Oda No",
-    btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
-    sectionTransportNotes:"Otobüs ve Talimatlar", labelBusNo:"🚌 Otobüs No:",
-    sectionQr:"Hızlı İletişim için Tara", qrHint:"Otel bilgileri ve sorumlu iletişimi için telefon kamerasıyla tarayın.",
-    sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
-    emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
-    footerBtnUnified:"📤 Kartı Paylaş, Yazdır ve İndir",
-    footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
-    adminEditBtn:"Kontrol Panelinde Grup Verilerini Düzenle",
-    modalHeaderTitle:"📤 Kart Paylaşım ve Yazdırma Merkezi", modalHeaderSubtitle:"Grup verilerini kaydetmek, yazdırmak veya göndermek için seçin",
-    opt1Title:"🔗 1. Doğrudan Grup Bağlantısını Paylaş", opt1Desc:"Tüm otel ve sorumlu bilgileriyle WhatsApp üzerinden bağlantı gönderin.", btnShareLink:"📲 Bağlantıyı Paylaş / Kopyala",
-    opt2Title:"👤 2. Bireysel Umreci Kartı", opt2Desc:"Kartı yazdırın veya galeriye resim olarak kaydedin.", btnPrintStd:"🖨️ Normal Yazdır", btnSaveImg:"🖼️ Resim Olarak Kaydet",
-    opt3Title:"📱 3. Kilit Ekranı Duvar Kağıdı (Lock Screen)", opt3Desc:"Kilit açılmadan taranabilecek QR kodlu telefon duvar kağıdı.", btnLockScreen:"📲 Duvar Kağıdı Oluştur",
-    opt4Title:"🏢 4. Acente Akıllı Kartları (A4 / Yaka Kartı)", opt4Desc:"Tüm sezonlar için otel adı yazmayan kalıcı acente kartları.", btnBadge:"💳 Tekli Kart", btnA4Sheet:"📄 8'li Sayfa Yazdır (A4)",
-    locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak.",
-    waLostMsg:"Selamün aleyküm, yanımda yardıma ihtiyacı olan bir umreci var. Mevcut konumu: "
-  }},
-  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
-    cardTitle:"Pilgrim ID & Emergency Card",
-    cardSubtitle:"If the holder of this card is lost or needs help, please contact the supervisor immediately using the buttons below.",
-    selectorTitle:"🔍 Select or Enter Group Code to View Card",
-    selectorDesc:"Please select your group or enter the code printed on your card to view supervisor details and hotel locations.",
-    sectionContact:"Contact the Supervisors",
-    btnPrimary:"Call Primary Supervisor", btnSecondary:"Call Backup Supervisor",
-    btnWhatsapp:"Send My Location via WhatsApp",
-    btnUmrahGuide:"📖 Umrah Steps & Supplications Guide",
-    btnBusinessPage:"💼 Travel Agency Solutions (Free & Pro)",
-    sectionLostSteps:"If You Get Lost",
-    step1:"Stay where you are and avoid moving further — it's easier to be found if you stay put.",
-    step2:"Call the primary or backup supervisor immediately using the buttons above.",
-    step3:"If you can't reach them, go to the nearest security officer and say you're lost from your group.",
-    step4:"Show this ID card to whoever is helping you so they can identify your group.",
-    step5:"Remember a well-known meeting point in the mosque (such as a specific gate) as a reference.",
-    sectionAccommodation:"Accommodation", labelHotelMakkah:"Makkah Hotel", labelRoomMakkah:"Room Number",
-    labelHotelMadinah:"Madinah Hotel", labelRoomMadinah:"Room Number",
-    btnMapMakkah:"Open Makkah Hotel Location", btnMapMadinah:"Open Madinah Hotel Location",
-    sectionTransportNotes:"Bus & Group Instructions", labelBusNo:"🚌 Bus Number:",
-    sectionQr:"Quick Scan to Contact", qrHint:"Scan with your phone camera to view accommodation details and contact supervisors directly.",
-    sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
-    emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
-    footerBtnUnified:"📤 Share, Print & Export Card",
-    footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
-    adminEditBtn:"Edit Group Data in Control Panel",
-    modalHeaderTitle:"📤 Card Sharing & Export Hub", modalHeaderSubtitle:"Choose the best format to save, print, or share group information",
-    opt1Title:"🔗 1. Share Direct Group Link", opt1Desc:"Send direct link via WhatsApp with complete hotel and supervisor details.", btnShareLink:"📲 Send / Copy Link",
-    opt2Title:"👤 2. Individual Pilgrim Card", opt2Desc:"Print individual trip card or save as image in photo gallery.", btnPrintStd:"🖨️ Standard Print", btnSaveImg:"🖼️ Save as Image",
-    opt3Title:"📱 3. Lock Screen Wallpaper", opt3Desc:"Phone-sized wallpaper with QR code and emergency contact numbers.", btnLockScreen:"📲 Generate Wallpaper",
-    opt4Title:"🏢 4. Permanent Agency Smart Cards", opt4Desc:"Evergreen badge cards with agency branding and cloud QR code.", btnBadge:"💳 Single Badge", btnA4Sheet:"📄 Print 8 Cards (A4)",
-    locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it.",
-    waLostMsg:"Hello, I have a pilgrim who needs help. Current location: "
-  }},
-  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
-    cardTitle:"Carte d'Identité & d'Urgence du Pèlerin",
-    cardSubtitle:"Si le porteur de cette carte est perdu ou a besoin d'aide, contactez immédiatement le superviseur via les boutons ci-dessous.",
-    selectorTitle:"🔍 Sélectionnez ou Entrez le Code du Groupe",
-    selectorDesc:"Veuillez sélectionner votre groupe ou entrer le code imprimé sur votre carte pour voir les informations.",
-    sectionContact:"Contacter les Superviseurs",
-    btnPrimary:"Appeler le Superviseur Principal", btnSecondary:"Appeler le Superviseur Suppléant",
-    btnWhatsapp:"Envoyer ma position via WhatsApp",
-    btnUmrahGuide:"📖 Guide des Rites de la Omra & Invocations",
-    btnBusinessPage:"💼 Solutions Agences de Voyage (Gratuit & Pro)",
-    sectionLostSteps:"Que Faire en Cas de Perte",
-    step1:"Restez où vous êtes et évitez de trop bouger — il est plus facile de vous retrouver si vous restez sur place.",
-    step2:"Appelez immédiatement le superviseur principal ou suppléant via les boutons ci-dessus.",
-    step3:"Si vous ne pouvez pas les joindre, allez au poste de sécurité le plus proche et signalez votre perte.",
-    step4:"Montrez cette carte d'identité à la personne qui vous aide pour identifier votre groupe.",
-    step5:"Retenez un point de rassemblement connu dans la mosquée (comme une porte précise) comme repère.",
-    sectionAccommodation:"Hébergement", labelHotelMakkah:"Hôtel à La Mecque", labelRoomMakkah:"Numéro de Chambre",
-    labelHotelMadinah:"Hôtel à Médine", labelRoomMadinah:"Numéro de Chambre",
-    btnMapMakkah:"Ouvrir la Localisation (La Mecque)", btnMapMadinah:"Ouvrir la Localisation (Médine)",
-    sectionTransportNotes:"Bus et Instructions", labelBusNo:"🚌 Numéro de Bus:",
-    sectionQr:"Scan Rapide pour Contacter", qrHint:"Scannez pour afficher les informations de l'hôtel et contacter le superviseur.",
-    sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
-    emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
-    footerBtnUnified:"📤 Partager, Imprimer et Exporter",
-    footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
-    adminEditBtn:"Modifier les données dans le panneau de contrôle",
-    modalHeaderTitle:"📤 Centre de Partage et d'Impression", modalHeaderSubtitle:"Choisissez le format adapté pour enregistrer ou envoyer les données",
-    opt1Title:"🔗 1. Partager le Lien Direct du Groupe", opt1Desc:"Envoyez le lien complet avec hôtels et contacts via WhatsApp.", btnShareLink:"📲 Envoyer / Copier le Lien",
-    opt2Title:"👤 2. Carte Individuelle du Pèlerin", opt2Desc:"Imprimez la carte ou enregistrez-la comme image HD.", btnPrintStd:"🖨️ Impression Standard", btnSaveImg:"🖼️ Enregistrer l'Image",
-    opt3Title:"📱 3. Fond d'Écran de Verrouillage (Lock Screen)", opt3Desc:"Image adaptée au téléphone avec QR code scannable écran verrouillé.", btnLockScreen:"📲 Générer Fond d'Écran",
-    opt4Title:"🏢 4. Cartes Intelligentes Agence (A4 / Badge)", opt4Desc:"Badges permanents au nom de l'agence avec QR code cloud.", btnBadge:"💳 Badge Individuel", btnA4Sheet:"📄 Imprimer 8 Cartes (A4)",
-    locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle.",
-    waLostMsg:"Bonjour, je suis avec un pèlerin qui a besoin d'aide. Sa position actuelle : "
   }}
 };
 
@@ -864,7 +700,7 @@ function closePrintModal(){ document.getElementById('print-modal').style.display
 
 function shareGroupLink(){
   const gUrl = window.CURRENT_GROUP_URL || window.location.href;
-  const compName = window.CURRENT_RECORD?.company_name || "منصة بطاقة المعتتمر";
+  const compName = window.CURRENT_RECORD?.company_name || "منصة بطاقة المعتمر";
   const gId = window.CURRENT_RECORD?.group_id || "";
   const shareData = {
     title: `بطاقة معتمر - ${compName}`,
