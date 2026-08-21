@@ -12,7 +12,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -29,6 +29,22 @@
   --line:#e7ded0;
   --radius:16px;
   --shadow:0 10px 30px rgba(28,28,30,.08);
+  --dua-font-size: 17px;
+}
+
+body.dark-mode {
+  --ink:#f2f2f7;
+  --ink-soft:#aeaeb2;
+  --sand:#121214;
+  --card:#1c1c1e;
+  --gold:#d4af37;
+  --gold-light:#483c1c;
+  --green:#529e5a;
+  --green-soft:#1a281c;
+  --maroon:#d96b6b;
+  --maroon-soft:#331a1a;
+  --line:#2c2c2e;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
 }
 
 *{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
@@ -40,16 +56,29 @@ body{
   display:flex;
   justify-content:center;
   min-height:100vh;
+  transition: background-color .3s, color .3s;
+}
+
+body.dark-mode {
+  background: radial-gradient(1200px 600px at 50% -10%, #252528 0%, var(--sand) 55%);
 }
 
 .box{
   width:100%;
-  max-width:520px;
+  max-width:540px;
   background:var(--card);
   border-radius:var(--radius);
   border:1px solid var(--line);
-  padding:22px 18px;
+  padding:20px 16px;
   box-shadow:var(--shadow);
+}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  gap:8px;
 }
 
 .nav-back{
@@ -60,8 +89,7 @@ body{
   text-decoration:none;
   font-weight:700;
   font-size:13px;
-  margin-bottom:14px;
-  background:#fff;
+  background:var(--card);
   padding:6px 12px;
   border-radius:999px;
   border:1px solid var(--line);
@@ -69,17 +97,42 @@ body{
 }
 .nav-back:active{ transform:scale(0.97); }
 
+/* شريط التحكم في القراءة */
+.reader-tools{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:var(--card);
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+}
+.tool-btn{
+  background:none;
+  border:none;
+  color:var(--ink);
+  font-size:13px;
+  font-weight:800;
+  padding:4px 8px;
+  border-radius:6px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.tool-btn:active{ background:rgba(184,147,74,0.15); }
+
 .guide-header{
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:16px;
   border-bottom:1px solid var(--line);
-  padding-bottom:16px;
+  padding-bottom:14px;
 }
 .guide-header h1{
   font-family:'Reem Kufi',sans-serif;
-  font-size:22px;
+  font-size:21px;
   color:var(--ink);
-  margin-bottom:6px;
+  margin-bottom:4px;
 }
 .guide-header p{
   font-size:12.5px;
@@ -87,66 +140,93 @@ body{
   line-height:1.5;
 }
 
-/* عداد أشواط تفاعلي مصغر */
+/* عداد الأشواط */
 .counter-card{
-  background:#fff;
+  background:var(--card);
   border:1.5px solid var(--gold);
   border-radius:12px;
   padding:12px 14px;
-  margin-bottom:18px;
+  margin-bottom:16px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   box-shadow:0 4px 14px rgba(184,147,74,0.12);
 }
 .counter-info h4{ font-size:13px; font-weight:800; color:var(--ink); }
-.counter-info p{ font-size:11px; color:#777; }
+.counter-info p{ font-size:11px; color:var(--ink-soft); }
 .counter-ctrl{ display:flex; align-items:center; gap:10px; }
 .counter-btn{
   width:32px; height:32px; border-radius:50%; border:none;
-  background:var(--ink); color:#fff; font-size:16px; font-weight:bold;
+  background:var(--ink); color:var(--card); font-size:16px; font-weight:bold;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 .counter-btn:active{ transform:scale(0.92); }
 .counter-num{ font-size:20px; font-weight:800; color:var(--green); min-width:24px; text-align:center; }
 
+/* شريط تبويبات تصنيف الأدعية */
+.dua-categories-scroll{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:4px 2px 12px;
+  margin-bottom:12px;
+  scrollbar-width:none;
+}
+.dua-categories-scroll::-webkit-scrollbar{ display:none; }
+.cat-chip{
+  flex:none;
+  background:var(--card);
+  border:1px solid var(--line);
+  color:var(--ink-soft);
+  font-size:11.5px;
+  font-weight:700;
+  padding:6px 12px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.15s;
+}
+.cat-chip.active{
+  background:var(--gold);
+  color:#fff;
+  border-color:var(--gold);
+}
+
 .section-head{
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:14px;
+  font-size:13.5px;
   font-weight:800;
   color:var(--ink-soft);
-  margin:20px 0 12px;
+  margin:18px 0 10px;
   text-transform:uppercase;
 }
 .section-head .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-head span.line{ flex:1; height:1px; background:var(--line); }
 
 .card-item{
-  background:#fff;
+  background:var(--card);
   border:1px solid var(--line);
   border-radius:14px;
-  padding:15px;
-  margin-bottom:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.02);
+  padding:14px;
+  margin-bottom:12px;
 }
 .card-item-title{
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:15px;
+  font-size:14.5px;
   font-weight:800;
   color:var(--green);
   margin-bottom:8px;
 }
 .badge-num{
-  width:26px; height:26px;
+  width:24px; height:24px;
   background:var(--gold);
   color:#fff;
   border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:13px; font-weight:800; flex:none;
+  font-size:12px; font-weight:800; flex:none;
 }
 .card-desc{
   font-size:13px;
@@ -154,49 +234,62 @@ body{
   color:var(--ink);
 }
 
+/* بطاقة الدعاء الميداني المحسنة للقراءة */
 .dua-box{
-  background:#fcfaf5;
-  border-right:3px solid var(--gold);
-  padding:12px;
-  border-radius:8px;
-  font-size:12.5px;
-  color:var(--ink);
+  background:var(--sand);
+  border-right:3.5px solid var(--gold);
+  padding:14px;
+  border-radius:10px;
   margin-top:10px;
-  line-height:1.7;
   position:relative;
+}
+.dua-arabic-text{
+  font-family:'Amiri', serif;
+  font-size: var(--dua-font-size);
+  line-height:1.9;
+  color:var(--ink);
+  font-weight:700;
+}
+.dua-trans-text{
+  font-size:12px;
+  color:var(--ink-soft);
+  line-height:1.6;
+  margin-top:6px;
+  border-top:1px dashed var(--line);
+  padding-top:6px;
 }
 .dua-copy-tag{
   display:inline-block;
-  margin-top:6px;
+  margin-top:8px;
   font-size:10.5px;
   font-weight:bold;
   color:var(--gold);
   cursor:pointer;
-  background:#fff;
+  background:var(--card);
   border:1px solid var(--gold-light);
-  padding:2px 8px;
-  border-radius:4px;
+  padding:3px 10px;
+  border-radius:6px;
 }
 
 .prohibition-box{
   background:var(--maroon-soft);
-  border:1px solid #ebd4d2;
+  border:1px solid rgba(122,46,46,0.25);
   border-radius:12px;
   padding:12px 14px;
   margin-top:10px;
 }
 .prohibition-box h5{ font-size:12.5px; font-weight:800; color:var(--maroon); margin-bottom:6px; }
-.prohibition-list{ font-size:12px; line-height:1.65; color:#5c2222; padding-right:16px; }
+.prohibition-list{ font-size:12px; line-height:1.65; color:var(--ink); padding-right:16px; }
 
 .fatwa-box{
   background:var(--green-soft);
-  border:1px solid #dbe6da;
+  border:1px solid rgba(47,82,51,0.25);
   border-radius:12px;
   padding:14px;
   margin-top:8px;
 }
 .fatwa-title{
-  font-size:14px;
+  font-size:13.5px;
   font-weight:800;
   color:var(--green);
   margin-bottom:8px;
@@ -210,10 +303,10 @@ body{
   padding:6px 0;
   color:var(--ink);
 }
-.fatwa-row + .fatwa-row{ border-top:1px dashed #c9d8c8; }
+.fatwa-row + .fatwa-row{ border-top:1px dashed var(--line); }
 
 .contact-card{
-  background:#fff;
+  background:var(--card);
   border:1px solid var(--line);
   border-radius:12px;
   padding:14px;
@@ -230,7 +323,7 @@ body{
   padding:10px;
   border-radius:8px;
   text-decoration:none;
-  font-size:12px;
+  font-size:11.5px;
   font-weight:700;
   display:flex;
   align-items:center;
@@ -238,24 +331,34 @@ body{
   gap:6px;
 }
 .btn-gov{ background:var(--green); color:#fff; }
-.btn-general{ background:var(--ink); color:#fff; }
+.btn-general{ background:var(--ink); color:var(--card); }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <a href="javascript:history.back()" class="nav-back">➔ العودة لبطاقة المعتمر</a>
+  
+  <div class="top-bar">
+    <a href="index.html" class="nav-back">➔ العودة للبطاقة</a>
+    
+    <!-- أدوات تكبير الخط والوضع الليلي للقارئ الميداني -->
+    <div class="reader-tools">
+      <button class="tool-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
+      <button class="tool-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
+      <button class="tool-btn" onclick="toggleDarkMode()" id="btn-theme-toggle" title="الوضع الليلي">🌙</button>
+    </div>
+  </div>
 
   <div class="guide-header">
-    <h1>الدليل الكامل لمناسك العمرة</h1>
-    <p>شرح تفصيلي وميسر لسنن وأركان وأحكام العمرة خطوة بخطوة</p>
+    <h1>دليل المناسك والأدعية المأثورة</h1>
+    <p>شاشة مخصصة للقراءة الميدانية السلسة أثناء الطواف والسعي والحركة بالحرم</p>
   </div>
 
   <!-- عداد الطواف والسعي التفاعلي -->
   <div class="counter-card">
     <div class="counter-info">
       <h4>عداد الأشواط التفاعلي</h4>
-      <p>اضغط بعد إتمام كل شوط (طواف أو سعي)</p>
+      <p>اضغط بعد إتمام كل شوط طواف أو سعي</p>
     </div>
     <div class="counter-ctrl">
       <button class="counter-btn" onclick="adjustCount(-1)">-</button>
@@ -264,94 +367,137 @@ body{
     </div>
   </div>
 
-  <!-- أولاً: الاستعداد والإحرام -->
-  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>أولاً: الاستعداد وما قبل الإحرام</span><span class="line"></span></div>
-
-  <div class="card-item">
-    <div class="card-desc">
-      • <strong>النظافة الشخصية:</strong> يُسن الاغتسال (الغسل)، تقليم الأظافر، قص الشارب، إزالة الشعر الزائد، والتطيب في البدن فقط (وليس على ملابس الإحرام).<br>
-      • <strong>لباس الإحرام للرجال:</strong> إزار ورداء أبيضين طاهرين غير مخيطين، ونعلين يكشفان ظهور القدمين.<br>
-      • <strong>لباس المرأة:</strong> ملابسها العادية الساترة والفضفاضة الخالية من الزينة الصريحة، وتجتنب النقاب والقفازين (وتسدل على وجهها إذا مر أجانب).
-    </div>
+  <!-- شريط تصنيفات الأدعية السريعة -->
+  <div class="dua-categories-scroll">
+    <button class="cat-chip active" onclick="filterDuaCategory('all', this)">📌 الكل</button>
+    <button class="cat-chip" onclick="filterDuaCategory('ihram', this)">🕋 الإحرام والتلبية</button>
+    <button class="cat-chip" onclick="filterDuaCategory('tawaf', this)">🔄 أدعية الطواف</button>
+    <button class="cat-chip" onclick="filterDuaCategory('safamarwa', this)">⛰️ الصفا والمروة</button>
+    <button class="cat-chip" onclick="filterDuaCategory('zamzam', this)">💧 ماء زمزم</button>
+    <button class="cat-chip" onclick="filterDuaCategory('madinah', this)">🕌 المسجد النبوي</button>
+    <button class="cat-chip" onclick="filterDuaCategory('quranic', this)">📖 جوامع الدعاء</button>
   </div>
 
-  <!-- ثانياً: أركان العمرة الأربعة -->
-  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>ثانياً: أركان العمرة خطوة بخطوة</span><span class="line"></span></div>
-
-  <!-- 1. الإحرام -->
-  <div class="card-item">
-    <div class="card-item-title"><span class="badge-num">1</span> الإحرام من الميقات</div>
-    <div class="card-desc">
-      تنعقد نية العمرة بالقلب عند محاذاة الميقات، ويُسن التلفظ بها والبدء بالتلبية فوراً:
-    </div>
-    <div class="dua-box" id="d1">
-      «لَبَّيْكَ عُمْرَةً.. لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ لا شَرِيكَ لَكَ».
-      <br><span class="dua-copy-tag" onclick="copyText('d1')">📋 نسخ نص التلبية</span>
-    </div>
-    <div class="prohibition-box">
-      <h5>⚠️ محظورات الإحرام (بعد عقد النية):</h5>
-      <div class="prohibition-list">
-        يحرم: قص الشعر أو الأظافر، التطيب، لبس المخيط والمحيط للرجال وتغطية الرأس بملاصق، الجماع ودواعيه، عقد النكاح، الصيد، وقطع شجر الحرم.
+  <!-- 1. الاستعداد والإحرام -->
+  <div class="dua-section" data-cat="ihram">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>1. الاستعداد والإحرام من الميقات</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="card-desc">
+        • يُسن الاغتسال والتنظف والتطيب في البدن فقط، وارتداء إزار ورداء أبيضين للرجل، وثياب ساترة للمرأة.
+      </div>
+      <div class="dua-box" id="d-ihram">
+        <div class="dua-arabic-text">«لَبَّيْكَ عُمْرَةً.. لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ لا شَرِيكَ لَكَ»</div>
+        <div class="dua-trans-text">يُسن الإكثار من التلبية بصوت مسموع للرجال ومنخفض للنساء حتى بداية الطواف.</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-ihram')">📋 نسخ نص التلبية</span>
+      </div>
+      <div class="prohibition-box">
+        <h5>⚠️ محظورات الإحرام بعد عقد النية:</h5>
+        <div class="prohibition-list">يحرم: قص الشعر أو الأظافر، التطيب، لبس المخيط والمحيط للرجال وتغطية الرأس بملاصق، الجماع، وعقد النكاح.</div>
       </div>
     </div>
   </div>
 
-  <!-- 2. الطواف -->
-  <div class="card-item">
-    <div class="card-item-title"><span class="badge-num">2</span> طواف العمرة (7 أشواط)</div>
-    <div class="card-desc">
-      • <strong>البداية:</strong> يبدأ الطواف بمحاذاة الحجر الأسود واستقباله، والإشارة إليه باليد اليمنى قائلاً: <em>«بِسمِ اللَّهِ، وَاللَّهُ أَكْبَرُ»</em>.<br>
-      • <strong>الصفة:</strong> تجعل الكعبة المشرفة عن يسارك وتطوف سبعة أشواط كاملة.<br>
-      • <strong>الذكر والدعاء:</strong> لا يوجد دعاء مخصوص لكل شوط، ادعُ بما تحب من خيري الدنيا والآخرة.
-    </div>
-    <div class="dua-box" id="d2">
-      <strong>بين الركن اليماني والحجر الأسود:</strong><br>
-      «رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ».
-      <br><span class="dua-copy-tag" onclick="copyText('d2')">📋 نسخ الدعاء</span>
-    </div>
-    <div class="card-desc" style="margin-top:10px;">
-      • <strong>بعد الطواف:</strong> صلاة ركعتين خلف مقام إبراهيم (أو بأي مكان بالحرم) تقرأ فيهما الكافرون والإخلاص، ثم الشرب من ماء زمزم والتضلع منه.
+  <!-- 2. دخول المسجد الحرام والطواف -->
+  <div class="dua-section" data-cat="tawaf">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>2. دخول الحرم وطواف العمرة</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="card-desc">
+        • تقديم الرجل اليمنى عند دخول المسجد الحرام.
+      </div>
+      <div class="dua-box" id="d-enter">
+        <div class="dua-arabic-text">«بِسْمِ اللَّهِ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللَّهِ، اللَّهُمَّ اغْفِرْ لِي ذُنُوبِي وَافْتَحْ لِي أَبْوَابَ رَحْمَتِكَ، أَعُوذُ بِاللَّهِ الْعَظِيمِ، وَبِوَجْهِهِ الْكَرِيمِ، وَسُلْطَانِهِ الْقَدِيمِ، مِنَ الشَّيْطَانِ الرَّجِيمِ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-enter')">📋 نسخ دعاء دخول المسجد</span>
+      </div>
+
+      <div class="dua-box" id="d-start-tawaf" style="margin-top:12px;">
+        <div class="dua-arabic-text"><strong>عند محاذاة الحجر الأسود لبداية كل شوط:</strong><br>«بِسْمِ اللَّهِ، وَاللَّهُ أَكْبَرُ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-start-tawaf')">📋 نسخ</span>
+      </div>
+
+      <div class="dua-box" id="d-yamani" style="margin-top:12px;">
+        <div class="dua-arabic-text"><strong>بين الركن اليماني والحجر الأسود:</strong><br>«رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-yamani')">📋 نسخ الدعاء</span>
+      </div>
     </div>
   </div>
 
-  <!-- 3. السعي -->
-  <div class="card-item">
-    <div class="card-item-title"><span class="badge-num">3</span> السعي بين الصفا والمروة (7 أشواط)</div>
-    <div class="card-desc">
-      • <strong>البداية:</strong> الصعود على الصفا وقراءة: <em>«إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوْ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا»</em>.<br>
-      • تستقبل القبلة وترفع يديك للدعاء:
-    </div>
-    <div class="dua-box" id="d3">
-      «أَبْدَأُ بِمَا بَدَأَ اللَّهُ بِهِ.. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الْأَحْزَابَ وَحْدَهُ». (تُكرر ٣ مرات مع الدعاء بينها).
-      <br><span class="dua-copy-tag" onclick="copyText('d3')">📋 نسخ ذكر الصفا والمروة</span>
-    </div>
-    <div class="card-desc" style="margin-top:10px;">
-      • <strong>الصفة:</strong> السعي ٧ أشواط كاملة (الذهاب من الصفا للمروة شوط، والعودة للصفا شوط آخر، وينتهي الشوط السابع عند المروة)، مع الهرولة للرجال بين العلمين الأخضرين.
+  <!-- 3. ماء زمزم ومقام إبراهيم -->
+  <div class="dua-section" data-cat="zamzam">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>3. ركعتا الطواف والشرب من زمزم</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="card-desc">• صلاة ركعتين خلف المقام إن تيسر، ثم الشرب من ماء زمزم واستقبال القبلة.</div>
+      <div class="dua-box" id="d-zamzam">
+        <div class="dua-arabic-text">«اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْماً نَافِعاً، وَرِزْقاً وَاسِعاً، وَشِفَاءً مِنْ كُلِّ دَاءٍ»</div>
+        <div class="dua-trans-text">ماء زمزم لما شُرب له، فادعُ بما تحب من خيري الدنيا والآخرة.</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-zamzam')">📋 نسخ</span>
+      </div>
     </div>
   </div>
 
-  <!-- 4. الحلق أو التقصير -->
-  <div class="card-item">
-    <div class="card-item-title"><span class="badge-num">4</span> الحلق أو التقصير (التحلل)</div>
-    <div class="card-desc">
-      • <strong>للرجال:</strong> الحلق الكامل بالموس (وهو الأفضل والأعظم أجراً) أو التقصير الشامل لجميع شعر الرأس بالتساوي.<br>
-      • <strong>للنساء:</strong> تقص المرأة من أطراف ضفائر شعرها قدر أنملة الإصبع (حوالي ٢ سم).<br>
-      • <strong>النتيجة:</strong> بحلق الرأس أو تقصيره، تتم أعمال العمرة كاملة ويحل للمعتمر كل ما حُرم عليه بالإحرام.
+  <!-- 4. الصفا والمروة -->
+  <div class="dua-section" data-cat="safamarwa">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>4. السعي بين الصفا والمروة</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="card-desc">• عند الاقتراب من الصفا في بداية السعي يقرأ:</div>
+      <div class="dua-box" id="d-safa-ayah">
+        <div class="dua-arabic-text">«إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ ۖ فَمَنْ حَجَّ الْبَيْتَ أَوْ اعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا.. أَبْدَأُ بِمَا بَدَأَ اللَّهُ بِهِ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-safa-ayah')">📋 نسخ</span>
+      </div>
+
+      <div class="dua-box" id="d-safa-dhikr" style="margin-top:12px;">
+        <div class="dua-arabic-text"><strong>عند صعود الصفا والمروة واستقبال الكعبة:</strong><br>«لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الْأَحْزَابَ وَحْدَهُ»</div>
+        <div class="dua-trans-text">تُقال ثلاث مرات مع رفع اليدين والدعاء بما تيسر بين كل مرة.</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-safa-dhikr')">📋 نسخ ذكر الصفا والمروة</span>
+      </div>
     </div>
   </div>
 
-  <!-- ثالثاً: الفتاوى والتيسيرات -->
-  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>ثالثاً: فتاوى وتيسيرات شرعية</span><span class="line"></span></div>
+  <!-- 5. جوامع الدعاء والقرآن -->
+  <div class="dua-section" data-cat="quranic">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>5. جوامع الأدعية القرآنية والنبوية</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="dua-box" id="d-q1">
+        <div class="dua-arabic-text">«رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ • رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-q1')">📋 نسخ</span>
+      </div>
+      <div class="dua-box" id="d-q2" style="margin-top:10px;">
+        <div class="dua-arabic-text">«اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-q2')">📋 نسخ</span>
+      </div>
+      <div class="dua-box" id="d-q3" style="margin-top:10px;">
+        <div class="dua-arabic-text">«يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-q3')">📋 نسخ</span>
+      </div>
+    </div>
+  </div>
 
+  <!-- 6. زيارة المسجد النبوي -->
+  <div class="dua-section" data-cat="madinah">
+    <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>6. السلام على رسول الله ﷺ بالمدينة</span><span class="line"></span></div>
+    
+    <div class="card-item">
+      <div class="dua-box" id="d-prophet">
+        <div class="dua-arabic-text">«السَّلَامُ عَلَيْكَ يَا رَسُولَ اللَّهِ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، أَشْهَدُ أَنَّكَ بَلَّغْتَ الرِّسَالَةَ، وَأَدَّيْتَ الأَمَانَةَ، وَنَصَحْتَ الأُمَّةَ، فَجَزَاكَ اللَّهُ عَنَّا خَيْرَ مَا جَزَى نَبِيّاً عَنْ أُمَّتِهِ»</div>
+        <span class="dua-copy-tag" onclick="copyDua('d-prophet')">📋 نسخ صيغة السلام</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- فتاوى وتنبيهات ميسرة -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span>فتاوى وتيسيرات شرعية</span><span class="line"></span></div>
   <div class="fatwa-box">
     <div class="fatwa-title">💡 تنبيهات فقهية هامة للمعتمر:</div>
     <div class="fatwa-row">• <strong>الشك في عدد الأشواط:</strong> ابنِ على اليقين وهو الأقل (إذا شككت هل طفت ٣ أم ٤ أشواط اعتبرها ٣ وأكمل).</div>
-    <div class="fatwa-row">• <strong>إقامة الصلاة المفروضة أثناء الطواف:</strong> اقطع الطواف وصلِّ الفريضة مع الجماعة، ثم أكمل شوطك من حيث توقفت دون إعادة الشوط من أوله.</div>
-    <div class="fatwa-row">• <strong>الاشتراط عند الإحرام:</strong> للمريض أو الخائف أن يقول: <em>«فإن حبسني حابس فمحلي حيث حبستني»</em>، فإن منعه مانع تحلل ولا شيء عليه.</div>
-    <div class="fatwa-row">• <strong>نسيان الواجبات أو ارتكاب المحظورات:</strong> من ارتكب محظوراً ناسياً أو جاهلاً فلا إثم عليه، ولكن تلزمه فدية بحسب نوع الفعل إذا كان متعمداً أو ترك واجباً كالإحرام من الميقات.</div>
+    <div class="fatwa-row">• <strong>إقامة الصلاة أثناء الطواف:</strong> اقطع الطواف وصلِّ الفريضة مع الجماعة، ثم أكمل شوطك من حيث توقفت.</div>
+    <div class="fatwa-row">• <strong>الاشتراط عند الإحرام:</strong> للمريض أو الخائف قول: <em>«فإن حبسني حابس فمحلي حيث حبستني»</em>، فإن منعه مانع تحلل ولا شيء عليه.</div>
   </div>
 
-  <!-- رابعاً: أرقام الطوارئ والإفتاء الرسمية -->
+  <!-- أرقام الإفتاء الرسمية -->
   <div class="contact-card">
     <h4 style="font-size:13px; font-weight:800; color:var(--ink);">📞 أرقام الاستعلامات والإفتاء الرسمية بالحرمين</h4>
     <div class="contact-grid">
@@ -368,22 +514,61 @@ body{
 
 <script>
 let count = 0;
+let currentFontSize = 17;
+
 function adjustCount(val){
   count = Math.max(0, Math.min(7, count + val));
   const el = document.getElementById('lap-counter');
   el.textContent = count;
   if(count === 7){
-    alert("✨ الحمد لله، أتممت 7 أشواط كاملة!");
+    alert("✨ الحمد لله، أتممت 7 أشواط كاملة! تقبل الله طاعتكم.");
   }
 }
 
-function copyText(id){
-  const el = document.getElementById(id);
-  const text = el.innerText.replace("📋 نسخ نص التلبية", "").replace("📋 نسخ الدعاء", "").replace("📋 نسخ ذكر الصفا والمروة", "").trim();
-  navigator.clipboard.writeText(text).then(()=>{
-    alert("✅ تم نسخ الذكر بنجاح!");
+// التحكم في حجم الخط لقراءة مريحة أثناء الحركة
+function changeFontSize(delta){
+  currentFontSize = Math.max(14, Math.min(26, currentFontSize + delta * 2));
+  document.documentElement.style.setProperty('--dua-font-size', currentFontSize + 'px');
+}
+
+// التبديل بين الوضع النهاري والليلي
+function toggleDarkMode(){
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  document.getElementById('btn-theme-toggle').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('pilgrim_dark_mode', isDark ? '1' : '0');
+}
+
+// تصفية الأدعية حسب القسم
+function filterDuaCategory(cat, btn){
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+
+  const sections = document.querySelectorAll('.dua-section');
+  sections.forEach(sec => {
+    if(cat === 'all' || sec.getAttribute('data-cat') === cat){
+      sec.style.display = 'block';
+    } else {
+      sec.style.display = 'none';
+    }
   });
 }
+
+function copyDua(id){
+  const el = document.getElementById(id);
+  const textEl = el.querySelector('.dua-arabic-text');
+  const text = textEl ? textEl.innerText.trim() : el.innerText.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    alert("✅ تم نسخ الدعاء بنجاح!");
+  });
+}
+
+(function init(){
+  if(localStorage.getItem('pilgrim_dark_mode') === '1'){
+    document.body.classList.add('dark-mode');
+    document.getElementById('btn-theme-toggle').textContent = '☀️';
+  }
+})();
 </script>
 </body>
 </html>
