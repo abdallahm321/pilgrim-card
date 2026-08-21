@@ -237,16 +237,35 @@ body{
   border-radius:10px; color:var(--ink); text-decoration:none; font-size:12.5px; font-weight:700;
 }
 
-/* بطاقة الدليل ودعم المنصة */
+/* بطاقة الدليل المستقلة بالأسفل */
 .bottom-guide-card{
   width:100%; max-width:460px; background:var(--card); border-radius:var(--radius);
   box-shadow:var(--shadow); border:1px solid var(--line); padding:14px 16px; text-align:center;
 }
+
+/* ==================================================================
+   البطاقة المشروطة (تعاقدات الشركات + التبرع) — تظهر فقط بدون ?g=
+   ================================================================== */
+.conditional-platform-card{
+  width:100%; max-width:460px; background:#fbf9f4; border-radius:var(--radius);
+  border:1px solid var(--gold-light); box-shadow:var(--shadow); padding:16px 18px; text-align:center;
+}
+.conditional-platform-card h4{ font-size:14px; font-weight:800; color:var(--ink); margin-bottom:6px; }
+.conditional-platform-card p{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; }
+.b2b-btn-row{ display:flex; gap:8px; justify-content:center; margin-bottom:14px; }
+.b2b-action-btn{
+  flex:1; padding:9px 10px; border-radius:8px; font-size:12px; font-weight:700;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:5px;
+}
+.btn-b2b-gold{ background:var(--gold); color:#fff; }
+.btn-b2b-white{ background:#fff; color:var(--ink); border:1px solid var(--line); }
+
 .support-subtle-toggle{
   display:inline-flex; align-items:center; gap:5px;
   font-size:11px; color:#8a857b; text-decoration:none;
-  cursor:pointer; margin-top:10px; padding:4px 8px; border-radius:6px;
+  cursor:pointer; padding:4px 8px; border-radius:6px;
   background:transparent; border:none; transition:.15s;
+  border-top:1px dashed var(--line); width:100%; justify-content:center; padding-top:10px;
 }
 .support-subtle-toggle:hover{ color:var(--gold); }
 .support-details-box{
@@ -335,7 +354,7 @@ body{
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي -->
+  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -419,7 +438,6 @@ body{
   </div>
 
   <div class="footer">
-    <!-- الزر المدمج الشامل -->
     <button class="footer-btn-unified" onclick="openPrintModal()">
       <span>📤 مشاركة وطباعة وتصدير البطاقة</span>
     </button>
@@ -436,33 +454,46 @@ body{
 
 </div>
 
-<!-- 2. بطاقة دليل المناسك المستقلة بالأسفل + سطر الدعم الهادئ -->
+<!-- 2. بطاقة دليل المناسك المستقلة بالأسفل (تظهر دائماً) -->
 <div class="bottom-guide-card">
   <a href="umrah-guide.html" class="btn btn-guide" style="margin:0;">
     <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
   </a>
+</div>
 
-  <!-- سطر الدعم الهادئ غير البارز -->
-  <div>
-    <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
-      <span>☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
-    </button>
-    
-    <div id="support-details" class="support-details-box">
-      <div>
-        <strong>IBAN:</strong> <span id="iban-val">EG890003052250019122198000140</span>
-        <button class="iban-copy-btn" onclick="copyIBAN()">نسخ</button>
-      </div>
-      <div>
-        <a href="https://ipn.eg/S/abdallah32122/instapay/7obrf8" target="_blank" class="instapay-link">
-          ⚡ الدفع المباشر عبر InstaPay
-        </a>
-      </div>
+<!-- 3. البطاقة المشروطة: تعاقدات الشركات + دعم المنصة (تختفي فوراً إذا كان الرابط يحتوي على ?g=) -->
+<div id="conditional-b2b-support-card" class="conditional-platform-card" style="display:none;">
+  <h4>💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
+  <p>احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
+  
+  <div class="b2b-btn-row">
+    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="b2b-action-btn btn-b2b-gold">
+      🤝 طلب تعاقد جديد
+    </a>
+    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="b2b-action-btn btn-b2b-white">
+      💬 المساعدة والدعم
+    </a>
+  </div>
+
+  <!-- سطر التبرع الهادئ غير البارز -->
+  <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
+    <span>☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
+  </button>
+  
+  <div id="support-details" class="support-details-box">
+    <div>
+      <strong>IBAN:</strong> <span id="iban-val">EG890003052250019122198000140</span>
+      <button class="iban-copy-btn" onclick="copyIBAN()">نسخ</button>
+    </div>
+    <div>
+      <a href="https://ipn.eg/S/abdallah32122/instapay/7obrf8" target="_blank" class="instapay-link">
+        ⚡ الدفع المباشر عبر InstaPay
+      </a>
     </div>
   </div>
 </div>
 
-<!-- 3. نافذة خيارات المشاركة والطباعة والتصدير (Modal) -->
+<!-- 4. نافذة خيارات المشاركة والطباعة والتصدير (Modal) -->
 <div class="print-modal-overlay" id="print-modal">
   <div class="print-modal-box">
     <button class="modal-close-btn" onclick="closePrintModal()">✕</button>
@@ -553,7 +584,6 @@ const LANGS = {
 let currentLang = "ar";
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
-// توليد الباركود محلياً كعنصر Canvas مباشر
 function generateLocalQR(elementId, text, size) {
   const container = document.getElementById(elementId);
   if (!container) return;
@@ -596,7 +626,6 @@ function renderUI(data){
   document.getElementById("btn-mapMakkah").href = data.mm || "https://maps.google.com";
   document.getElementById("btn-mapMadinah").href = data.md || "https://maps.google.com";
 
-  // توليد فوري للباركود برابط الفوج المباشر
   generateLocalQR("qr-local-container", groupDirectUrl, 84);
   
   window.ACTIVE_PRIMARY_PHONE = pPhone;
@@ -633,13 +662,20 @@ async function applyStatic(){
   const editBtn = document.getElementById("admin-edit-btn");
   if(editBtn) editBtn.href = "generator.html" + (window.location.search || "");
 
+  const b2bCard = document.getElementById("conditional-b2b-support-card");
+
+  // إذا لم يُحدد كود بالرابط (الصفحة العامة الرئيسية)
   if (!groupId) {
     document.getElementById("group-selector-box").style.display = "block";
+    if (b2bCard) b2bCard.style.display = "block"; // إظهار قسم الشركات والتبرع
     fetchGroupsList();
     return;
   }
 
+  // إذا تم تحديد كود فوج خاص بشركة (?g=...)
   document.getElementById("group-selector-box").style.display = "none";
+  if (b2bCard) b2bCard.style.display = "none"; // إخفاء قسم الشركات والتبرع تماماً
+
   try {
     const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
       method: "GET", redirect: "follow"
@@ -649,6 +685,7 @@ async function applyStatic(){
       renderUI(data);
     } else {
       document.getElementById("group-selector-box").style.display = "block";
+      if (b2bCard) b2bCard.style.display = "block";
       fetchGroupsList();
     }
   } catch(err){}
