@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>خريطة المعالم ومحطات النقل بالحرمين</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1c1c1e;
+  --ink-soft:#48484a;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --gold-light:#e8d9b5;
+  --green:#2f5233;
+  --green-soft:#f4f7f4;
+  --maroon:#7a2e2e;
+  --maroon-soft:#fdf3f2;
+  --blue:#1b4965;
+  --blue-soft:#eef4f8;
+  --line:#e7ded0;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(28,28,30,.08);
+}
+
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal','Inter',sans-serif;}
+
+body{
+  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:20px 14px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  min-height:100vh;
+}
+
+[dir="ltr"] body, .lang-en body{ font-family:'Inter','Tajawal',sans-serif; }
+
+.box{
+  width:100%;
+  max-width:540px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:22px 18px;
+  box-shadow:var(--shadow);
+}
+
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:14px;
+  background:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  transition:.15s;
+}
+.nav-back:active{ transform:scale(0.97); }
+
+.lang-row{
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  padding:8px; background:var(--sand); border-radius:10px; margin-bottom:14px;
+}
+.lang-chip{
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; cursor:pointer;
+}
+.lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+.header{ text-align:center; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+.header h1{ font-family:'Reem Kufi',sans-serif; font-size:21px; color:var(--ink); margin-bottom:4px; }
+.header p{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
+
+.section-head{
+  display:flex; align-items:center; gap:8px;
+  font-size:13.5px; font-weight:800; color:var(--ink-soft);
+  margin:18px 0 10px; text-transform:uppercase;
+}
+.section-head .star{ width:14px; height:14px; flex:none; color:var(--gold); }
+.section-head span.line{ flex:1; height:1px; background:var(--line); }
+
+/* بطاقات المعالم والخدمات */
+.landmark-card{
+  background:#fff; border:1px solid var(--line); border-radius:12px;
+  padding:14px; margin-bottom:10px; display:flex; flex-direction:column; gap:8px;
+}
+.landmark-header{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+}
+.landmark-title{
+  font-size:13.5px; font-weight:800; color:var(--ink); display:flex; align-items:center; gap:6px;
+}
+.landmark-desc{
+  font-size:12px; color:var(--ink-soft); line-height:1.55;
+}
+.btn-map-link{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:9px 12px; border-radius:8px; background:var(--sand);
+  color:var(--ink); border:1px solid var(--line); text-decoration:none;
+  font-size:12px; font-weight:700; transition:.15s;
+}
+.btn-map-link:hover{ background:#f0eae0; border-color:var(--gold); }
+.btn-map-link:active{ transform:scale(0.98); }
+
+/* شبكة بوابات الحرم المكي */
+.gates-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;
+}
+.gate-item{
+  background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px;
+}
+.gate-num-badge{
+  display:inline-block; background:var(--gold); color:#fff;
+  font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px; margin-bottom:4px;
+}
+.gate-name{ font-size:12.5px; font-weight:800; color:var(--ink); margin-bottom:2px; }
+.gate-usage{ font-size:11px; color:var(--ink-soft); line-height:1.4; }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <a href="index.html" class="nav-back"><span id="t-navBack">➔ العودة للبطاقة الشخصية</span></a>
+
+  <div class="lang-row" id="lang-row"></div>
+
+  <div class="header">
+    <h1 id="t-pageTitle">خريطة المعالم ومحطات النقل بالحرمين</h1>
+    <p id="t-pageSubtitle">دليل بوابات الحرم المكي، محطات الحافلات والقطار، ومراكز الطوارئ وإرشاد التائهين</p>
+  </div>
+
+  <!-- 1. بوابات الحرم المكي الشريف -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secGates">أشهر بوابات المسجد الحرام ومداخلها</span><span class="line"></span></div>
+
+  <div class="gates-grid">
+    <!-- باب الملك عبد العزيز -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 1</div>
+      <div class="gate-name" id="t-g1Name">باب الملك عبدالعزيز</div>
+      <div class="gate-usage" id="t-g1Desc">الجهة الجنوبية (أبراج البيت / أجياد) — يؤدي مباشرة لصحن المطاف.</div>
+    </div>
+    <!-- باب الملك فهد -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 79</div>
+      <div class="gate-name" id="t-g79Name">باب الملك فهد</div>
+      <div class="gate-usage" id="t-g79Desc">الجهة الغربية (الشبيكة وجبل عمر) — مدخل رئيسي واسع للمطاف.</div>
+    </div>
+    <!-- باب الصفا -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 11</div>
+      <div class="gate-name" id="t-g11Name">باب الصفا</div>
+      <div class="gate-usage" id="t-g11Desc">الجهة الشرقية — يؤدي لبداية مسار السعي عند جبل الصفا مباشرة.</div>
+    </div>
+    <!-- باب الفتح -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 45</div>
+      <div class="gate-name" id="t-g45Name">باب الفتح</div>
+      <div class="gate-usage" id="t-g45Desc">الجهة الشمالية — مدخل سريع للمطاف وقريب من شعب عامر.</div>
+    </div>
+    <!-- باب العمرة -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 62</div>
+      <div class="gate-name" id="t-g62Name">باب العمرة</div>
+      <div class="gate-usage" id="t-g62Desc">الجهة الشمالية الغربية — مدخل رئيسي للقادمين من التنعيم وجرول.</div>
+    </div>
+    <!-- باب الملك عبد الله -->
+    <div class="gate-item">
+      <div class="gate-num-badge">باب 100</div>
+      <div class="gate-name" id="t-g100Name">باب الملك عبدالله</div>
+      <div class="gate-usage" id="t-g100Desc">التوسعة الشمالية الكبرى — أكبر أبواب الحرم وأكثرها اتساعاً.</div>
+    </div>
+  </div>
+
+  <!-- 2. محطات النقل وحافلات مكة -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secBus">محطات الحافلات الترددية بمكة</span><span class="line"></span></div>
+
+  <!-- محطة محبس الجن -->
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚌 <span id="t-busMahbasTitle">محطة حافلات محبس الجن (أنفاق المصافي)</span></div>
+    </div>
+    <div class="landmark-desc" id="t-busMahbasDesc">تخدم القادمين من العزيزية والششة عبر أنفاق حصرية تصل إلى ساحات الحرم الشرقية (باب علي والمروة).</div>
+    <a href="https://maps.google.com/?q=21.4192,39.8450" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap1">فتح موقع المحطة في خرائط Google</span></a>
+  </div>
+
+  <!-- محطة كدي -->
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚌 <span id="t-busKudiTitle">محطة ومواقف كدي</span></div>
+    </div>
+    <div class="landmark-desc" id="t-busKudiDesc">تخدم حافلات كدي الترددية القادمة من المسفلة والدائري الثالث وتصل إلى محطة أجياد وباب الملك عبدالعزيز.</div>
+    <a href="https://maps.google.com/?q=21.3965,39.8258" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap2">فتح موقع المحطة في خرائط Google</span></a>
+  </div>
+
+  <!-- محطة شعب عامر -->
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚌 <span id="t-busSh شعبTitle">محطة حافلات شعب عامر</span></div>
+    </div>
+    <div class="landmark-desc" id="t-busSh شعبDesc">تخدم القادمين من المعابدة، الملاوي، وحي الروضة، وتصل مباشرة إلى الساحات الشمالية الشرقية للحرم.</div>
+    <a href="https://maps.google.com/?q=21.4285,39.8315" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap3">فتح موقع المحطة في خرائط Google</span></a>
+  </div>
+
+  <!-- محطة جبل الكعبة وجرول -->
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚌 <span id="t-busJabalTitle">محطة جبل الكعبة / جرول</span></div>
+    </div>
+    <div class="landmark-desc" id="t-busJabalDesc">تخدم خطوط حافلات النوارية والشهداء وتتصل بالساحات الشمالية وتوسعة الملك عبدالله.</div>
+    <a href="https://maps.google.com/?q=21.4290,39.8185" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap4">فتح موقع المحطة في خرائط Google</span></a>
+  </div>
+
+  <!-- 3. محطات قطار الحرمين السريع -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secTrain">محطات قطار الحرمين السريع</span><span class="line"></span></div>
+
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚄 <span id="t-trainMakkahTitle">محطة قطار الحرمين بمكة (الرصيفة)</span></div>
+    </div>
+    <div class="landmark-desc" id="t-trainMakkahDesc">المحطة الرئيسية للقطار السريع بمكة، وترتبط بالحرم بحافلات ترددية وسيارات أجرة.</div>
+    <a href="https://maps.google.com/?q=21.4172,39.7905" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap5">فتح موقع محطة مكة في خرائط Google</span></a>
+  </div>
+
+  <div class="landmark-card">
+    <div class="landmark-header">
+      <div class="landmark-title">🚄 <span id="t-trainMadinahTitle">محطة قطار الحرمين بالمدينة المنورة</span></div>
+    </div>
+    <div class="landmark-desc" id="t-trainMadinahDesc">محطة القطار السريع بالمدينة المنورة في حي المعرفة، وتتصل بالمسجد النبوي بحافلات منتظمة.</div>
+    <a href="https://maps.google.com/?q=24.4842,39.6645" target="_blank" class="btn-map-link">📍 <span id="t-btnOpenMap6">فتح موقع محطة المدينة في خرائط Google</span></a>
+  </div>
+
+  <!-- 4. مراكز الطوارئ وإرشاد التائهين -->
+  <div class="section-head"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secHelp">مراكز الطوارئ وإرشاد التائهين</span><span class="line"></span></div>
+
+  <div class="landmark-card" style="border-right: 4px solid var(--maroon);">
+    <div class="landmark-title">🚨 <span id="t-helpLostTitle">مكاتب رعاية وإرشاد التائهين بالحرم</span></div>
+    <div class="landmark-desc" id="t-helpLostDesc">مراكز رسمية مجهزة لجمع التائهين والأطفال وإيصالهم لحملاتهم، وتقع في الساحات الخارجية قرب باب علي وباب الملك فهد.</div>
+  </div>
+
+  <div class="landmark-card" style="border-right: 4px solid var(--green);">
+    <div class="landmark-title">🚑 <span id="t-helpClinicTitle">مراكز الهلال الأحمر والعيادات الإسعافية</span></div>
+    <div class="landmark-desc" id="t-helpClinicDesc">نقاط إسعافية منتشرة في أروقة الحرم والساحات لتقديم الرعاية الطبية الفورية مجاناً. رقم الإسعاف المباشر: <strong>997</strong>.</div>
+  </div>
+
+</div>
+
+<script>
+const LANGS = {
+  ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal',sans-serif", t:{
+    navBack:"➔ العودة للبطاقة الشخصية",
+    pageTitle:"خريطة المعالم ومحطات النقل بالحرمين",
+    pageSubtitle:"دليل بوابات الحرم المكي، محطات الحافلات والقطار، ومراكز الطوارئ وإرشاد التائهين",
+    secGates:"أشهر بوابات المسجد الحرام ومداخلها",
+    g1Name:"باب الملك عبدالعزيز", g1Desc:"الجهة الجنوبية (أبراج البيت / أجياد) — يؤدي مباشرة لصحن المطاف.",
+    g79Name:"باب الملك فهد", g79Desc:"الجهة الغربية (الشبيكة وجبل عمر) — مدخل رئيسي واسع للمطاف.",
+    g11Name:"باب الصفا", g11Desc:"الجهة الشرقية — يؤدي لبداية مسار السعي عند جبل الصفا مباشرة.",
+    g45Name:"باب الفتح", g45Desc:"الجهة الشمالية — مدخل سريع للمطاف وقريب من شعب عامر.",
+    g62Name:"باب العمرة", g62Desc:"الجهة الشمالية الغربية — مدخل رئيسي للقادمين من التنعيم وجرول.",
+    g100Name:"باب الملك عبدالله", g100Desc:"التوسعة الشمالية الكبرى — أكبر أبواب الحرم وأكثرها اتساعاً.",
+    secBus:"محطات الحافلات الترددية بمكة",
+    busMahbasTitle:"محطة حافلات محبس الجن (أنفاق المصافي)", busMahbasDesc:"تخدم القادمين من العزيزية والششة عبر أنفاق حصرية تصل إلى ساحات الحرم الشرقية (باب علي والمروة).",
+    busKudiTitle:"محطة ومواقف كدي", busKudiDesc:"تخدم حافلات كدي الترددية القادمة من المسفلة والدائري الثالث وتصل إلى محطة أجياد وباب الملك عبدالعزيز.",
+    busSh شعبTitle:"محطة حافلات شعب عامر", busSh شعبDesc:"تخدم القادمين من المعابدة، الملاوي، وحي الروضة، وتصل مباشرة إلى الساحات الشمالية الشرقية للحرم.",
+    busJabalTitle:"محطة جبل الكعبة / جرول", busJabalDesc:"تخدم خطوط حافلات النوارية والشهداء وتتصل بالساحات الشمالية وتوسعة الملك عبدالله.",
+    secTrain:"محطات قطار الحرمين السريع",
+    trainMakkahTitle:"محطة قطار الحرمين بمكة (الرصيفة)", trainMakkahDesc:"المحطة الرئيسية للقطار السريع بمكة، وترتبط بالحرم بحافلات ترددية وسيارات أجرة.",
+    trainMadinahTitle:"محطة قطار الحرمين بالمدينة المنورة", trainMadinahDesc:"محطة القطار السريع بالمدينة المنورة في حي المعرفة، وتتصل بالمسجد النبوي بحافلات منتظمة.",
+    secHelp:"مراكز الطوارئ وإرشاد التائهين",
+    helpLostTitle:"مكاتب رعاية وإرشاد التائهين بالحرم", helpLostDesc:"مراكز رسمية مجهزة لجمع التائهين والأطفال وإيصالهم لحملاتهم، وتقع في الساحات الخارجية قرب باب علي وباب الملك فهد.",
+    helpClinicTitle:"مراكز الهلال الأحمر والعيادات الإسعافية", helpClinicDesc:"نقاط إسعافية منتشرة في أروقة الحرم والساحات لتقديم الرعاية الطبية الفورية مجاناً. رقم الإسعاف المباشر: 997.",
+    btnOpenMap1:"فتح موقع المحطة في خرائط Google", btnOpenMap2:"فتح موقع المحطة في خرائط Google",
+    btnOpenMap3:"فتح موقع المحطة في خرائط Google", btnOpenMap4:"فتح موقع المحطة في خرائط Google",
+    btnOpenMap5:"فتح موقع محطة مكة في خرائط Google", btnOpenMap6:"فتح موقع محطة المدينة في خرائط Google"
+  }},
+  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Kembali ke Kartu Jamaah",
+    pageTitle:"Peta Landmark & Terminal Transportasi",
+    pageSubtitle:"Panduan pintu Masjidil Haram, terminal bus, stasiun kereta, dan pos bantuan jamaah",
+    secGates:"Pintu Utama Masjidil Haram & Aksesnya",
+    g1Name:"Pintu King Abdulaziz", g1Desc:"Sisi Selatan (Menara Abraj Al-Bait / Ajyad) — Akses langsung ke pelataran Tawaf.",
+    g79Name:"Pintu King Fahd", g79Desc:"Sisi Barat (Jabal Omar / Shubaika) — Pintu masuk utama yang luas ke area Tawaf.",
+    g11Name:"Pintu Shofa", g11Desc:"Sisi Timur — Menghubungkan langsung ke titik awal Sa'i di Bukit Shofa.",
+    g45Name:"Pintu Al-Fath", g45Desc:"Sisi Utara — Akses cepat ke Tawaf dari arah Syi'ib Amir.",
+    g62Name:"Pintu Umrah", g62Desc:"Sisi Barat Laut — Pintu utama dari arah Jarwal dan Tan'im.",
+    g100Name:"Pintu King Abdullah", g100Desc:"Perluasan Utara — Gerbang terbesar dan termegah di Masjidil Haram.",
+    secBus:"Terminal Bus Shuttle di Makkah",
+    busMahbasTitle:"Terminal Bus Mahbas Jin", busMahbasDesc:"Melayani jamaah dari Aziziyah melalui terowongan khusus menuju pelataran timur (Bab Ali & Marwah).",
+    busKudiTitle:"Terminal & Parkir Kudai", busKudiDesc:"Bus shuttle dari arah Misfalah menuju halte Ajyad dan Pintu King Abdulaziz.",
+    busSh شعبTitle:"Terminal Bus Syi'ib Amir", busSh شعبDesc:"Melayani jamaah dari arah Ma'abdah dan Ray Jin menuju pelataran utara.",
+    busJabalTitle:"Terminal Jabal Ka'bah / Jarwal", busJabalDesc:"Akses bus dari arah Syuhada menuju perluasan King Abdullah.",
+    secTrain:"Stasiun Kereta Cepat Haramain",
+    trainMakkahTitle:"Stasiun Kereta Makkah (Rusaifah)", trainMakkahDesc:"Stasiun utama kereta cepat di Makkah, terhubung ke Haram dengan bus shuttle dan taksi.",
+    trainMadinahTitle:"Stasiun Kereta Madinah", trainMadinahDesc:"Stasiun kereta cepat Madinah di Distrik Al-Ma'rifah, terhubung dengan bus kota.",
+    secHelp:"Pos Bantuan & Medis Darurat",
+    helpLostTitle:"Pos Bantuan Jamaah Tersesat", helpLostDesc:"Pos resmi penanganan jamaah dan anak terpisah rombongan di dekat Bab Ali & Bab King Fahd.",
+    helpClinicTitle:"Pos Bulan Sabit Merah & Klinik Darurat", helpClinicDesc:"Layanan medis gratis di pelataran dan lorong masjid. Nomor darurat ambulans: 997.",
+    btnOpenMap1:"Buka Lokasi di Google Maps", btnOpenMap2:"Buka Lokasi di Google Maps",
+    btnOpenMap3:"Buka Lokasi di Google Maps", btnOpenMap4:"Buka Lokasi di Google Maps",
+    btnOpenMap5:"Buka Lokasi Stasiun Makkah", btnOpenMap6:"Buka Lokasi Stasiun Madinah"
+  }},
+  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
+    navBack:"➔ کارڈ پر واپس جائیں",
+    pageTitle:"حرمین کے اہم مقامات اور ٹرانسپورٹ اسٹیشنز",
+    pageSubtitle:"مسجد حرام کے دروازے، بس و ٹرین اسٹیشنز اور گمشدہ افراد کے مراکز",
+    secGates:"مسجد حرام کے مشہور دروازے اور ان کے راستے",
+    g1Name:"باب شاہ عبدالعزیز", g1Desc:"جنوبی سمت (کلاک ٹاور / اجیاد) — سیدھا صحن مطاف کی طرف راستہ۔",
+    g79Name:"باب شاہ فہد", g79Desc:"مغربی سمت (جبل عمر) — مطاف میں داخلے کا مرکزی دروازہ۔",
+    g11Name:"باب صفا", g11Desc:"مشرقی سمت — کوہ صفا سے سعی شروع کرنے کا قریبی راستہ۔",
+    g45Name:"باب الفتح", g45Desc:"شمالی سمت — شعب عامر کے قریب مطاف کا راستہ۔",
+    g62Name:"باب العمرہ", g62Desc:"شمال مغربی سمت — تنعیم اور جرول سے آنے والوں کے لیے۔",
+    g100Name:"باب شاہ عبداللہ", g100Desc:"شمالی توسیع — حرم کا سب سے بڑا اور کشادہ دروازہ۔",
+    secBus:"مکہ مکرمہ کے شٹل بس اسٹیشنز",
+    busMahbasTitle:"محبس الجن بس اسٹیشن", busMahbasDesc:"عزیزیہ سے آنے والے زائرین کے لیے سرنگوں کے ذریعے باب علی و مروہ تک رسائی۔",
+    busKudiTitle:"کدی بس اسٹیشن و پارکنگ", busKudiDesc:"مسفلہ اور کدی سے اجیاد اور باب شاہ عبدالعزیز تک شٹل سروس۔",
+    busSh شعبTitle:"شعب عامر بس اسٹیشن", busSh شعبDesc:"معابدہ اور روضہ کے علاقوں سے شمالی صحنوں تک بس سروس۔",
+    busJabalTitle:"جبل کعبہ / جرول اسٹیشن", busJabalDesc:"نواریا اور شہداء سے شاہ عبداللہ توسیع تک بس روٹ۔",
+    secTrain:"حرمین ہائی اسپیڈ ریلوے اسٹیشنز",
+    trainMakkahTitle:"مکہ ٹرین اسٹیشن (الرصیفہ)", trainMakkahDesc:"مکہ مکرمہ کا مرکزی ریلوے اسٹیشن جو حرم تک شٹل بسوں سے منسلک ہے۔",
+    trainMadinahTitle:"مدینہ منورہ ٹرین اسٹیشن", trainMadinahDesc:"مدینہ منورہ کا تیز رفتار ریلوے اسٹیشن جو مسجد نبوی سے منسلک ہے۔",
+    secHelp:"ہنگامی طبی امداد اور رہنمائی کے مراکز",
+    helpLostTitle:"گمشدہ افراد کی رہنمائی کے مراکز", helpLostDesc:"بچھڑ جانے والے حجاج اور بچوں کی رہنمائی کے دفاتر (باب علی اور باب شاہ فہد کے قریب)۔",
+    helpClinicTitle:"ہلال احمر ایمرجنسی کلینکس", helpClinicDesc:"حرم کے صحنوں میں مفت فوری طبی امداد۔ ایمبولینس نمبر: 997۔",
+    btnOpenMap1:"گوگل میپ پر لوکیشن کھولیں", btnOpenMap2:"گوگل میپ پر لوکیشن کھولیں",
+    btnOpenMap3:"گوگل میپ پر لوکیشن کھولیں", btnOpenMap4:"گوگل میپ پر لوکیشن کھولیں",
+    btnOpenMap5:"مکہ اسٹیشن کی لوکیشن کھولیں", btnOpenMap6:"مدینہ اسٹیشن کی لوکیشن کھولیں"
+  }},
+  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Karta Geri Dön",
+    pageTitle:"Haremeyn Ulaşım ve Önemli Noktalar Haritası",
+    pageSubtitle:"Kabe kapıları, otobüs durakları, tren istasyonları ve yardım merkezleri",
+    secGates:"Mescid-i Haram'ın Önemli Kapıları ve Girişleri",
+    g1Name:"Kral Abdülaziz Kapısı", g1Desc:"Güney Cephesi (Saat Kulesi / Ecyad) — Doğrudan tavaf alanına açılır.",
+    g79Name:"Kral Fahd Kapısı", g79Desc:"Batı Cephesi (Cebel Ömer) — Geniş ana tavaf giriş kapısı.",
+    g11Name:"Safa Kapısı", g11Desc:"Doğu Cephesi — Safa tepesinden Sa'y ibadetine doğrudan giriş sağlar.",
+    g45Name:"Fetih Kapısı", g45Desc:"Kuzey Cephesi — Şi'b Amir yönünden tavaf alanına hızlı geçiş.",
+    g62Name:"Umre Kapısı", g62Desc:"Kuzeybatı Cephesi — Cervel ve Ten'im yönünden gelenler için ana giriş.",
+    g100Name:"Kral Abdullah Kapısı", g100Desc:"Kuzey Genişletmesi — Harem'in en büyük ve geniş kapısı.",
+    secBus:"Mekke Ring Otobüs İstasyonları",
+    busMahbasTitle:"Mahbes El-Cin Otobüs İstasyonu", busMahbasDesc:"Aziziye bölgesinden tünellerle Harem'in doğu avlusuna (Bab-ı Ali & Merve) ulaşım sağlar.",
+    busKudiTitle:"Kudey Otobüs İstasyonu ve Otoparkı", busKudiDesc:"Kudey'den Ecyad ve Kral Abdülaziz kapısına ring seferleri.",
+    busSh شعبTitle:"Şi'b Amir Otobüs İstasyonu", busSh شعبDesc:"Kuzeydoğu avlusuna doğrudan sefer yapan merkezi otobüs durağı.",
+    busJabalTitle:"Cebel Kabe / Cervel Durağı", busJabalDesc:"Kuzey genişletmesine bağlanan otobüs terminali.",
+    secTrain:"Haremeyn Hızlı Tren İstasyonları",
+    trainMakkahTitle:"Mekke Tren İstasyonu (Rusaifa)", trainMakkahDesc:"Hızlı tren ana garı; Harem'e servis otobüsleri ve taksilerle bağlıdır.",
+    trainMadinahTitle:"Medine Tren İstasyonu", trainMadinahDesc:"Mescid-i Nebevi'ye düzenli servislerle bağlı Medine hızlı tren garı.",
+    secHelp:"Acil Yardım ve Kayıp Danışma Merkezleri",
+    helpLostTitle:"Kayıp Hacı / Rehberlik Merkezleri", helpLostDesc:"Kayıp hacı ve çocuklar için Kral Fahd ve Ali kapıları yakınındaki danışma ofisleri.",
+    helpClinicTitle:"Kızılay Acil Sağlık İstasyonları", helpClinicDesc:"Harem avlularında 24 saat ücretsiz ilk yardım hizmeti. Ambulans: 997.",
+    btnOpenMap1:"Google Haritalar'da Aç", btnOpenMap2:"Google Haritalar'da Aç",
+    btnOpenMap3:"Google Haritalar'da Aç", btnOpenMap4:"Google Haritalar'da Aç",
+    btnOpenMap5:"Mekke Garı Konumunu Aç", btnOpenMap6:"Medine Garı Konumunu Aç"
+  }},
+  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Back to Pilgrim Card",
+    pageTitle:"Landmarks & Transport Map in Holy Cities",
+    pageSubtitle:"Grand Mosque gates guide, bus stations, train terminals, and emergency centers",
+    secGates:"Famous Gates of the Grand Mosque (Makkah)",
+    g1Name:"King Abdulaziz Gate", g1Desc:"South Side (Clock Tower / Ajyad) — Leads directly to the Mataf courtyard.",
+    g79Name:"King Fahd Gate", g79Desc:"West Side (Jabal Omar / Shubaika) — Wide main entrance to Mataf.",
+    g11Name:"Al-Safa Gate", g11Desc:"East Side — Direct access to the start of Sa'i at Mount Safa.",
+    g45Name:"Al-Fath Gate", g45Desc:"North Side — Quick access to Mataf near Sha'ab Amir.",
+    g62Name:"Umrah Gate", g62Desc:"Northwest Side — Main entrance from Jarwal and Tan'eem directions.",
+    g100Name:"King Abdullah Gate", g100Desc:"Grand Northern Expansion — The largest and most spacious gate.",
+    secBus:"Makkah Shuttle Bus Stations",
+    busMahbasTitle:"Mahbas Al-Jinn Bus Terminal", busMahbasDesc:"Serves Aziziyah via dedicated tunnels to eastern courtyards (Bab Ali & Marwah).",
+    busKudiTitle:"Kudai Bus Terminal & Parking", busKudiDesc:"Shuttle service connecting Kudai to Ajyad station and King Abdulaziz Gate.",
+    busSh شعبTitle:"Sha'ab Amir Bus Station", busSh شعبDesc:"Serves northeastern courtyards from Ma'abdah and Rawdah areas.",
+    busJabalTitle:"Jabal Al-Ka'bah / Jarwal Station", busJabalDesc:"Bus terminal connecting to the northern King Abdullah expansion.",
+    secTrain:"Haramain High-Speed Railway Stations",
+    trainMakkahTitle:"Makkah Train Station (Rusaifah)", trainMakkahDesc:"Main high-speed railway station in Makkah, linked to Haram via shuttle buses.",
+    trainMadinahTitle:"Madinah Train Station", trainMadinahDesc:"High-speed rail station in Madinah, connected to the Prophet's Mosque via buses.",
+    secHelp:"Emergency Centers & Lost Pilgrim Desks",
+    helpLostTitle:"Lost Pilgrims & Children Care Centers", helpLostDesc:"Official care centers located near Bab Ali and King Fahd Gate courtyards.",
+    helpClinicTitle:"Red Crescent & Emergency Clinics", helpClinicDesc:"Free 24/7 medical and emergency clinics across Haram courtyards. Ambulance: 997.",
+    btnOpenMap1:"Open Location in Google Maps", btnOpenMap2:"Open Location in Google Maps",
+    btnOpenMap3:"Open Location in Google Maps", btnOpenMap4:"Open Location in Google Maps",
+    btnOpenMap5:"Open Makkah Station Location", btnOpenMap6:"Open Madinah Station Location"
+  }},
+  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Retour à la Carte",
+    pageTitle:"Plan des Lieux & Transports aux Lieux Saints",
+    pageSubtitle:"Guide des portes du Haram, gares routières, TGV Haramain et postes de secours",
+    secGates:"Portes Principales de la Grande Mosquée",
+    g1Name:"Porte Roi Abdulaziz", g1Desc:"Côté Sud (Tours de l'Horloge / Ajyad) — Accès direct au Mataf.",
+    g79Name:"Porte Roi Fahd", g79Desc:"Côté Ouest (Jabal Omar) — Entrée principale large vers le Mataf.",
+    g11Name:"Porte Al-Safa", g11Desc:"Côté Est — Accès direct au début du Sa'i au Mont Safa.",
+    g45Name:"Porte Al-Fath", g45Desc:"Côté Nord — Accès rapide au Mataf depuis Sha'ab Amir.",
+    g62Name:"Porte de la Omra", g62Desc:"Côté Nord-Ouest — Entrée depuis Tan'im et Jarwal.",
+    g100Name:"Porte Roi Abdullah", g100Desc:"Extension Nord — La plus grande et majestueuse porte du Haram.",
+    secBus:"Gares Routières de Bus Navettes (Makkah)",
+    busMahbasTitle:"Gare Routière Mahbas Al-Jinn", busMahbasDesc:"Dessert Aziziyah via des tunnels réservés vers l'est du Haram (Bab Ali & Marwah).",
+    busKudiTitle:"Gare & Parking de Kudai", busKudiDesc:"Navettes reliant Kudai à la station Ajyad et la Porte Roi Abdulaziz.",
+    busSh شعبTitle:"Gare Routière Sha'ab Amir", busSh شعبDesc:"Dessert les cours nord-est depuis Ma'abdah et Rawdah.",
+    busJabalTitle:"Gare Jabal Al-Ka'bah / Jarwal", busJabalDesc:"Gare connectée à l'extension nord Roi Abdullah.",
+    secTrain:"Gares du TGV Haramain",
+    trainMakkahTitle:"Gare TGV de La Mecque (Rusaifah)", trainMakkahDesc:"Gare principale TGV de La Mecque, reliée au Haram par navettes et taxis.",
+    trainMadinahTitle:"Gare TGV de Médine", trainMadinahDesc:"Gare TGV de Médine, reliée à la Mosquée du Prophète par bus réguliers.",
+    secHelp:"Centres de Secours & Pèlerins Égarés",
+    helpLostTitle:"Bureaux d'Assistance aux Pèlerins Égarés", helpLostDesc:"Bureaux d'aide aux personnes égarées situés près des portes Bab Ali et Roi Fahd.",
+    helpClinicTitle:"Croissant-Rouge & Postes Médicaux", helpClinicDesc:"Soins d'urgence gratuits 24h/24 dans les cours du Haram. Ambulance : 997.",
+    btnOpenMap1:"Ouvrir dans Google Maps", btnOpenMap2:"Ouvrir dans Google Maps",
+    btnOpenMap3:"Ouvrir dans Google Maps", btnOpenMap4:"Ouvrir dans Google Maps",
+    btnOpenMap5:"Ouvrir la Gare de La Mecque", btnOpenMap6:"Ouvrir la Gare de Médine"
+  }}
+};
+
+let currentLang = "ar";
+
+function renderLangSwitcher(){
+  const row = document.getElementById("lang-row");
+  row.innerHTML = "";
+  Object.keys(LANGS).forEach(code=>{
+    const chip = document.createElement("button");
+    chip.className = "lang-chip" + (code===currentLang ? " active":"");
+    chip.textContent = LANGS[code].flag + " " + LANGS[code].label;
+    chip.onclick = ()=> setLang(code);
+    row.appendChild(chip);
+  });
+}
+
+function setLang(code){
+  currentLang = code;
+  const L = LANGS[code];
+  document.documentElement.setAttribute("lang", code);
+  document.documentElement.setAttribute("dir", L.dir);
+  document.body.style.fontFamily = L.font;
+  Object.keys(L.t).forEach(key=>{
+    const el = document.getElementById("t-"+key);
+    if(el) el.innerHTML = L.t[key];
+  });
+  renderLangSwitcher();
+}
+
+(function init(){
+  setLang("ar");
+})();
+</script>
+</body>
+</html>
