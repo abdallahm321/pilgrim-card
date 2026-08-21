@@ -30,11 +30,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   ✏️  نقطة التعديل الوحيدة لبيانات النص: أسفل الصفحة داخل <script>
-       ابحث عن كلمة CONFIG وعدّل القيم بين علامتي التنصيص فقط.
-   ============================================================ */
-
 :root{
   --ink:#1c1c1e;
   --ink-soft:#48484a;
@@ -452,22 +447,42 @@ const LANGS = {
 
 let currentLang = "ar";
 
-function digitsOnly(p){ return p.replace(/[^\d+]/g,""); }
+function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
 function applyStatic(){
-  document.getElementById("v-hotelMakkah").textContent = CONFIG.hotelMakkah.name;
-  document.getElementById("v-roomMakkah").textContent = CONFIG.hotelMakkah.room;
-  document.getElementById("v-hotelMadinah").textContent = CONFIG.hotelMadinah.name;
-  document.getElementById("v-roomMadinah").textContent = CONFIG.hotelMadinah.room;
+  // قراءة المعاملات من الرابط إن وجدت
+  const params = new URLSearchParams(window.location.search);
 
-  document.getElementById("btn-primary").href = "tel:" + digitsOnly(CONFIG.primarySupervisorPhone);
-  document.getElementById("btn-secondary").href = "tel:" + digitsOnly(CONFIG.secondarySupervisorPhone);
-  document.getElementById("btn-mapMakkah").href = CONFIG.hotelMakkah.mapsUrl;
-  document.getElementById("btn-mapMadinah").href = CONFIG.hotelMadinah.mapsUrl;
+  const pPhone = params.get('p1') || window.CONFIG.primarySupervisorPhone;
+  const sPhone = params.get('p2') || window.CONFIG.secondarySupervisorPhone;
+  
+  const makkahName = params.get('hm') || window.CONFIG.hotelMakkah.name;
+  const makkahRoom = params.get('rm') || window.CONFIG.hotelMakkah.room;
+  const makkahMap  = params.get('mm') || window.CONFIG.hotelMakkah.mapsUrl;
 
-  const waNum = digitsOnly(CONFIG.primarySupervisorPhone).replace("+","");
+  const madinahName = params.get('hd') || window.CONFIG.hotelMadinah.name;
+  const madinahRoom = params.get('rd') || window.CONFIG.hotelMadinah.room;
+  const madinahMap  = params.get('md') || window.CONFIG.hotelMadinah.mapsUrl;
+
+  // تحديث نصوص الفنادق والغرف
+  document.getElementById("v-hotelMakkah").textContent = makkahName;
+  document.getElementById("v-roomMakkah").textContent = makkahRoom;
+  document.getElementById("v-hotelMadinah").textContent = madinahName;
+  document.getElementById("v-roomMadinah").textContent = madinahRoom;
+
+  // تحديث روابط الاتصال والخرائط
+  document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
+  document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
+  document.getElementById("btn-mapMakkah").href = makkahMap;
+  document.getElementById("btn-mapMadinah").href = madinahMap;
+
+  // تحديث كود QR للواتساب
+  const waNum = digitsOnly(pPhone).replace("+","");
   const qrData = encodeURIComponent("https://wa.me/" + waNum);
   document.getElementById("qr-img").src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + qrData;
+
+  // حفظ رقم المشرف الفعّال لزر إرسال الموقع
+  window.ACTIVE_PRIMARY_PHONE = pPhone;
 }
 
 function renderLangSwitcher(){
@@ -496,7 +511,8 @@ function setLang(code){
 }
 
 document.getElementById("btn-whatsapp").addEventListener("click", function(){
-  const waNum = digitsOnly(CONFIG.primarySupervisorPhone).replace("+","");
+  const targetPhone = window.ACTIVE_PRIMARY_PHONE || window.CONFIG.primarySupervisorPhone;
+  const waNum = digitsOnly(targetPhone).replace("+","");
   const baseMsg = (currentLang==="ar" ? "السلام عليكم، معي معتمر يحتاج مساعدة. موقعه الحالي: " : "Hello, I have a pilgrim who needs help. Current location: ");
   const btn = this;
   const original = btn.innerHTML;
@@ -527,7 +543,6 @@ function shareCard(){
     navigator.share(shareData).catch(function(){});
     return;
   }
-  // Fallback: open WhatsApp's contact picker with the link pre-filled
   const text = encodeURIComponent(shareData.text + " - " + shareData.url);
   const waWin = window.open("https://wa.me/?text=" + text, "_blank");
   if(!waWin){
@@ -535,13 +550,12 @@ function shareCard(){
   }
 }
 
-/* منع تأخر ظهور التحديثات: يحمّل config.js مع رقم عشوائي في الرابط
-   في كل مرة، فيجبر المتصفح على تجاهل أي نسخة قديمة محفوظة (Cache) */
+/* منع تأخر ظهور التحديثات: يحمّل config.js مع رقم عشوائي في الرابط */
 (function loadConfig(){
   var s = document.createElement("script");
   s.src = "config.js?v=" + Date.now();
   s.onload = init;
-  s.onerror = init; // فشل التحميل؟ القيم الافتراضية أعلاه تكفي لعرض صفحة سليمة
+  s.onerror = init;
   document.head.appendChild(s);
 })();
 
