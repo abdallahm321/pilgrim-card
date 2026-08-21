@@ -21,11 +21,11 @@
 <meta property="og:image" content="https://abdallahm321.github.io/pilgrim-card/og-image.png">
 <meta property="og:url" content="https://abdallahm321.github.io/pilgrim-card/">
 <meta property="og:locale" content="ar_AR">
-<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 :root{
@@ -122,71 +122,34 @@ body{
   margin:14px 20px 4px;
   text-align:center;
 }
-.group-selector-card h3{
-  font-size:15px;
-  color:var(--ink);
-  font-weight:800;
-  margin-bottom:6px;
-}
-.group-selector-card p{
-  font-size:12px;
-  color:var(--ink-soft);
-  line-height:1.5;
-  margin-bottom:12px;
-}
-.group-input-wrapper{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+.group-selector-card h3{ font-size:15px; color:var(--ink); font-weight:800; margin-bottom:6px; }
+.group-selector-card p{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; }
+.group-input-wrapper{ display:flex; flex-direction:column; gap:8px; }
 .group-select, .group-input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:8px;
-  border:1px solid var(--line);
-  font-size:13px;
-  font-family:'Tajawal',sans-serif;
-  outline:none;
-  background:#fff;
+  width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--line);
+  font-size:13px; font-family:'Tajawal',sans-serif; outline:none; background:#fff;
 }
-.group-select:focus, .group-input:focus{ border-color:var(--gold); }
 .group-btn-go{
-  padding:11px;
-  background:var(--ink);
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  border-radius:8px;
-  border:none;
-  cursor:pointer;
-  transition:.15s;
+  padding:11px; background:var(--ink); color:#fff; font-size:14px;
+  font-weight:700; border-radius:8px; border:none; cursor:pointer;
 }
-.group-btn-go:active{ transform:scale(0.98); }
 
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
   padding:12px 18px 4px; background:var(--sand);
 }
 .lang-chip{
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--ink-soft);
-  font-size:12px; font-weight:600;
-  padding:6px 12px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:.15s;
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:12px; font-weight:600; padding:6px 12px; border-radius:999px; cursor:pointer;
 }
 .lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
-.lang-chip:active{ transform:scale(.96); }
 
 .body{ padding:16px 20px 8px; }
 
 .section-title{
   display:flex; align-items:center; gap:8px;
   font-size:14px; font-weight:800; color:var(--ink-soft);
-  margin:18px 0 12px;
-  text-transform:uppercase; letter-spacing:.4px;
+  margin:18px 0 12px; text-transform:uppercase;
 }
 .section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-title span.line{ flex:1; height:1px; background:var(--line); }
@@ -205,54 +168,33 @@ body{
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-guide{ background: linear-gradient(135deg, #b8934a 0%, #9a7632 100%); color:#fff; }
 
-.info-box{
-  background:#fff; border:1px solid var(--line); border-radius:12px;
-  padding:14px; margin-bottom:12px;
-}
+.info-box{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:12px; }
 .info-row{ display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:5px 0; }
 .info-row + .info-row{ border-top:1px dashed var(--line); }
 .info-label{ color:var(--ink-soft); font-weight:500; }
 .info-value{ font-weight:700; text-align:end; }
-.editable{ border-bottom:1px dotted var(--gold); }
 
 .transport-notes-box{
-  background:#fcfaf5;
-  border:1px solid var(--gold-light);
-  border-right:4px solid var(--gold);
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
+  background:#fcfaf5; border:1px solid var(--gold-light);
+  border-right:4px solid var(--gold); border-radius:12px; padding:14px; margin-bottom:12px;
 }
 [dir="ltr"] .transport-notes-box{ border-right:1px solid var(--gold-light); border-left:4px solid var(--gold); }
-
 .bus-badge-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-bottom:8px;
-  border-bottom:1px dashed var(--gold-light);
-  margin-bottom:8px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding-bottom:8px; border-bottom:1px dashed var(--gold-light); margin-bottom:8px;
 }
 .bus-badge-label{ font-weight:800; font-size:13.5px; color:var(--ink); }
 .bus-badge-val{ font-weight:800; font-size:14px; color:var(--maroon); }
-
-.notes-content{
-  font-size:13px;
-  line-height:1.6;
-  color:var(--ink);
-  white-space: pre-line;
-}
+.notes-content{ font-size:13px; line-height:1.6; color:var(--ink); white-space: pre-line; }
 
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
-  counter-increment:step;
-  display:flex; align-items:flex-start; gap:10px;
+  counter-increment:step; display:flex; align-items:flex-start; gap:10px;
   padding:9px 0; font-size:13.5px; line-height:1.65; color:var(--ink);
 }
 .steps-box li + li{ border-top:1px dashed var(--line); }
 .steps-box li::before{
-  content:counter(step);
-  flex:none; width:22px; height:22px; border-radius:50%;
+  content:counter(step); flex:none; width:22px; height:22px; border-radius:50%;
   background:var(--gold); color:#fff; font-size:12px; font-weight:800;
   display:flex; align-items:center; justify-content:center;
 }
@@ -272,61 +214,72 @@ body{
 .footer{ padding:6px 20px 22px; text-align:center; }
 .footer-actions{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
 .footer-actions button{
-  flex:1; max-width:190px;
-  background:none; border:1px solid var(--line); color:var(--ink-soft);
-  font-size:12.5px; padding:9px 14px; border-radius:999px; cursor:pointer;
-}
-.footer-actions .share-btn{ background:var(--ink); color:#fff; border-color:var(--ink); }
-.footer-actions button:active{ transform:scale(.97); }
-.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:12px; }
-
-/* زر تعديل بيانات الرحلة المحسّن */
-.admin-edit-card-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  width:100%;
-  padding:12px 14px;
-  background:#f7f4ec;
-  border:1px solid var(--gold-light);
-  border-radius:10px;
-  color:var(--ink);
-  text-decoration:none;
-  font-size:13px;
+  flex:1; max-width:190px; background:none; border:1px solid var(--line);
+  color:var(--ink-soft); font-size:12.5px; padding:10px 14px; border-radius:999px; cursor:pointer;
   font-weight:700;
-  transition:.15s;
 }
-.admin-edit-card-btn:hover{
-  background:#f1ebe0;
-  border-color:var(--gold);
-}
-.admin-edit-card-btn:active{
-  transform:scale(0.98);
-}
-.admin-edit-card-btn svg{
-  color:var(--gold);
-  flex:none;
+.footer-actions .print-btn-main{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+.admin-edit-card-btn{
+  display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+  padding:12px 14px; background:#f7f4ec; border:1px solid var(--gold-light);
+  border-radius:10px; color:var(--ink); text-decoration:none; font-size:13px; font-weight:700;
 }
 
-/* بطاقة دليل المناسك بالأسفل */
 .bottom-guide-card{
-  width:100%;
-  max-width:460px;
-  background:var(--card);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  border:1px solid var(--line);
-  padding:14px 16px;
-  text-align:center;
+  width:100%; max-width:460px; background:var(--card); border-radius:var(--radius);
+  box-shadow:var(--shadow); border:1px solid var(--line); padding:14px 16px; text-align:center;
 }
 
-html[dir="ltr"] .info-value{ text-align:start; }
+/* ==================================================================
+   نافذة خيارات الطباعة والتصدير المنبثقة (Modal)
+   ================================================================== */
+.print-modal-overlay{
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.65); backdrop-filter:blur(4px);
+  display:none; align-items:center; justify-content:center;
+  z-index:9999; padding:14px;
+}
+.print-modal-box{
+  background:#fff; border-radius:18px; width:100%; max-width:480px;
+  padding:22px 20px; box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  max-height:90vh; overflow-y:auto; position:relative;
+}
+.modal-close-btn{
+  position:absolute; top:16px; left:16px; background:none; border:none;
+  font-size:20px; font-weight:bold; cursor:pointer; color:#888;
+}
+[dir="ltr"] .modal-close-btn{ left:auto; right:16px; }
+
+.modal-header{ text-align:center; margin-bottom:16px; }
+.modal-header h3{ font-size:17px; font-weight:800; color:var(--ink); }
+.modal-header p{ font-size:12px; color:#666; margin-top:2px; }
+
+.print-option-card{
+  border:1px solid var(--line); border-radius:12px; padding:14px;
+  margin-bottom:12px; background:#fbf9f4; transition:.15s;
+}
+.print-option-card:hover{ border-color:var(--gold); }
+.print-option-card h4{ font-size:14px; font-weight:800; color:var(--ink); display:flex; align-items:center; gap:6px; }
+.print-option-card p{ font-size:11.5px; color:#666; line-height:1.5; margin:4px 0 10px; }
+
+.modal-btn-row{ display:flex; gap:8px; }
+.modal-action-btn{
+  flex:1; padding:9px 12px; border-radius:8px; font-size:12.5px;
+  font-weight:700; border:none; cursor:pointer; display:inline-flex;
+  align-items:center; justify-content:center; gap:6px; transition:.15s;
+}
+.btn-primary-m{ background:var(--ink); color:#fff; }
+.btn-gold-m{ background:var(--gold); color:#fff; }
+.btn-green-m{ background:var(--green); color:#fff; }
+
+/* بطاقة كارت الشركة الدائم (تُستخدم للطباعة المجمعة) */
+#print-grid-container{ display:none; }
 
 @media print{
-  body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-edit-card-btn, .bottom-guide-card, .group-selector-card{ display:none !important; }
-  .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
+  body * { visibility: hidden; }
+  #print-area, #print-area * { visibility: visible; }
+  #print-area { position: absolute; left: 0; top: 0; width: 100%; }
 }
 </style>
 </head>
@@ -377,15 +330,9 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <!-- الاتصال الفوري -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionContact">التواصل الفوري مع المشرفين</span><span class="line"></span></div>
 
-    <a href="#" id="btn-primary" class="btn btn-primary">
-      <span id="t-btnPrimary">اتصال بالمشرف الأساسي</span>
-    </a>
-    <a href="#" id="btn-secondary" class="btn btn-secondary">
-      <span id="t-btnSecondary">اتصال بالمشرف الاحتياطي</span>
-    </a>
-    <button id="btn-whatsapp" class="btn btn-whatsapp">
-      <span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span>
-    </button>
+    <a href="#" id="btn-primary" class="btn btn-primary"><span id="t-btnPrimary">اتصال بالمشرف الأساسي</span></a>
+    <a href="#" id="btn-secondary" class="btn btn-secondary"><span id="t-btnSecondary">اتصال بالمشرف الاحتياطي</span></a>
+    <button id="btn-whatsapp" class="btn btn-whatsapp"><span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span></button>
 
     <!-- الإقامة -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
@@ -446,12 +393,11 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
   <div class="footer">
     <div class="footer-actions">
-      <button class="print-btn" onclick="window.print()">🖨️ <span id="t-footerPrint">طباعة البطاقة</span></button>
-      <button class="share-btn" onclick="shareCard()">📤 <span id="t-footerShare">مشاركة البطاقة</span></button>
+      <button class="print-btn-main" onclick="openPrintModal()">🖨️ <span id="t-footerPrint">خيارات الطباعة والتصدير</span></button>
+      <button class="share-btn" onclick="shareCard()">📤 <span id="t-footerShare">مشاركة الرابط</span></button>
     </div>
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
     
-    <!-- زر تعديل البيانات المحسن للمشرفين -->
     <div>
       <a href="generator.html" id="admin-edit-btn" class="admin-edit-card-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -469,18 +415,55 @@ html[dir="ltr"] .info-value{ text-align:start; }
   </a>
 </div>
 
+<!-- 3. نافذة خيارات الطباعة والتصدير الشاملة (Modal) -->
+<div class="print-modal-overlay" id="print-modal">
+  <div class="print-modal-box">
+    <button class="modal-close-btn" onclick="closePrintModal()">✕</button>
+    
+    <div class="modal-header">
+      <h3>🖨️ مركز الطباعة وتصدير الكروت</h3>
+      <p>اختر صيغة وشكل البطاقة المناسبة للمعتمر أو لشركة السياحة</p>
+    </div>
+
+    <!-- الخيار 1: للمعتمر الفردي -->
+    <div class="print-option-card">
+      <h4>👤 1. بطاقة المعتمر الشخصية الحالية</h4>
+      <p>طباعة أو حفظ بيانات الفندق الحالي ورقم الغرفة وأرقام المشرفين الخاصة بالرحلة الحالية.</p>
+      <div class="modal-btn-row">
+        <button class="modal-action-btn btn-primary-m" onclick="printPersonalCard()">🖨️ طباعة البطاقة</button>
+        <button class="modal-action-btn btn-gold-m" onclick="downloadCardImage()">🖼️ حفظ كصورة</button>
+      </div>
+    </div>
+
+    <!-- الخيار 2: خلفية شاشة القفل للجوال -->
+    <div class="print-option-card">
+      <h4>📱 2. خلفية شاشة قفل الجوال (Lock Screen)</h4>
+      <p>صورة بأبعاد الهاتف تحتوي على الباركود وأرقام الطوارئ ليتم مسحها حتى لو كان هاتف المعتمر مغلقاً.</p>
+      <div class="modal-btn-row">
+        <button class="modal-action-btn btn-green-m" onclick="generateLockScreen()">📲 توليد خلفية الشاشة</button>
+      </div>
+    </div>
+
+    <!-- الخيار 3: لشركات السياحة (كروت بلاستيكية دائمة) -->
+    <div class="print-option-card" style="border-right: 4px solid var(--gold);">
+      <h4>🏢 3. كروت الشركات الذكية الدائمة (PVC / A4)</h4>
+      <p>كروت مختصرة باسم الشركة وكود الفوج والـ QR فقط (بدون كتابة أسماء الفنادق) لتصلح لجميع الرحلات والمواسم دون إعادة طباعة.</p>
+      <div class="modal-btn-row">
+        <button class="modal-action-btn btn-primary-m" onclick="printCompanyCardSingle()">💳 كارت بادج مفرد</button>
+        <button class="modal-action-btn btn-gold-m" onclick="printCompanyBatchA4()">📄 طباعة مجمعة (A4 Sheet)</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- منطقة خفية مخصصة للطباعة النظيفة -->
+<div id="print-area"></div>
+
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwk1Uw_1_Dh-5vxOHJGN7tBP_GKhJX7V5SFIgTJXtynamC6ikoU4KTFf2r16tHCCOT3/exec";
 
-window.CONFIG = {
-  companyName: "منصة بطاقة المعتمر الذكية",
-  busNo: "—",
-  notes: "",
-  primarySupervisorPhone: "+201004509977",
-  secondarySupervisorPhone: "+201004509977",
-  hotelMakkah:  { name: "[ غير محدد ]", room: "—", mapsUrl: "https://maps.google.com" },
-  hotelMadinah: { name: "[ غير محدد ]", room: "—", mapsUrl: "https://maps.google.com" }
-};
+window.CURRENT_RECORD = null;
 
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
@@ -505,154 +488,23 @@ const LANGS = {
     sectionQr:"مسح سريع للتواصل", qrHint:"امسح الرمز بكاميرا الجوال لفتح محادثة واتساب مباشرة مع المشرف الأساسي دون الحاجة لكتابة الرقم.",
     sectionEmergency:"أرقام الطوارئ الرسمية (السعودية)",
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
-    footerPrint:"طباعة البطاقة", footerShare:"مشاركة البطاقة", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
+    footerPrint:"خيارات الطباعة والتصدير", footerShare:"مشاركة الرابط", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
     adminEditBtn:"تعديل بيانات هذه الرحلة في لوحة التحكم",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع."
-  }},
-  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
-    cardTitle:"Pilgrim ID & Emergency Card",
-    cardSubtitle:"If the holder of this card is lost or needs help, please contact the supervisor immediately using the buttons below.",
-    selectorTitle:"🔍 Select or Enter Group Code to View Card",
-    selectorDesc:"Please select your group or enter the code printed on your card to view supervisor details and hotel locations.",
-    sectionContact:"Contact the Supervisors",
-    btnPrimary:"Call Primary Supervisor", btnSecondary:"Call Backup Supervisor",
-    btnWhatsapp:"Send My Location via WhatsApp",
-    btnUmrahGuide:"📖 Umrah Steps & Supplications Guide",
-    sectionLostSteps:"If You Get Lost",
-    step1:"Stay where you are and avoid moving further — it's easier to be found if you stay put.",
-    step2:"Call the primary or backup supervisor immediately using the buttons above.",
-    step3:"If you can't reach them, go to the nearest security officer or information point and say you're lost from your group.",
-    step4:"Show your group/ID card to whoever is helping you, so they can identify your group.",
-    step5:"Remember a well-known meeting point in the mosque (such as a specific gate) as a reference.",
-    sectionAccommodation:"Accommodation", labelHotelMakkah:"Makkah Hotel", labelRoomMakkah:"Room Number",
-    labelHotelMadinah:"Madinah Hotel", labelRoomMadinah:"Room Number",
-    btnMapMakkah:"Open Makkah Hotel Location", btnMapMadinah:"Open Madinah Hotel Location",
-    sectionTransportNotes:"Bus & Group Instructions", labelBusNo:"🚌 Bus Number:",
-    sectionQr:"Quick Scan to Contact", qrHint:"Scan with your phone camera to open a WhatsApp chat with the primary supervisor instantly.",
-    sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
-    emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
-    footerPrint:"Print Card", footerShare:"Share Card", footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
-    adminEditBtn:"Edit Group Data in Control Panel",
-    locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it."
-  }},
-  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
-    cardTitle:"معتمر شناختی و ہنگامی کارڈ",
-    cardSubtitle:"اگر اس کارڈ کا حامل راستہ بھول جائے یا مدد کی ضرورت ہو تو نیچے دیے گئے بٹنوں سے فوری طور پر نگران سے رابطہ کریں۔",
-    selectorTitle:"🔍 کارڈ دیکھنے کے لیے گروپ منتخب کریں یا کوڈ درج کریں",
-    selectorDesc:"نگران اور ہوٹل کے مقامات دیکھنے کے لیے براہ کرم فہرست سے اپنا گروپ منتخب کریں یا کارڈ کا کوڈ درج کریں۔",
-    sectionContact:"نگران سے فوری رابطہ",
-    btnPrimary:"بنیادی نگران کو کال کریں", btnSecondary:"متبادل نگران کو کال کریں",
-    btnWhatsapp:"واٹس ایپ پر اپنا محل وقوع بھیجیں",
-    btnUmrahGuide:"📖 عمرہ کے مناسک اور دعاؤں کی گائیڈ",
-    sectionLostSteps:"اگر آپ راستہ بھول جائیں تو کیا کریں؟",
-    step1:"جہاں ہیں وہیں رکیں اور زیادہ حرکت نہ کریں — اگر آپ ایک جگہ رہیں تو آپ کو ڈھونڈنا آسان ہوگا۔",
-    step2:"اوپر دیے گئے بٹنوں سے فوری طور پر بنیادی یا متبادل نگران کو کال کریں۔",
-    step3:"اگر رابطہ نہ ہو سکے تو قریب ترین سیکیورٹی اہلکار یا معلوماتی مرکز کے پاس جائیں اور بتائیں کہ آپ اپنے گروپ سے بچھڑ گئے ہیں۔",
-    step4:"اپنی مدد کرنے والے کو گروپ/شناختی کارڈ دکھائیں تاکہ وہ آپ کا گروپ پہچان سکے۔",
-    step5:"حرم میں کسی معروف مقام (جیسے مخصوص دروازہ) کو یاد رکھیں بطور حوالہ۔",
-    sectionAccommodation:"رہائش", labelHotelMakkah:"مکہ ہوٹل", labelRoomMakkah:"کمرہ نمبر",
-    labelHotelMadinah:"مدینہ ہوٹل", labelRoomMadinah:"کمرہ نمبر",
-    btnMapMakkah:"مکہ ہوٹل کا مقام کھولیں", btnMapMadinah:"مدینہ ہوٹل کا مقام کھولیں",
-    sectionTransportNotes:"بس اور ہدایات", labelBusNo:"🚌 بس نمبر:",
-    sectionQr:"فوری رابطے کے لیے اسکین کریں", qrHint:"فوری طور پر بنیادی نگران کے ساتھ واٹس ایپ چیٹ کھولنے کے لیے کیمرے سے اسکین کریں۔",
-    sectionEmergency:"سرکاری ہنگامی نمبرز (سعودی عرب)",
-    emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
-    footerPrint:"کارڈ پرنٹ کریں", footerShare:"کارڈ شیئر کریں", footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
-    adminEditBtn:"کنٹرول پینل میں اس گروپ کا ڈیٹا تبدیل کریں",
-    locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔"
-  }},
-  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
-    cardTitle:"Kartu Identitas & Darurat Jamaah",
-    cardSubtitle:"Jika pemegang kartu ini tersesat atau butuh bantuan, segera hubungi pembimbing melalui tombol di bawah.",
-    selectorTitle:"🔍 Pilih atau Masukkan Kode Rombongan",
-    selectorDesc:"Silakan pilih rombongan dari daftar atau masukkan kode pada kartu Anda untuk melihat detail akomodasi.",
-    sectionContact:"Hubungi Pembimbing",
-    btnPrimary:"Telepon Pembimbing Utama", btnSecondary:"Telepon Pembimbing Cadangan",
-    btnWhatsapp:"Kirim Lokasi Saya via WhatsApp",
-    btnUmrahGuide:"📖 Panduan Manasik & Doa Umrah",
-    sectionLostSteps:"Jika Anda Tersesat",
-    step1:"Tetap di tempat Anda dan jangan banyak bergerak — lebih mudah ditemukan jika Anda diam.",
-    step2:"Segera telepon pembimbing utama atau cadangan menggunakan tombol di atas.",
-    step3:"Jika tidak bisa dihubungi, pergi ke petugas keamanan atau pusat informasi terdekat dan katakan Anda tersesat dari rombongan.",
-    step4:"Tunjukkan kartu kelompok/identitas Anda kepada yang membantu agar mereka bisa mengenali kelompok Anda.",
-    step5:"Ingat titik kumpul yang dikenal di Masjid (misalnya pintu tertentu) sebagai referensi.",
-    sectionAccommodation:"Akomodasi", labelHotelMakkah:"Hotel Makkah", labelRoomMakkah:"Nomor Kamar",
-    labelHotelMadinah:"Hotel Madinah", labelRoomMadinah:"Nomor Kamar",
-    btnMapMakkah:"Buka Lokasi Hotel Makkah", btnMapMadinah:"Buka Lokasi Hotel Madinah",
-    sectionTransportNotes:"Bus & Petunjuk Rombongan", labelBusNo:"🚌 Nomor Bus:",
-    sectionQr:"Pindai Cepat untuk Kontak", qrHint:"Pindai dengan kamera ponsel untuk langsung membuka WhatsApp dengan pembimbing utama.",
-    sectionEmergency:"Nomor Darurat Resmi (Arab Saudi)",
-    emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah (Ambulans)", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
-    footerPrint:"Cetak Kartu", footerShare:"Bagikan Kartu", footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
-    adminEditBtn:"Edit Data Grup di Panel Kontrol",
-    locating:"Mencari lokasi Anda...", locFail:"Lokasi tidak ditemukan — WhatsApp akan terbuka tanpa lokasi."
-  }},
-  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
-    cardTitle:"Carte d'Identité & d'Urgence du Pèlerin",
-    cardSubtitle:"Si le porteur de cette carte est perdu ou a besoin d'aide, contactez immédiatement le superviseur via les boutons ci-dessous.",
-    selectorTitle:"🔍 Sélectionnez ou Entrez le Code du Groupe",
-    selectorDesc:"Veuillez sélectionner votre groupe ou entrer le code imprimé sur votre carte pour voir les informations.",
-    sectionContact:"Contacter les Superviseurs",
-    btnPrimary:"Appeler le Superviseur Principal", btnSecondary:"Appeler le Superviseur Suppléant",
-    btnWhatsapp:"Envoyer ma position via WhatsApp",
-    btnUmrahGuide:"📖 Guide des Rites de la Omra & Invocations",
-    sectionLostSteps:"Que Faire en Cas de Perte",
-    step1:"Restez où vous êtes et évitez de trop bouger — il est plus facile de vous retrouver si vous ne bougez pas.",
-    step2:"Appelez immédiatement le superviseur principal ou suppléant via les boutons ci-dessus.",
-    step3:"Si vous ne pouvez pas les joindre, allez au poste de sécurité ou d'information le plus proche et dites que vous êtes perdu.",
-    step4:"Montrez votre carte de groupe/identité à la personne qui vous aide pour qu'elle identifie votre groupe.",
-    step5:"Retenez un point de rassemblement connu dans la mosquée (comme une porte précise) comme repère.",
-    sectionAccommodation:"Hébergement", labelHotelMakkah:"Hôtel à La Mecque", labelRoomMakkah:"Numéro de Chambre",
-    labelHotelMadinah:"Hôtel à Médine", labelRoomMadinah:"Numéro de Chambre",
-    btnMapMakkah:"Ouvrir la Localisation (La Mecque)", btnMapMadinah:"Ouvrir la Localisation (Médine)",
-    sectionTransportNotes:"Bus et Instructions", labelBusNo:"🚌 Numéro de Bus:",
-    sectionQr:"Scan Rapide pour Contacter", qrHint:"Scannez avec l'appareil photo pour ouvrir directement une conversation WhatsApp avec le superviseur principal.",
-    sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
-    emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
-    footerPrint:"Imprimer la Carte", footerShare:"Partager la Carte", footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
-    adminEditBtn:"Modifier les données dans le panneau de contrôle",
-    locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle."
-  }},
-  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
-    cardTitle:"Hacı/Umreci Kimlik ve Acil Durum Kartı",
-    cardSubtitle:"Bu kartın sahibi kaybolur veya yardıma ihtiyaç duyarsa, lütfen aşağıdaki butonlardan derhal sorumlu ile iletişime geçin.",
-    selectorTitle:"🔍 Kartı Görüntülemek İçin Grup Seçin veya Kod Girin",
-    selectorDesc:"Sorumlu ve otel bilgilerini görmek için lütfen listeden grubu seçin veya kartınızdaki kodu girin.",
-    sectionContact:"Sorumlularla İletişim",
-    btnPrimary:"Ana Sorumluyu Ara", btnSecondary:"Yedek Sorumluyu Ara",
-    btnWhatsapp:"Konumumu WhatsApp ile Gönder",
-    btnUmrahGuide:"📖 Umre Rehberi ve Dualar",
-    sectionLostSteps:"Kaybolursanız Ne Yapmalısınız?",
-    step1:"Bulunduğunuz yerde kalın ve fazla hareket etmeyin — sabit kalırsanız bulunmanız daha kolay olur.",
-    step2:"Yukarıdaki butonları kullanarak hemen ana veya yedek sorumluyu arayın.",
-    step3:"Ulaşamazsanız en قريب güvenlik görevlisine veya bilgi noktasına gidip grubunuzdan ayrı düştüğünüzü söyleyin.",
-    step4:"Size yardım edene grup/kimlik kartınızı gösterin ki grubunuzu tanıyabilsin.",
-    step5:"Camideki bilinen bir buluşma noktasını (belirli bir kapı gibi) referans olarak hatırlayın.",
-    sectionAccommodation:"Konaklama", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
-    labelHotelMadinah:"Medine Oteli", labelRoomMadinah:"Oda No",
-    btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
-    sectionTransportNotes:"Otobüs ve Talimatlar", labelBusNo:"🚌 Otobüs No:",
-    sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti açmak için telefon kamerasıyla tarayın.",
-    sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
-    emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
-    footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
-    adminEditBtn:"Kontrol Panelinde Grup Verilerini Düzenle",
-    locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak."
   }}
 };
 
 let currentLang = "ar";
-
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
 function renderUI(data){
-  document.getElementById("v-companyName").textContent = "🏢 " + (data.company_name || window.CONFIG.companyName);
+  window.CURRENT_RECORD = data;
+  document.getElementById("v-companyName").textContent = "🏢 " + (data.company_name || "منصة بطاقة المعتمر الذكية");
   document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
   document.getElementById("v-roomMakkah").textContent = data.rm || "—";
   document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
   document.getElementById("v-roomMadinah").textContent = data.rd || "—";
-
-  document.getElementById("v-busNo").textContent = data.bus_no || window.CONFIG.busNo || "—";
+  document.getElementById("v-busNo").textContent = data.bus_no || "—";
   
   const notesEl = document.getElementById("v-notes");
   if(data.notes && String(data.notes).trim() !== ""){
@@ -662,13 +514,13 @@ function renderUI(data){
     notesEl.textContent = "لا توجد ملاحظات إضافية مسجلة.";
   }
 
-  const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
-  const sPhone = data.p2 || window.CONFIG.secondarySupervisorPhone;
+  const pPhone = data.p1 || "+201004509977";
+  const sPhone = data.p2 || "+201004509977";
 
   document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
   document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
-  document.getElementById("btn-mapMakkah").href = data.mm || window.CONFIG.hotelMakkah.mapsUrl;
-  document.getElementById("btn-mapMadinah").href = data.md || window.CONFIG.hotelMadinah.mapsUrl;
+  document.getElementById("btn-mapMakkah").href = data.mm || "https://maps.google.com";
+  document.getElementById("btn-mapMadinah").href = data.md || "https://maps.google.com";
 
   const waNum = digitsOnly(pPhone).replace("+","");
   document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
@@ -693,19 +545,10 @@ async function fetchGroupsList(){
   } catch(e){}
 }
 
-function onSelectGroup(val){
-  if(val){
-    window.location.href = `?g=${encodeURIComponent(val)}`;
-  }
-}
-
+function onSelectGroup(val){ if(val) window.location.href = `?g=${encodeURIComponent(val)}`; }
 function goToManualGroup(){
   const val = document.getElementById('group-manual-input').value.trim().toUpperCase();
-  if(val){
-    window.location.href = `?g=${encodeURIComponent(val)}`;
-  } else {
-    alert("يرجى إدخال كود الفوج أولاً!");
-  }
+  if(val) window.location.href = `?g=${encodeURIComponent(val)}`;
 }
 
 async function applyStatic(){
@@ -714,9 +557,7 @@ async function applyStatic(){
   const groupId = rawGroupId ? rawGroupId.trim().toUpperCase() : null;
 
   const editBtn = document.getElementById("admin-edit-btn");
-  if(editBtn){
-    editBtn.href = "generator.html" + (window.location.search || "");
-  }
+  if(editBtn) editBtn.href = "generator.html" + (window.location.search || "");
 
   if (!groupId) {
     document.getElementById("group-selector-box").style.display = "block";
@@ -727,101 +568,173 @@ async function applyStatic(){
   document.getElementById("group-selector-box").style.display = "none";
   try {
     const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
-      method: "GET",
-      redirect: "follow"
+      method: "GET", redirect: "follow"
     });
     const data = await res.json();
-    
     if (data && !data.error) {
       renderUI(data);
-      return;
     } else {
       document.getElementById("group-selector-box").style.display = "block";
-      alert("❌ كود الفوج غير موجود بالشيت، يرجى اختياره من القائمة.");
       fetchGroupsList();
     }
-  } catch(err) {
-    console.warn("خطأ في جلب بيانات السحابة:", err);
-  }
+  } catch(err){}
 }
 
-function renderLangSwitcher(){
-  const row = document.getElementById("lang-row");
-  row.innerHTML = "";
-  Object.keys(LANGS).forEach(code=>{
-    const chip = document.createElement("button");
-    chip.className = "lang-chip" + (code===currentLang ? " active":"");
-    chip.textContent = LANGS[code].flag + " " + LANGS[code].label;
-    chip.onclick = ()=> setLang(code);
-    row.appendChild(chip);
+/* ==================================================================
+   دوال الطباعة والتصدير المتطورة
+   ================================================================== */
+function openPrintModal(){ document.getElementById('print-modal').style.display = 'flex'; }
+function closePrintModal(){ document.getElementById('print-modal').style.display = 'none'; }
+
+// 1. طباعة البطاقة الشخصية
+function printPersonalCard(){
+  closePrintModal();
+  window.print();
+}
+
+// 2. تنزيل البطاقة كصورة عادية
+function downloadCardImage(){
+  closePrintModal();
+  const card = document.getElementById("card");
+  html2canvas(card, { scale: 2 }).then(canvas => {
+    const link = document.createElement("a");
+    link.download = `بطاقة_المعتمر_${window.CURRENT_RECORD?.group_id || 'رحلة'}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
   });
 }
 
-function setLang(code){
-  currentLang = code;
-  const L = LANGS[code];
-  document.documentElement.setAttribute("lang", code);
-  document.documentElement.setAttribute("dir", L.dir);
-  document.body.style.fontFamily = L.font;
-  Object.keys(L.t).forEach(key=>{
-    const el = document.getElementById("t-"+key);
-    if(el) el.textContent = L.t[key];
-  });
-  renderLangSwitcher();
+// 3. توليد خلفية شاشة القفل للجوال
+function generateLockScreen(){
+  closePrintModal();
+  const gId = window.CURRENT_RECORD?.group_id || "A1";
+  const comp = window.CURRENT_RECORD?.company_name || "شركة السياحة";
+  const phone = window.CURRENT_RECORD?.p1 || "";
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(window.location.href)}`;
+
+  const temp = document.createElement("div");
+  temp.style.width = "400px";
+  temp.style.height = "750px";
+  temp.style.background = "linear-gradient(180deg, #1c1c1e 0%, #2f5233 100%)";
+  temp.style.color = "#fff";
+  temp.style.display = "flex";
+  temp.style.flexDirection = "column";
+  temp.style.alignItems = "center";
+  temp.style.justifyContent = "space-between";
+  temp.style.padding = "40px 20px";
+  temp.style.fontFamily = "'Tajawal', sans-serif";
+  temp.style.textAlign = "center";
+  temp.style.position = "fixed";
+  temp.style.top = "-9999px";
+
+  temp.innerHTML = `
+    <div>
+      <h2 style="font-size:20px; color:#e8d9b5; margin-bottom:4px;">${comp}</h2>
+      <div style="font-size:14px; opacity:0.85;">بطاقة طوارئ المعتمر | كود الفوج: ${gId}</div>
+    </div>
+    <div style="background:#fff; padding:12px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+      <img src="${qrUrl}" width="180" height="180" style="display:block;">
+      <div style="color:#1c1c1e; font-size:12px; font-weight:bold; margin-top:6px;">امسح الرمز لبيانات السكن والمشرف</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.1); padding:12px 18px; border-radius:10px; width:100%;">
+      <div style="font-size:13px; font-weight:bold;">رقم طوارئ المشرف: ${phone}</div>
+      <div style="font-size:11.5px; opacity:0.8; margin-top:4px;">طوارئ المملكة: 911 | الإسعاف: 997</div>
+    </div>
+  `;
+
+  document.body.appendChild(temp);
+  setTimeout(() => {
+    html2canvas(temp, { scale: 2 }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = `خلفية_شاشة_القفل_${gId}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      document.body.removeChild(temp);
+    });
+  }, 500);
 }
 
-document.getElementById("btn-whatsapp").addEventListener("click", function(){
-  const targetPhone = window.ACTIVE_PRIMARY_PHONE || window.CONFIG.primarySupervisorPhone;
-  const waNum = digitsOnly(targetPhone).replace("+","");
-  const baseMsg = (currentLang==="ar" ? "السلام عليكم، معي معتمر يحتاج مساعدة. موقعه الحالي: " : "Hello, I have a pilgrim who needs help. Current location: ");
-  const btn = this;
-  const original = btn.innerHTML;
-  btn.innerHTML = "<span>" + LANGS[currentLang].t.locating + "</span>";
+// 4. طباعة كارت الشركة المختصر الدائم (مفرد)
+function printCompanyCardSingle(){
+  closePrintModal();
+  const gId = window.CURRENT_RECORD?.group_id || "A1";
+  const comp = window.CURRENT_RECORD?.company_name || "شركة السياحة";
+  const pUrl = window.location.href;
+  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pUrl)}`;
 
-  if(!navigator.geolocation){
-    window.open("https://wa.me/"+waNum+"?text="+encodeURIComponent(baseMsg + "(" + (currentLang==="ar"?"غير متاح":"unavailable") + ")"), "_blank");
-    btn.innerHTML = original;
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(function(pos){
-    const link = "https://maps.google.com/?q=" + pos.coords.latitude + "," + pos.coords.longitude;
-    window.open("https://wa.me/"+waNum+"?text="+encodeURIComponent(baseMsg + link), "_blank");
-    btn.innerHTML = original;
-  }, function(){
-    window.open("https://wa.me/"+waNum+"?text="+encodeURIComponent(baseMsg + LANGS[currentLang].t.locFail), "_blank");
-    btn.innerHTML = original;
-  }, { timeout: 8000 });
-});
+  const printArea = document.getElementById("print-area");
+  printArea.innerHTML = `
+    <div style="width:340px; height:210px; border:2px solid #b8934a; border-radius:12px; padding:14px; background:#fff; font-family:'Tajawal',sans-serif; display:flex; flex-direction:column; justify-content:space-between; margin:20px auto; page-break-inside:avoid; direction:rtl;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:6px;">
+        <div style="font-weight:800; font-size:14px; color:#1c1c1e;">🏢 ${comp}</div>
+        <div style="background:#b8934a; color:#fff; padding:2px 8px; border-radius:4px; font-weight:bold; font-size:12px;">فوج: ${gId}</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; margin:8px 0;">
+        <img src="${qr}" width="75" height="75" style="border:1px solid #ccc; border-radius:6px;">
+        <div style="font-size:11px; color:#444; line-height:1.4;">
+          <div><strong>اسم المعتمر:</strong> ________________</div>
+          <div style="margin-top:6px;"><strong>رقم الغرفة:</strong> _____ | <strong>الحافلة:</strong> ___</div>
+          <div style="margin-top:6px; font-size:10px; color:#888;">امسح الباركود للاتصال بالمشرف وموقع الفندق</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; background:#f9f9f9; padding:4px 8px; border-radius:4px; font-weight:bold;">
+        <span>شرطة: 911</span>
+        <span>إسعاف: 997</span>
+        <span>وزارة الحج: 1966</span>
+      </div>
+    </div>
+  `;
+  window.print();
+}
+
+// 5. طباعة مجمعة 8 كروت في صفحة A4
+function printCompanyBatchA4(){
+  closePrintModal();
+  const gId = window.CURRENT_RECORD?.group_id || "A1";
+  const comp = window.CURRENT_RECORD?.company_name || "شركة السياحة";
+  const pUrl = window.location.href;
+  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(pUrl)}`;
+
+  let singleCardHTML = `
+    <div style="width:48%; height:185px; border:1px dashed #b8934a; border-radius:8px; padding:10px; background:#fff; font-family:'Tajawal',sans-serif; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; margin-bottom:12px; direction:rtl;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ddd; padding-bottom:4px;">
+        <div style="font-weight:800; font-size:12px; color:#1c1c1e; overflow:hidden; white-space:nowrap;">🏢 ${comp}</div>
+        <div style="background:#1c1c1e; color:#fff; padding:1px 6px; border-radius:4px; font-weight:bold; font-size:11px;">${gId}</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="${qr}" width="65" height="65" style="border:1px solid #ccc; border-radius:4px;">
+        <div style="font-size:10px; color:#333; line-height:1.4; flex:1;">
+          <div>الاسم: ___________________</div>
+          <div style="margin-top:4px;">الغرفة: _____ | باص: ____</div>
+          <div style="margin-top:4px; font-size:9px; color:#666;">امسح لمعرفة موقع الفندق والمشرفين</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:9px; color:#555; border-top:1px dashed #eee; padding-top:2px;">
+        <span>طوارئ: 911</span>
+        <span>إسعاف: 997</span>
+        <span>حج: 1966</span>
+      </div>
+    </div>
+  `;
+
+  let gridHTML = `<div style="display:flex; flex-wrap:wrap; justify-content:space-between; width:100%; padding:10px; box-sizing:border-box;">`;
+  for(let i=0; i<8; i++){ gridHTML += singleCardHTML; }
+  gridHTML += `</div>`;
+
+  const printArea = document.getElementById("print-area");
+  printArea.innerHTML = gridHTML;
+  window.print();
+}
 
 function shareCard(){
-  const shareData = {
-    title: document.title,
-    text: LANGS[currentLang].t.cardTitle,
-    url: window.location.href
-  };
-  if (navigator.share){
-    navigator.share(shareData).catch(function(){});
-    return;
-  }
-  const text = encodeURIComponent(shareData.text + " - " + shareData.url);
-  const waWin = window.open("https://wa.me/?text=" + text, "_blank");
-  if(!waWin){
-    navigator.clipboard && navigator.clipboard.writeText(shareData.url);
-  }
+  const shareData = { title: document.title, text: "بطاقة تعريف وطوارئ المعتمر", url: window.location.href };
+  if (navigator.share){ navigator.share(shareData).catch(()=>{}); return; }
+  navigator.clipboard && navigator.clipboard.writeText(shareData.url).then(()=>alert("📋 تم نسخ الرابط!"));
 }
 
-(function loadConfig(){
-  var s = document.createElement("script");
-  s.src = "config.js?v=" + Date.now();
-  s.onload = init;
-  s.onerror = init;
-  document.head.appendChild(s);
-})();
-
-function init(){
+(function init(){
   applyStatic();
-  setLang("ar");
-}
+})();
 </script>
 </body>
 </html>
