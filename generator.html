@@ -137,16 +137,8 @@ textarea{ min-height:75px; resize:vertical; }
     </div>
   </div>
 
-  <div class="grid-2">
-    <div>
-      <label>اسم شركة السياحة / الحملة:</label>
-      <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
-    </div>
-    <div>
-      <label>رقم الحافلة / الباص:</label>
-      <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
-    </div>
-  </div>
+  <label>اسم شركة السياحة / الحملة:</label>
+  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
 
   <div class="section-tag">أرقام هواتف المشرفين</div>
   <label>رقم المشرف الأساسي (بصيغة دولية):</label>
@@ -183,7 +175,11 @@ textarea{ min-height:75px; resize:vertical; }
   <label>رابط خرائط جوجل لفندق المدينة:</label>
   <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
 
-  <div class="section-tag">ملاحظات وتوجيهات خاصة للفوج</div>
+  <div class="section-tag">الحافلة وتوجيهات الرحلة</div>
+  <label>رقم الحافلة / الباص:</label>
+  <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
+
+  <label>ملاحظات وتوجيهات خاصة للفوج:</label>
   <textarea id="notes" placeholder="اكتب هنا أي مواعيد تحرك، نقطة تجمع بالحرم، أو أرقام غرف الأطباء..."></textarea>
 
   <button class="btn-save" id="save-btn" onclick="saveToCloud()">
