@@ -3,66 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>لوحة إنشاء وتخصيص بطاقات المعتمرين</title>
+<title>إدارة وتعديل بطاقات المعتمرين</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-:root{
-  --ink:#1c1c1e;
-  --sand:#f7f3ea;
-  --card:#fffdf8;
-  --gold:#b8934a;
-  --line:#e7ded0;
-  --green:#2f5233;
-}
+:root{ --ink:#1c1c1e; --sand:#f7f3ea; --card:#fffdf8; --gold:#b8934a; --line:#e7ded0; --green:#2f5233; }
 *{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
-body{
-  background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
-  color:var(--ink);
-  padding:20px 12px 60px;
-  display:flex;
-  justify-content:center;
-  min-height:100vh;
-}
-.box{
-  width:100%;
-  max-width:480px;
-  background:var(--card);
-  border-radius:16px;
-  border:1px solid var(--line);
-  padding:22px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.06);
-}
+body{ background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%); color:var(--ink); padding:20px 12px 60px; display:flex; justify-content:center; min-height:100vh; }
+.box{ width:100%; max-width:500px; background:var(--card); border-radius:16px; border:1px solid var(--line); padding:22px; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
 h2{ font-size:18px; font-weight:800; margin-bottom:6px; text-align:center; }
-p.desc{ font-size:12.5px; color:#666; margin-bottom:18px; text-align:center; line-height:1.5; }
-.section{ font-size:13px; font-weight:800; color:var(--gold); margin:14px 0 6px; border-bottom:1px solid var(--line); padding-bottom:4px; }
+p.desc{ font-size:12.5px; color:#666; margin-bottom:14px; text-align:center; }
+.import-box{ background:#fff; border:1px dashed var(--gold); padding:10px; border-radius:8px; margin-bottom:14px; }
+.section{ font-size:13px; font-weight:800; color:var(--gold); margin:12px 0 6px; border-bottom:1px solid var(--line); padding-bottom:4px; }
 label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
-input{ width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13.5px; outline:none; background:#fff; }
+input{ width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13.5px; outline:none; background:#fff; margin-bottom:6px; }
 input:focus{ border-color:var(--gold); }
 .grid-2{ display:grid; grid-template-columns:2fr 1fr; gap:8px; }
-.btn-gen{ width:100%; padding:14px; background:var(--ink); color:#fff; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-top:18px; }
-.btn-gen:active{ transform:scale(.98); }
-
-#result-panel{ display:none; flex-direction:column; align-items:center; margin-top:20px; padding-top:16px; border-top:1px dashed var(--line); }
-#qrcode{ background:#fff; padding:12px; border:1px solid var(--line); border-radius:10px; margin-bottom:12px; }
-.url-text{ font-size:11.5px; color:#0066cc; word-break:break-all; text-align:center; margin-bottom:12px; line-height:1.4; }
+.btn-gen{ width:100%; padding:13px; background:var(--ink); color:#fff; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-top:14px; }
+#result-panel{ display:none; flex-direction:column; align-items:center; margin-top:16px; padding-top:16px; border-top:1px dashed var(--line); }
+#qrcode{ background:#fff; padding:10px; border:1px solid var(--line); border-radius:8px; margin-bottom:10px; }
+.url-text{ font-size:11px; color:#0066cc; word-break:break-all; text-align:center; margin-bottom:10px; }
 .action-row{ display:flex; gap:8px; width:100%; }
-.action-row a, .action-row button{ flex:1; text-align:center; padding:10px; font-size:13px; font-weight:700; border-radius:8px; text-decoration:none; cursor:pointer; }
+.action-row a, .action-row button{ flex:1; text-align:center; padding:9px; font-size:12.5px; font-weight:700; border-radius:8px; text-decoration:none; cursor:pointer; }
 .btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-download{ background:var(--green); color:#fff; border:none; }
+.history-section{ margin-top:20px; border-top:1px solid var(--line); padding-top:14px; }
+.history-item{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
+.history-btn{ background:none; border:1px solid var(--line); padding:4px 8px; border-radius:6px; font-size:11px; cursor:pointer; }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>لوحة تخصيص كرت المعتمر</h2>
-  <p class="desc">أدخل بيانات السكن والمشرفين لأي رحلة لتوليد الرابط والـ QR الخاص بها فوراً بدون تعديل أي ملف في GitHub.</p>
+  <h2>إدارة وتعديل بطاقات المعتمر</h2>
+  <p class="desc">أنشئ رحلة جديدة أو قم بلصق رابط رحلة سابقة لتعديل بياناتها فوراً.</p>
+
+  <!-- خانة استيراد وتعديل الرابط -->
+  <div class="import-box">
+    <label style="color:var(--gold); margin-top:0;">📥 تعديل رحلة سابقة؟ الصق رابطها هنا:</label>
+    <input type="text" id="importUrl" placeholder="https://.../?p1=...&hm=..." oninput="importFromUrl()">
+  </div>
+
+  <label>اسم تعريف الرحلة (للحفظ بالسجل):</label>
+  <input type="text" id="tripLabel" placeholder="مثال: فوج رجب - مكة والمدينة">
 
   <div class="section">بيانات الاتصال</div>
-  <label>رقم المشرف الأساسي (بصيغة دولية):</label>
+  <label>رقم المشرف الأساسي:</label>
   <input type="text" id="p1" placeholder="+966500000000">
 
   <label>رقم المشرف الاحتياطي:</label>
@@ -70,51 +59,71 @@ input:focus{ border-color:var(--gold); }
 
   <div class="section">فندق مكة المكرمة</div>
   <div class="grid-2">
-    <div>
-      <label>اسم الفندق / العنوان:</label>
-      <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
-    </div>
-    <div>
-      <label>الغرفة:</label>
-      <input type="text" id="rm" placeholder="مثال: 402">
-    </div>
+    <input type="text" id="hm" placeholder="اسم الفندق والشارع">
+    <input type="text" id="rm" placeholder="الغرفة">
   </div>
-  <label>رابط خرائط جوجل لفندق مكة:</label>
-  <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
+  <input type="text" id="mm" placeholder="رابط خرائط جوجل لفندق مكة">
 
   <div class="section">فندق المدينة المنورة</div>
   <div class="grid-2">
-    <div>
-      <label>اسم الفندق / العنوان:</label>
-      <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
-    </div>
-    <div>
-      <label>الغرفة:</label>
-      <input type="text" id="rd" placeholder="مثال: 205">
-    </div>
+    <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
+    <input type="text" id="rd" placeholder="الغرفة">
   </div>
-  <label>رابط خرائط جوجل لفندق المدينة:</label>
-  <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
+  <input type="text" id="md" placeholder="رابط خرائط جوجل لفندق المدينة">
 
-  <button class="btn-gen" onclick="buildCard()">إنشاء الـ QR والرابط المخصص</button>
+  <button class="btn-gen" onclick="buildAndSaveCard()">توليد وحفظ البطاقة المحدثة</button>
 
   <div id="result-panel">
     <div id="qrcode"></div>
     <div class="url-text" id="link-preview"></div>
     <div class="action-row">
       <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة</a>
-      <button class="btn-download" onclick="downloadQR()">تحميل الـ QR للطباعة</button>
+      <button class="btn-download" onclick="downloadQR()">تحميل QR للطباعة</button>
     </div>
+  </div>
+
+  <!-- سجل الرحلات المحفوظة -->
+  <div class="history-section" id="history-container">
+    <div class="section" style="border:none; margin:0 0 8px 0;">📋 الرحلات المحفوظة على جهازك:</div>
+    <div id="history-list"></div>
   </div>
 </div>
 
 <script>
 let lastGeneratedUrl = "";
 
-function buildCard(){
+// قراءة المعاملات مباشرة إذا فُتحت الصفحة برابط يحتوي على بيانات
+window.onload = function(){
+  const p = new URLSearchParams(window.location.search);
+  if(p.toString()){
+    loadParamsIntoInputs(p);
+  }
+  renderHistory();
+};
+
+function importFromUrl(){
+  const urlVal = document.getElementById('importUrl').value.trim();
+  if(!urlVal.includes('?')) return;
+  const queryString = urlVal.split('?')[1];
+  const p = new URLSearchParams(queryString);
+  loadParamsIntoInputs(p);
+}
+
+function loadParamsIntoInputs(p){
+  const set = (id, val) => { if(val) document.getElementById(id).value = val; };
+  set('p1', p.get('p1'));
+  set('p2', p.get('p2'));
+  set('hm', p.get('hm'));
+  set('rm', p.get('rm'));
+  set('mm', p.get('mm'));
+  set('hd', p.get('hd'));
+  set('rd', p.get('rd'));
+  set('md', p.get('md'));
+}
+
+function buildAndSaveCard(){
   const baseUrl = "https://abdallahm321.github.io/pilgrim-card/";
   const p = new URLSearchParams();
-
   const get = id => document.getElementById(id).value.trim();
 
   if(get('p1')) p.set('p1', get('p1'));
@@ -128,29 +137,59 @@ function buildCard(){
 
   lastGeneratedUrl = p.toString() ? (baseUrl + "?" + p.toString()) : baseUrl;
 
+  // توليد الـ QR
   const panel = document.getElementById('result-panel');
   const qrBox = document.getElementById('qrcode');
-  const preview = document.getElementById('link-preview');
-  const viewBtn = document.getElementById('view-btn');
-
   qrBox.innerHTML = "";
-  new QRCode(qrBox, {
-    text: lastGeneratedUrl,
-    width: 190,
-    height: 190,
-    correctLevel: QRCode.CorrectLevel.H
-  });
+  new QRCode(qrBox, { text: lastGeneratedUrl, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.H });
 
-  preview.textContent = lastGeneratedUrl;
-  viewBtn.href = lastGeneratedUrl;
+  document.getElementById('link-preview').textContent = lastGeneratedUrl;
+  document.getElementById('view-btn').href = lastGeneratedUrl;
   panel.style.display = "flex";
+
+  // حفظ في السجل المحلي
+  const label = get('tripLabel') || get('hm') || "رحلة بدون اسم";
+  saveToHistory(label, lastGeneratedUrl);
+}
+
+function saveToHistory(label, url){
+  let history = JSON.parse(localStorage.getItem('umrah_trips') || '[]');
+  history = history.filter(item => item.url !== url);
+  history.unshift({ label: label, url: url, date: new Date().toLocaleDateString('ar-EG') });
+  if(history.length > 8) history.pop();
+  localStorage.setItem('umrah_trips', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory(){
+  const history = JSON.parse(localStorage.getItem('umrah_trips') || '[]');
+  const list = document.getElementById('history-list');
+  if(!history.length){
+    list.innerHTML = "<div style='font-size:12px; color:#888;'>لا توجد رحلات محفوظة بعد.</div>";
+    return;
+  }
+  list.innerHTML = "";
+  history.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = `
+      <div>
+        <strong>${item.label}</strong>
+        <div style="font-size:10.5px; color:#777;">${item.date}</div>
+      </div>
+      <div>
+        <button class="history-btn" onclick="document.getElementById('importUrl').value='${item.url}'; importFromUrl();">تعديل ✏️</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
 }
 
 function downloadQR(){
   const img = document.querySelector('#qrcode img');
   if(!img) return;
   const link = document.createElement('a');
-  link.download = 'pilgrim-card-qr.png';
+  link.download = 'pilgrim-qr.png';
   link.href = img.src;
   link.click();
 }
