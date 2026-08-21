@@ -195,7 +195,21 @@ body{
 }
 .footer-actions .share-btn{ background:var(--ink); color:#fff; border-color:var(--ink); }
 .footer-actions button:active{ transform:scale(.97); }
-.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; }
+.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:8px; }
+
+/* زر تعديل المشرف */
+.admin-link{
+  display:inline-block;
+  font-size:11.5px;
+  color:#b8934a;
+  text-decoration:none;
+  font-weight:700;
+  border-top:1px dashed var(--line);
+  padding-top:10px;
+  margin-top:4px;
+  transition:.15s;
+}
+.admin-link:hover{ text-decoration:underline; }
 
 /* --- RTL / LTR handling --- */
 html[dir="ltr"] .info-value{ text-align:start; }
@@ -203,7 +217,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 /* --- Print card --- */
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions{ display:none !important; }
+  .lang-row, .footer-actions, .admin-link{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
@@ -295,17 +309,20 @@ html[dir="ltr"] .info-value{ text-align:start; }
       <button class="share-btn" onclick="shareCard()">📤 <span id="t-footerShare">مشاركة البطاقة</span></button>
     </div>
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
+    <div>
+      <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ تعديل بيانات هذه الرحلة في المولد</a>
+    </div>
   </div>
 
 </div>
 
 <script>
 /* ================================================================
-   بيانات هذه الرحلة موجودة في ملف config.js المنفصل — عدّل هناك فقط
+   الرابط البرمجي لقاعدة البيانات السحابية (Google Apps Script API)
    ================================================================ */
+const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
-/* حماية احتياطية: قيم افتراضية تُستخدم فقط إن تعذّر تحميل config.js
-   (خطأ شبكة، اسم ملف خاطئ...) بدل أن تظهر الصفحة فارغة أو معطوبة */
+/* حماية احتياطية: قيم افتراضية تُستخدم إن تعذّر تحميل config.js وفشل الاتصال */
 window.CONFIG = {
   primarySupervisorPhone: "+966500000000",
   secondarySupervisorPhone: "+966500000000",
@@ -314,7 +331,7 @@ window.CONFIG = {
 };
 
 /* ================================================================
-   الترجمات — أضف لغة جديدة بنسخ كتلة كاملة وتعديلها
+   الترجمات
    ================================================================ */
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
@@ -437,7 +454,7 @@ const LANGS = {
     sectionAccommodation:"Konaklama", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
     labelHotelMadinah:"Medine Oteli", labelRoomMadinah:"Oda No",
     btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
-    sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti açmak için telefon kamerasıyla tarayın.",
+    sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti أفتح محادثة مع المشرف.",
     sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
     footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
@@ -449,10 +466,48 @@ let currentLang = "ar";
 
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
-function applyStatic(){
-  // قراءة المعاملات من الرابط إن وجدت
+async function applyStatic(){
   const params = new URLSearchParams(window.location.search);
+  const groupId = params.get('g') || params.get('group');
 
+  // تحديث رابط زر المشرف في الفوتر ليمرر نفس معاملات الصفحة الحالية
+  const editBtn = document.getElementById("admin-edit-btn");
+  if(editBtn){
+    editBtn.href = "generator.html" + (window.location.search || "");
+  }
+
+  // في حال وجود معرّف الفوج g=... نسحب البيانات من قاعدة بيانات جوجل السحابية فوراً
+  if (groupId && API_URL && !API_URL.includes("YOUR_SCRIPT_ID")) {
+    try {
+      const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`);
+      const data = await res.json();
+      
+      if (!data.error) {
+        document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
+        document.getElementById("v-roomMakkah").textContent = data.rm || "—";
+        document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
+        document.getElementById("v-roomMadinah").textContent = data.rd || "—";
+
+        const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
+        const sPhone = data.p2 || window.CONFIG.secondarySupervisorPhone;
+
+        document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
+        document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
+        document.getElementById("btn-mapMakkah").href = data.mm || window.CONFIG.hotelMakkah.mapsUrl;
+        document.getElementById("btn-mapMadinah").href = data.md || window.CONFIG.hotelMadinah.mapsUrl;
+
+        const waNum = digitsOnly(pPhone).replace("+","");
+        document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
+        
+        window.ACTIVE_PRIMARY_PHONE = pPhone;
+        return;
+      }
+    } catch(err) {
+      console.warn("جاري استخدام البيانات المحلية والافتراضية...");
+    }
+  }
+
+  // في حال غياب المعرف أو انقطاع الاتصال بالسحابة: قراءة معاملات الرابط المباشرة أو config.js
   const pPhone = params.get('p1') || window.CONFIG.primarySupervisorPhone;
   const sPhone = params.get('p2') || window.CONFIG.secondarySupervisorPhone;
   
@@ -464,24 +519,19 @@ function applyStatic(){
   const madinahRoom = params.get('rd') || window.CONFIG.hotelMadinah.room;
   const madinahMap  = params.get('md') || window.CONFIG.hotelMadinah.mapsUrl;
 
-  // تحديث نصوص الفنادق والغرف
   document.getElementById("v-hotelMakkah").textContent = makkahName;
   document.getElementById("v-roomMakkah").textContent = makkahRoom;
   document.getElementById("v-hotelMadinah").textContent = madinahName;
   document.getElementById("v-roomMadinah").textContent = madinahRoom;
 
-  // تحديث روابط الاتصال والخرائط
   document.getElementById("btn-primary").href = "tel:" + digitsOnly(pPhone);
   document.getElementById("btn-secondary").href = "tel:" + digitsOnly(sPhone);
   document.getElementById("btn-mapMakkah").href = makkahMap;
   document.getElementById("btn-mapMadinah").href = madinahMap;
 
-  // تحديث كود QR للواتساب
   const waNum = digitsOnly(pPhone).replace("+","");
-  const qrData = encodeURIComponent("https://wa.me/" + waNum);
-  document.getElementById("qr-img").src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + qrData;
+  document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("https://wa.me/" + waNum)}`;
 
-  // حفظ رقم المشرف الفعّال لزر إرسال الموقع
   window.ACTIVE_PRIMARY_PHONE = pPhone;
 }
 
