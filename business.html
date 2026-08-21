@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>حلول وباقات شركات السياحة وتنظيم العمرة</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1c1c1e;
+  --ink-soft:#48484a;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --gold-light:#e8d9b5;
+  --green:#2f5233;
+  --line:#e7ded0;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(28,28,30,.08);
+}
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal','Inter',sans-serif;}
+
+body{
+  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:20px 14px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  min-height:100vh;
+}
+
+[dir="ltr"] body, .lang-en body{ font-family:'Inter','Tajawal',sans-serif; }
+
+.box{
+  width:100%;
+  max-width:540px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:22px 18px;
+  box-shadow:var(--shadow);
+}
+
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:14px;
+  background:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  transition:.15s;
+}
+.nav-back:active{ transform:scale(0.97); }
+
+.lang-row{
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  padding:8px; background:var(--sand); border-radius:10px; margin-bottom:16px;
+}
+.lang-chip{
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; cursor:pointer;
+}
+.lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+.header{ text-align:center; margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:16px; }
+.header h1{ font-family:'Reem Kufi',sans-serif; font-size:22px; color:var(--ink); margin-bottom:6px; }
+.header p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; }
+
+.pricing-grid{
+  display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:20px;
+}
+@media (min-width: 480px){
+  .pricing-grid{ grid-template-columns: 1fr 1fr; }
+}
+
+.plan-card{
+  background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:16px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.plan-card.pro{
+  border-color:var(--gold); background:linear-gradient(180deg, #fffdf8 0%, #fff 100%);
+  box-shadow:0 8px 24px rgba(184,147,74,0.15); position:relative;
+}
+.pro-badge{
+  position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+  background:var(--gold); color:#fff; font-size:10px; font-weight:800;
+  padding:2px 10px; border-radius:999px;
+}
+
+.plan-header{ text-align:center; padding-bottom:12px; border-bottom:1px solid #f0eae1; margin-bottom:12px; }
+.plan-title{ font-size:15px; font-weight:800; color:var(--ink); margin-bottom:4px; }
+.plan-price{ font-size:13px; font-weight:800; color:var(--green); }
+.plan-card.pro .plan-price{ color:var(--gold); font-size:14px; }
+
+.plan-features{ list-style:none; font-size:12px; color:var(--ink-soft); line-height:1.7; margin-bottom:16px; }
+.plan-features li{ margin-bottom:6px; display:flex; align-items:flex-start; gap:6px; }
+.plan-features li span.icon{ flex:none; }
+
+.btn-action{
+  width:100%; padding:11px; border-radius:10px; font-size:12.5px; font-weight:700;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+}
+.btn-free{ background:#fff; color:var(--ink); border:1.5px solid var(--ink); }
+.btn-pro{ background:var(--gold); color:#fff; border:none; }
+
+.support-box{
+  background:#fff; border:1px dashed var(--gold-light); border-radius:12px;
+  padding:14px; margin-top:14px; text-align:center;
+}
+.support-box h4{ font-size:12.5px; font-weight:800; color:var(--ink); margin-bottom:6px; }
+.iban-row{ font-size:11.5px; color:var(--ink-soft); margin-bottom:6px; }
+.copy-btn{ background:#f4eee2; border:1px solid var(--gold-light); padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold; cursor:pointer; }
+.instapay-link{ color:#582c8b; font-weight:bold; font-size:12px; text-decoration:none; display:inline-block; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <a href="index.html" class="nav-back"><span id="t-navBack">➔ العودة للبطاقة الشخصية</span></a>
+
+  <div class="lang-row" id="lang-row"></div>
+
+  <div class="header">
+    <h1 id="t-b2bHeader">حلول وباقات شركات السياحة وتنظيم العمرة</h1>
+    <p id="t-b2bDesc">منظومة سحابية ذكية متكاملة لإدارة وتأمين أفواجك بكل سهولة ويسر وبأعلى المعايير التكنولوجية.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- الباقة الأساسية -->
+    <div class="plan-card">
+      <div>
+        <div class="plan-header">
+          <div class="plan-title" id="t-planFreeTitle">🆓 الباقة الأساسية</div>
+          <div class="plan-price" id="t-planFreePrice">مجاناً 100% مدى الحياة</div>
+        </div>
+        <ul class="plan-features">
+          <li><span class="icon">✅</span> <span id="t-f1Free">بطاقة سحابية دائمة برمز QR</span></li>
+          <li><span class="icon">✅</span> <span id="t-f2Free">لوحة تحكم وتعديل بيانات الفنادق</span></li>
+          <li><span class="icon">✅</span> <span id="t-f3Free">طباعة A4 مجمعة وتصدير صور</span></li>
+          <li><span class="icon">✅</span> <span id="t-f4Free">دعم العمل بدون إنترنت (PWA)</span></li>
+          <li><span class="icon">❌</span> <span id="t-f5Free" style="opacity:0.5;">تطبيق خاص على متجر Play</span></li>
+          <li><span class="icon">❌</span> <span id="t-f6Free" style="opacity:0.5;">إشعارات حية وتتبع GPS مباشر</span></li>
+        </ul>
+      </div>
+      <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9" target="_blank" class="btn-action btn-free">
+        🎁 <span id="t-btnFree">تفعيل حساب مجاني</span>
+      </a>
+    </div>
+
+    <!-- باقة Pro -->
+    <div class="plan-card pro">
+      <div class="pro-badge" id="t-proBadge">الأكثر تميزاً</div>
+      <div>
+        <div class="plan-header">
+          <div class="plan-title" id="t-planProTitle">🌟 باقة الشركات Pro</div>
+          <div class="plan-price" id="t-planProPrice">تعاقد سنوي / لكل معتمر</div>
+        </div>
+        <ul class="plan-features">
+          <li><span class="icon">✅</span> <span id="t-f1Pro"><strong>تطبيق Android باسم شركتك على المتجر</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f2Pro"><strong>إشعارات وتنبيهات حية لتحرك الحافلات</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f3Pro"><strong>تتبع مباشر للمعتمرين على خريطة المشرف</strong></span></li>
+          <li><span class="icon">✅</span> <span id="t-f4Pro">طباعة كروت بلاستيكية ذكية (NFC)</span></li>
+          <li><span class="icon">✅</span> <span id="t-f5Pro">نطاق خاص بالشركة (YourCompany.com)</span></li>
+          <li><span class="icon">✅</span> <span id="t-f6Pro">دعم فني مخصص على مدار 24 ساعة</span></li>
+        </ul>
+      </div>
+      <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20Pro%20(%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%B4%D8%B1%D9%83%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D8%AA%D8%A8%D8%B9%20%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B4%D8%B1)" target="_blank" class="btn-action btn-pro">
+        👑 <span id="t-btnPro">طلب ترقية Pro</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- صندوق الدعم -->
+  <div class="support-box">
+    <h4 id="t-supportTitle">☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</h4>
+    <div class="iban-row">
+      <strong>IBAN:</strong> <span id="iban-val">EG890003052250019122198000140</span>
+      <button class="copy-btn" onclick="copyIBAN()">نسخ</button>
+    </div>
+    <a href="https://ipn.eg/S/abdallah32122/instapay/7obrf8" target="_blank" class="instapay-link">⚡ الدفع عبر InstaPay</a>
+  </div>
+</div>
+
+<script>
+const LANGS = {
+  ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal',sans-serif", t:{
+    navBack:"➔ العودة للبطاقة الشخصية",
+    b2bHeader:"حلول وباقات شركات السياحة وتنظيم العمرة",
+    b2bDesc:"منظومة سحابية ذكية متكاملة لإدارة وتأمين أفواجك بكل سهولة ويسر وبأعلى المعايير التكنولوجية.",
+    proBadge:"الأكثر تميزاً",
+    planFreeTitle:"🆓 الباقة الأساسية", planFreePrice:"مجاناً 100% مدى الحياة",
+    f1Free:"بطاقة سحابية دائمة برمز QR", f2Free:"لوحة تحكم وتعديل بيانات الفنادق", f3Free:"طباعة A4 مجمعة وتصدير صور", f4Free:"دعم العمل بدون إنترنت (PWA)", f5Free:"تطبيق خاص على متجر Play", f6Free:"إشعارات حية وتتبع GPS مباشر",
+    btnFree:"تفعيل حساب مجاني",
+    planProTitle:"🌟 باقة الشركات Pro", planProPrice:"تعاقد سنوي / لكل معتمر",
+    f1Pro:"تطبيق Android باسم شركتك على المتجر", f2Pro:"إشعارات وتنبيهات حية لتحرك الحافلات", f3Pro:"تتبع مباشر للمعتمرين على خريطة المشرف", f4Pro:"طباعة كروت بلاستيكية ذكية (NFC)", f5Pro:"نطاق خاص بالشركة (YourCompany.com)", f6Pro:"دعم فني مخصص على مدار 24 ساعة",
+    btnPro:"طلب ترقية Pro",
+    supportTitle:"☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن"
+  }},
+  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Kembali ke Kartu Jamaah",
+    b2bHeader:"Solusi & Paket Biro Travel Umrah",
+    b2bDesc:"Sistem cloud cerdas terintegrasi untuk mengelola dan mengamankan jamaah Anda.",
+    proBadge:"Paling Populer",
+    planFreeTitle:"🆓 Paket Dasar", planFreePrice:"Gratis 100% Seumur Hidup",
+    f1Free:"Kartu cloud permanen dengan kode QR", f2Free:"Panel kontrol edit data hotel", f3Free:"Cetak A4 & ekspor gambar", f4Free:"Dukungan offline (PWA)", f5Free:"Aplikasi Google Play Store", f6Free:"Notifikasi push & GPS langsung",
+    btnFree:"Daftar Akun Gratis",
+    planProTitle:"🌟 Paket Travel Pro", planProPrice:"Langganan / Jamaah",
+    f1Pro:"Aplikasi Android di Play Store dengan nama travel", f2Pro:"Peringatan langsung jadwal bus", f3Pro:"Pelacakan lokasi jamaah (GPS)", f4Pro:"Kartu fisik NFC pintar", f5Pro:"Domain khusus travel Anda", f6Pro:"Dukungan teknis prioritas 24 jam",
+    btnPro:"Ajukan Paket Pro",
+    supportTitle:"☕ Donasi untuk Pengembangan Layanan Jamaah"
+  }},
+  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
+    navBack:"➔ کارڈ پر واپس جائیں",
+    b2bHeader:"ٹریول ایجنسیوں کے لیے اسمارٹ پیکجز",
+    b2bDesc:"حجاج و معتمرین کے محفوظ انتظام کے لیے کلاؤڈ سسٹم۔",
+    proBadge:"بہترین انتخاب",
+    planFreeTitle:"🆓 بنیادی پیکج", planFreePrice:"100% تاحیات مفت",
+    f1Free:"کیو آر کوڈ کے ساتھ کلاؤڈ کارڈ", f2Free:"ہوٹل ترمیم کا کنٹرول پینل", f3Free:"پرنٹنگ اور تصاویر ایکسپورٹ", f4Free:"آف لائن سپورٹ", f5Free:"گوگل پلے ایپ", f6Free:"لائیو نوٹیفکیشن اور جی پی ایس",
+    btnFree:"مفت اکاؤنٹ بنائیں",
+    planProTitle:"🌟 ایجنسی پرو پیکج", planProPrice:"سالانہ معاہدہ",
+    f1Pro:"کمپنی کے نام کی پلے اسٹور ایپ", f2Pro:"بس روانگی کے لائیو الرٹس", f3Pro:"معتمرین کی لائیو لوکیشن (GPS)", f4Pro:"این ایف سی سمارٹ کارڈز", f5Pro:"کمپنی کی اپنی ڈومین", f6Pro:"24 گھنٹے خصوصی سپورٹ",
+    btnPro:"پرو پیکج حاصل کریں",
+    supportTitle:"☕ زائرین حرم کی خدمت کے لیے تعاون"
+  }},
+  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Karta Geri Dön",
+    b2bHeader:"Acenteler İçin Akıllı Çözümler ve Paketler",
+    b2bDesc:"Kafilelerinizi yönetmek ve güvenliğini sağlamak için akıllı bulut sistemi.",
+    proBadge:"En Çok Tercih Edilen",
+    planFreeTitle:"🆓 Temel Paket", planFreePrice:"%100 Ömür Boyu Ücretsiz",
+    f1Free:"QR kodlu kalıcı bulut kartı", f2Free:"Otel düzenleme kontrol paneli", f3Free:"A4 baskı ve resim kaydetme", f4Free:"Çevrimdışı çalışma (PWA)", f5Free:"Play Store uygulaması", f6Free:"Canlı bildirim ve GPS takibi",
+    btnFree:"Ücretsiz Hesap Aç",
+    planProTitle:"🌟 Acente Pro Paketi", planProPrice:"Yıllık / Kişi Başı",
+    f1Pro:"Acente adına özel Android Play Store uygulaması", f2Pro:"Otobüs hareket bildirimleri", f3Pro:"Canlı hacı/umreci takibi (GPS)", f4Pro:"Baskılı akıllı NFC kartlar", f5Pro:"Özel şirket alan adı", f6Pro:"7/24 teknik destek",
+    btnPro:"Pro Paket Talebi",
+    supportTitle:"☕ Platformun Devamlılığına Katkıda Bulun"
+  }},
+  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Back to Pilgrim Card",
+    b2bHeader:"Travel Agency Packages & Smart Solutions",
+    b2bDesc:"Integrated cloud system to manage and secure your pilgrim groups efficiently.",
+    proBadge:"Most Popular",
+    planFreeTitle:"🆓 Standard Plan", planFreePrice:"100% Free Lifetime",
+    f1Free:"Permanent cloud card with QR code", f2Free:"Hotel details edit control panel", f3Free:"A4 printing & image export", f4Free:"Offline support (PWA)", f5Free:"Google Play Store App", f6Free:"Push alerts & live GPS",
+    btnFree:"Activate Free Account",
+    planProTitle:"🌟 Agency Pro Plan", planProPrice:"Annual / Per Pilgrim",
+    f1Pro:"Custom Android App on Google Play Store", f2Pro:"Live bus departure push alerts", f3Pro:"Live pilgrim location tracking (GPS)", f4Pro:"Printed smart NFC physical cards", f5Pro:"Custom agency domain", f6Pro:"24/7 dedicated support",
+    btnPro:"Request Pro Plan",
+    supportTitle:"☕ Support Platform Continuity for Pilgrims"
+  }},
+  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Retour à la Carte",
+    b2bHeader:"Solutions & Offres Agences de Voyage",
+    b2bDesc:"Système cloud intégré pour gérer et sécuriser vos groupes en toute sérénité.",
+    proBadge:"Le Plus Populaire",
+    planFreeTitle:"🆓 Formule de Base", planFreePrice:"100% Gratuit à vie",
+    f1Free:"Carte cloud permanente avec QR code", f2Free:"Panneau d'édition des hôtels", f3Free:"Impression A4 & export HD", f4Free:"Support hors-ligne (PWA)", f5Free:"Application Play Store", f6Free:"Alertes push et GPS direct",
+    btnFree:"Créer un Compte Gratuit",
+    planProTitle:"🌟 Formule Agence Pro", planProPrice:"Abonnement / Pèlerin",
+    f1Pro:"Application Android sur Play Store à votre nom", f2Pro:"Alertes push départs de bus", f3Pro:"Suivi GPS direct des pèlerins", f4Pro:"Cartes physiques NFC intelligentes", f5Pro:"Nom de domaine personnalisé", f6Pro:"Support dédié 24h/24",
+    btnPro:"Demander l'Offre Pro",
+    supportTitle:"☕ Soutenir la continuité du service pour les pèlerins"
+  }}
+};
+
+let currentLang = "ar";
+
+function renderLangSwitcher(){
+  const row = document.getElementById("lang-row");
+  row.innerHTML = "";
+  Object.keys(LANGS).forEach(code=>{
+    const chip = document.createElement("button");
+    chip.className = "lang-chip" + (code===currentLang ? " active":"");
+    chip.textContent = LANGS[code].flag + " " + LANGS[code].label;
+    chip.onclick = ()=> setLang(code);
+    row.appendChild(chip);
+  });
+}
+
+function setLang(code){
+  currentLang = code;
+  const L = LANGS[code];
+  document.documentElement.setAttribute("lang", code);
+  document.documentElement.setAttribute("dir", L.dir);
+  document.body.style.fontFamily = L.font;
+  Object.keys(L.t).forEach(key=>{
+    const el = document.getElementById("t-"+key);
+    if(el) el.textContent = L.t[key];
+  });
+  renderLangSwitcher();
+}
+
+function copyIBAN(){
+  const val = document.getElementById('iban-val').textContent;
+  navigator.clipboard.writeText(val).then(() => alert("تم نسخ رقم الآيبان بنجاح"));
+}
+
+(function init(){
+  setLang("ar");
+})();
+</script>
+</body>
+</html>
