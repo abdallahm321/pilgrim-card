@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>القبلة ومواقيت الصلاة في الحرمين</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1c1c1e;
+  --ink-soft:#48484a;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --gold-light:#e8d9b5;
+  --green:#2f5233;
+  --green-soft:#f4f7f4;
+  --maroon:#7a2e2e;
+  --line:#e7ded0;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(28,28,30,.08);
+}
+
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal','Inter',sans-serif;}
+
+body{
+  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:20px 14px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  min-height:100vh;
+}
+
+[dir="ltr"] body, .lang-en body{ font-family:'Inter','Tajawal',sans-serif; }
+
+.box{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:22px 18px;
+  box-shadow:var(--shadow);
+}
+
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:14px;
+  background:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  transition:.15s;
+}
+.nav-back:active{ transform:scale(0.97); }
+
+.lang-row{
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  padding:8px; background:var(--sand); border-radius:10px; margin-bottom:14px;
+}
+.lang-chip{
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; cursor:pointer;
+}
+.lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+.header{ text-align:center; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+.header h1{ font-family:'Reem Kufi',sans-serif; font-size:21px; color:var(--ink); margin-bottom:4px; }
+.header p{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
+
+.section-title{
+  display:flex; align-items:center; gap:8px;
+  font-size:13.5px; font-weight:800; color:var(--ink-soft);
+  margin:18px 0 10px; text-transform:uppercase;
+}
+.section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
+.section-title span.line{ flex:1; height:1px; background:var(--line); }
+
+/* ==================================================================
+   بوصلة القبلة التفاعلية
+   ================================================================== */
+.compass-wrapper{
+  background:#fff; border:1px solid var(--line); border-radius:14px;
+  padding:18px 12px; text-align:center; margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.03);
+}
+.compass-circle{
+  width:180px; height:180px; margin:10px auto; border-radius:50%;
+  border:6px solid #f4eee2; position:relative; background:#faf7f0;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.06);
+}
+.compass-needle{
+  position:absolute; width:6px; height:140px; top:14px;
+  transform-origin: 50% 50%;
+  transition: transform 0.15s ease-out;
+}
+.needle-north{
+  width:0; height:0; border-left:8px solid transparent;
+  border-right:8px solid transparent; border-bottom:70px solid #b8934a;
+  position:absolute; top:0; left:-5px;
+}
+.needle-south{
+  width:0; height:0; border-left:8px solid transparent;
+  border-right:8px solid transparent; border-top:70px solid #ccc;
+  position:absolute; bottom:0; left:-5px;
+}
+.compass-center-dot{
+  width:16px; height:16px; background:var(--ink); border-radius:50%;
+  border:3px solid #fff; position:absolute; z-index:5;
+}
+.compass-kaaba-icon{
+  position:absolute; top:6px; font-size:18px; z-index:4;
+}
+.compass-status{
+  font-size:12px; font-weight:700; color:var(--ink); margin-top:8px;
+}
+.compass-degree{ font-size:18px; font-weight:800; color:var(--green); }
+.btn-calibrate{
+  background:var(--ink); color:#fff; border:none; padding:8px 16px;
+  border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; margin-top:8px;
+}
+
+/* ==================================================================
+   مواقيت الصلاة والعد التنازلي
+   ================================================================== */
+.city-selector{
+  display:flex; gap:6px; background:var(--sand); padding:4px;
+  border-radius:10px; margin-bottom:12px;
+}
+.city-btn{
+  flex:1; padding:8px; border:none; background:none; font-size:12.5px;
+  font-weight:700; border-radius:8px; cursor:pointer; color:var(--ink-soft);
+  transition:.15s;
+}
+.city-btn.active{ background:var(--ink); color:#fff; }
+
+.countdown-box{
+  background:linear-gradient(135deg, #1c1c1e 0%, #2f5233 100%);
+  color:#fff; border-radius:12px; padding:14px; text-align:center;
+  margin-bottom:12px;
+}
+.countdown-box .sub{ font-size:11.5px; opacity:0.85; }
+.countdown-box .timer{ font-size:26px; font-weight:800; color:var(--gold-light); margin:4px 0; font-family:'Inter',sans-serif; }
+.countdown-box .next-label{ font-size:13px; font-weight:700; }
+
+.prayers-grid{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:14px;
+}
+.prayer-card{
+  background:#fff; border:1px solid var(--line); border-radius:10px;
+  padding:10px 6px; text-align:center;
+}
+.prayer-card.current{
+  border-color:var(--gold); background:#fcfaf4; box-shadow:0 4px 10px rgba(184,147,74,0.15);
+}
+.prayer-name{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-bottom:2px; }
+.prayer-time{ font-size:14px; font-weight:800; color:var(--ink); font-family:'Inter',sans-serif; }
+
+/* ==================================================================
+   الروضة الشريفة وأوقات الزيارة
+   ================================================================== */
+.rawdah-card{
+  background:#fff; border:1px solid var(--line); border-radius:12px;
+  padding:14px; margin-bottom:14px;
+}
+.rawdah-group{ margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed var(--line); }
+.rawdah-group:last-child{ margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.rawdah-title{ font-size:13px; font-weight:800; color:var(--green); margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.rawdah-times{ font-size:11.5px; color:var(--ink); line-height:1.6; }
+.rawdah-gate{ font-size:11px; color:var(--maroon); font-weight:700; margin-top:2px; }
+
+/* ==================================================================
+   نصائح استغلال الأوقات
+   ================================================================== */
+.tips-box{
+  background:var(--green-soft); border:1px solid #d5e2d3;
+  border-radius:12px; padding:14px; font-size:12px; line-height:1.7; color:var(--ink);
+}
+.tips-box ul{ list-style:none; padding:0; }
+.tips-box li{ margin-bottom:6px; display:flex; align-items:flex-start; gap:6px; }
+.tips-box li span.icon{ flex:none; }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <a href="index.html" class="nav-back"><span id="t-navBack">➔ العودة للبطاقة الشخصية</span></a>
+
+  <div class="lang-row" id="lang-row"></div>
+
+  <div class="header">
+    <h1 id="t-pageTitle">القبلة ومواقيت الصلاة في الحرمين</h1>
+    <p id="t-pageSubtitle">بوصلة دقيقة للقبلة، مواقيت الأذان والعد التنازلي، ومواعيد الروضة الشريفة</p>
+  </div>
+
+  <!-- 1. بوصلة القبلة التفاعلية -->
+  <div class="section-title"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secQibla">بوصلة القبلة الذكية</span><span class="line"></span></div>
+
+  <div class="compass-wrapper">
+    <div class="compass-circle">
+      <div class="compass-kaaba-icon">🕋</div>
+      <div class="compass-needle" id="compassNeedle">
+        <div class="needle-north"></div>
+        <div class="needle-south"></div>
+      </div>
+      <div class="compass-center-dot"></div>
+    </div>
+    <div class="compass-degree" id="qiblaDegreeText">--°</div>
+    <div class="compass-status" id="compassStatus">اضغط لتفعيل البوصلة وحساس التوجيه</div>
+    <button class="btn-calibrate" onclick="initQiblaSensor()"><span id="t-btnEnableCompass">🧭 تفعيل البوصلة عبر الـ GPS</span></button>
+  </div>
+
+  <!-- 2. مواقيت الصلاة والعد التنازلي -->
+  <div class="section-title"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secPrayer">مواقيت الصلوات في الحرمين</span><span class="line"></span></div>
+
+  <div class="city-selector">
+    <button class="city-btn active" id="btn-city-makkah" onclick="switchCity('makkah')">🕋 <span id="t-cityMakkah">مكة المكرمة</span></button>
+    <button class="city-btn" id="btn-city-madinah" onclick="switchCity('madinah')">🕌 <span id="t-cityMadinah">المدينة المنورة</span></button>
+  </div>
+
+  <div class="countdown-box">
+    <div class="sub" id="t-nextPrayerSub">الصلاة القادمة بعد:</div>
+    <div class="timer" id="prayerCountdown">00:00:00</div>
+    <div class="next-label" id="nextPrayerName">جاري الحساب...</div>
+  </div>
+
+  <div class="prayers-grid">
+    <div class="prayer-card" id="card-Fajr"><div class="prayer-name" id="t-pFajr">الفجر</div><div class="prayer-time" id="time-Fajr">--:--</div></div>
+    <div class="prayer-card" id="card-Sunrise"><div class="prayer-name" id="t-pSunrise">الشروق</div><div class="prayer-time" id="time-Sunrise">--:--</div></div>
+    <div class="prayer-card" id="card-Dhuhr"><div class="prayer-name" id="t-pDhuhr">الظهر</div><div class="prayer-time" id="time-Dhuhr">--:--</div></div>
+    <div class="prayer-card" id="card-Asr"><div class="prayer-name" id="t-pAsr">العصر</div><div class="prayer-time" id="time-Asr">--:--</div></div>
+    <div class="prayer-card" id="card-Maghrib"><div class="prayer-name" id="t-pMaghrib">المغرب</div><div class="prayer-time" id="time-Maghrib">--:--</div></div>
+    <div class="prayer-card" id="card-Isha"><div class="prayer-name" id="t-pIsha">العشاء</div><div class="prayer-time" id="time-Isha">--:--</div></div>
+  </div>
+
+  <!-- 3. مواعيد الروضة الشريفة -->
+  <div class="section-title"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secRawdah">أوقات زيارة الروضة الشريفة (نُسك)</span><span class="line"></span></div>
+
+  <div class="rawdah-card">
+    <div class="rawdah-group">
+      <div class="rawdah-title">👨 <span id="t-rawdahMenTitle">الرجال (فترتان يومياً)</span></div>
+      <div class="rawdah-times" id="t-rawdahMenTimes">
+        • الفترة الأولى: من 02:00 ص حتى صلاة الفجر.<br>
+        • الفترة الثانية: من 11:20 ص حتى صلاة العشاء.
+      </div>
+      <div class="rawdah-gate" id="t-rawdahMenGate">🚪 بوابات الدخول المخصصة: باب مكة (37) وباب بلال (38)</div>
+    </div>
+    <div class="rawdah-group">
+      <div class="rawdah-title">🧕 <span id="t-rawdahWomenTitle">النساء (فترتان يومياً)</span></div>
+      <div class="rawdah-times" id="t-rawdahWomenTimes">
+        • الفترة الأولى: من بعد الفجر حتى 11:00 صباحاً.<br>
+        • الفترة الثانية: من بعد صلاة العشاء حتى 02:00 صباحاً.
+      </div>
+      <div class="rawdah-gate" id="t-rawdahWomenGate">🚪 بوابات الدخول المخصصة: باب عثمان بن عفان (24 و 25)</div>
+    </div>
+  </div>
+
+  <!-- 4. نصائح استغلال الأوقات -->
+  <div class="section-title"><svg class="star" viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="currentColor"/></svg><span id="t-secTips">إرشادات استغلال الأوقات بالحرمين</span><span class="line"></span></div>
+
+  <div class="tips-box">
+    <ul>
+      <li><span class="icon">✨</span> <span id="t-tip1"><strong>أفضل أوقات الطواف الميسر:</strong> من الساعة 01:00 صباحاً حتى قبل الفجر، وبعد الضحى (09:00 ص - 11:00 ص).</span></li>
+      <li><span class="icon">🌙</span> <span id="t-tip2"><strong>الثلث الأخير من الليل:</strong> وقت التنزل الإلهي وإجابة الدعاء، ويُستحب قضاؤه بالتهجد والطواف.</span></li>
+      <li><span class="icon">⏳</span> <span id="t-tip3"><strong>بين الأذان والإقامة:</strong> الدعاء لا يُرد، فاحرص على التبكير للصفوف الأولى واستثمار هذه الدقائق.</span></li>
+      <li><span class="icon">🕌</span> <span id="t-tip4"><strong>يوم الجمعة:</strong> ساعة الاستجابة في آخر ساعة بعد العصر حتى غروب الشمس.</span></li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+const LANGS = {
+  ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal',sans-serif", t:{
+    navBack:"➔ العودة للبطاقة الشخصية",
+    pageTitle:"القبلة ومواقيت الصلاة في الحرمين",
+    pageSubtitle:"بوصلة دقيقة للقبلة، مواقيت الأذان والعد التنازلي، ومواعيد الروضة الشريفة",
+    secQibla:"بوصلة القبلة الذكية", btnEnableCompass:"🧭 تفعيل البوصلة عبر الـ GPS",
+    secPrayer:"مواقيت الصلوات في الحرمين", cityMakkah:"مكة المكرمة", cityMadinah:"المدينة المنورة",
+    nextPrayerSub:"الصلاة القادمة بعد:",
+    pFajr:"الفجر", pSunrise:"الشروق", pDhuhr:"الظهر", pAsr:"العصر", pMaghrib:"المغرب", pIsha:"العشاء",
+    secRawdah:"أوقات زيارة الروضة الشريفة (نُسك)",
+    rawdahMenTitle:"الرجال (فترتان يومياً)",
+    rawdahMenTimes:"• الفترة الأولى: من 02:00 ص حتى صلاة الفجر.<br>• الفترة الثانية: من 11:20 ص حتى صلاة العشاء.",
+    rawdahMenGate:"🚪 بوابات الدخول المخصصة: باب مكة (37) وباب بلال (38)",
+    rawdahWomenTitle:"النساء (فترتان يومياً)",
+    rawdahWomenTimes:"• الفترة الأولى: من بعد الفجر حتى 11:00 صباحاً.<br>• الفترة الثانية: من بعد صلاة العشاء حتى 02:00 صباحاً.",
+    rawdahWomenGate:"🚪 بوابات الدخول المخصصة: باب عثمان بن عفان (24 و 25)",
+    secTips:"إرشادات استغلال الأوقات بالحرمين",
+    tip1:"<strong>أفضل أوقات الطواف الميسر:</strong> من الساعة 01:00 صباحاً حتى قبل الفجر، وبعد الضحى (09:00 ص - 11:00 ص).",
+    tip2:"<strong>الثلث الأخير من الليل:</strong> وقت التنزل الإلهي وإجابة الدعاء، ويُستحب قضاؤه بالتهجد والطواف.",
+    tip3:"<strong>بين الأذان والإقامة:</strong> الدعاء لا يُرد، فاحرص على التبكير للصفوف الأولى واستثمار هذه الدقائق.",
+    tip4:"<strong>يوم الجمعة:</strong> ساعة الاستجابة في آخر ساعة بعد العصر حتى غروب الشمس."
+  }},
+  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Kembali ke Kartu Jamaah",
+    pageTitle:"Kiblat & Jadwal Shalat Dua Masjid Suci",
+    pageSubtitle:"Kompas kiblat akurat, hitung mundur azan, dan jadwal Raudhah Syarifah",
+    secQibla:"Kompas Kiblat Pintar", btnEnableCompass:"🧭 Aktifkan Kompas via GPS",
+    secPrayer:"Jadwal Shalat Dua Kota Suci", cityMakkah:"Makkah", cityMadinah:"Madinah",
+    nextPrayerSub:"Shalat berikutnya dalam:",
+    pFajr:"Subuh", pSunrise:"Terbit", pDhuhr:"Zuhur", pAsr:"Ashar", pMaghrib:"Maghrib", pIsha:"Isya",
+    secRawdah:"Jadwal Kunjungan Raudhah (Nusuk)",
+    rawdahMenTitle:"Jamaah Laki-laki (2 Sesi)",
+    rawdahMenTimes:"• Sesi 1: 02:00 dini hari s/d Subuh.<br>• Sesi 2: 11:20 siang s/d Isya.",
+    rawdahMenGate:"🚪 Pintu Masuk: Pintu Makkah (37) & Pintu Bilal (38)",
+    rawdahWomenTitle:"Jamaah Perempuan (2 Sesi)",
+    rawdahWomenTimes:"• Sesi 1: Setelah Subuh s/d 11:00 pagi.<br>• Sesi 2: Setelah Isya s/d 02:00 dini hari.",
+    rawdahWomenGate:"🚪 Pintu Masuk: Pintu Utsman bin Affan (24 & 25)",
+    secTips:"Tips Memanfaatkan Waktu Mustajab",
+    tip1:"<strong>Waktu Tawaf Terbaik & Sepi:</strong> Pukul 01:00 dini hari s/d sebelum Subuh, dan pagi hari (09:00 - 11:00).",
+    tip2:"<strong>Sepertiga Malam Terakhir:</strong> Waktu mustajab untuk doa, tahajud, dan tawaf.",
+    tip3:"<strong>Antara Azan dan Iqamah:</strong> Doa tidak tertolak, datanglah lebih awal ke shaf depan.",
+    tip4:"<strong>Hari Jumat:</strong> Waktu mustajab di akhir waktu Ashar hingga menjelang Maghrib."
+  }},
+  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
+    navBack:"➔ کارڈ پر واپس جائیں",
+    pageTitle:"قبلہ نما اور حرمین کے اوقات نماز",
+    pageSubtitle:"درست قبلہ کمپاس، نمازوں کا ٹائم ٹیبل اور روضہ رسول ﷺ کے اوقات",
+    secQibla:"اسمارٹ قبلہ کمپاس", btnEnableCompass:"🧭 جی پی ایس کے ذریعے فعال کریں",
+    secPrayer:"حرمین شریفین کے اوقات نماز", cityMakkah:"مکہ مکرمہ", cityMadinah:"مدینہ منورہ",
+    nextPrayerSub:"اگلی نماز میں باقی وقت:",
+    pFajr:"فجر", pSunrise:"طلوع", pDhuhr:"ظہر", pAsr:"عصر", pMaghrib:"مغرب", pIsha:"عشاء",
+    secRawdah:"روضہ شریفہ کی زیارت کے اوقات (نسک)",
+    rawdahMenTitle:"مرد حضرات (روزانہ دو اوقات)",
+    rawdahMenTimes:"• پہلا وقت: رات 02:00 بجے سے فجر تک۔<br>• دوسرا وقت: صبح 11:20 سے عشاء تک۔",
+    rawdahMenGate:"🚪 مخصوص دروازے: باب مکہ (37) اور باب بلال (38)",
+    rawdahWomenTitle:"خواتین (روزانہ دو اوقات)",
+    rawdahWomenTimes:"• پہلا وقت: بعد نماز فجر سے 11:00 صبح تک۔<br>• دوسرا وقت: بعد نماز عشاء سے رات 02:00 بجے تک۔",
+    rawdahWomenGate:"🚪 مخصوص دروازے: باب عثمان بن عفان (24 اور 25)",
+    secTips:"حرمین میں قیمتی اوقات کے بہترین استعمال کی رہنمائی",
+    tip1:"<strong>طواف کے لیے بہترین پرسکون اوقات:</strong> رات 01:00 بجے سے فجر سے پہلے تک اور چاشت کے وقت (09:00 سے 11:00)۔",
+    tip2:"<strong>رات کا آخری تیسرا حصہ:</strong> قبولیت دعا اور تہجد و طواف کا بہترین وقت۔",
+    tip3:"<strong>اذان اور اقامت کے درمیان:</strong> دعا رد نہیں ہوتی، جلد مسجد پہنچیں۔",
+    tip4:"<strong>جمعہ کے دن:</strong> عصر کے بعد سے غروب آفتاب تک دعا کی قبولیت کی گھڑی۔"
+  }},
+  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Karta Geri Dön",
+    pageTitle:"Kıble Pusulası ve Harem Namaz Vakitleri",
+    pageSubtitle:"Hassas kıble yönü, ezan geri sayımı ve Ravza-i Mutahhara ziyaret saatleri",
+    secQibla:"Akıllı Kıble Pusulası", btnEnableCompass:"🧭 Pusulayı GPS ile Başlat",
+    secPrayer:"Haremeyn Namaz Vakitleri", cityMakkah:"Mekke", cityMadinah:"Medine",
+    nextPrayerSub:"Sonraki vakte kalan süre:",
+    pFajr:"İmsak/Sabah", pSunrise:"Güneş", pDhuhr:"Öğle", pAsr:"İkindi", pMaghrib:"Akşam", pIsha:"Yatsı",
+    secRawdah:"Ravza-i Mutahhara Ziyaret Saatleri (Nusuk)",
+    rawdahMenTitle:"Erkekler İçin (Günde 2 Seans)",
+    rawdahMenTimes:"• 1. Seans: Gece 02:00'den Sabah namazına kadar.<br>• 2. Seans: 11:20'den Yatsı namazına kadar.",
+    rawdahMenGate:"🚪 Giriş Kapıları: Mekke Kapısı (37) ve Bilal Kapısı (38)",
+    rawdahWomenTitle:"Kadınlar İçin (Günde 2 Seans)",
+    rawdahWomenTimes:"• 1. Seans: Sabah namazı sonrası - 11:00 arası.<br>• 2. Seans: Yatsı sonrası - Gece 02:00 arası.",
+    rawdahWomenGate:"🚪 Giriş Kapıları: Hz. Osman Kapısı (24 ve 25)",
+    secTips:"Mübarek Vakitleri Değerlendirme Rehberi",
+    tip1:"<strong>Tavaf İçin En Sakin Saatler:</strong> Gece 01:00 ile Sabah namazı arası ve Kuşluk vakti (09:00 - 11:00).",
+    tip2:"<strong>Gecenin Son Üçte Biri:</strong> Duaların kabul olduğu, teheccüd ve tavaf için en faziletli vakittir.",
+    tip3:"<strong>Ezan ile Kamet Arası:</strong> Yapılan dualar geri çevrilmez, ilk saflara erken gelin.",
+    tip4:"<strong>Cuma Günü:</strong> İkindi namazından gün batımına kadar olan icabet saati."
+  }},
+  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Back to Pilgrim Card",
+    pageTitle:"Qibla & Prayer Times in the Two Holy Mosques",
+    pageSubtitle:"Precise Qibla compass, adhan countdown, and Rawdah visiting hours",
+    secQibla:"Smart Qibla Compass", btnEnableCompass:"🧭 Enable Compass via GPS",
+    secPrayer:"Prayer Times in Holy Cities", cityMakkah:"Makkah", cityMadinah:"Madinah",
+    nextPrayerSub:"Next prayer in:",
+    pFajr:"Fajr", pSunrise:"Sunrise", pDhuhr:"Dhuhr", pAsr:"Asr", pMaghrib:"Maghrib", pIsha:"Isha",
+    secRawdah:"Noble Rawdah Visiting Times (Nusuk)",
+    rawdahMenTitle:"Men Pilgrims (2 Daily Slots)",
+    rawdahMenTimes:"• Slot 1: 02:00 AM until Fajr prayer.<br>• Slot 2: 11:20 AM until Isha prayer.",
+    rawdahMenGate:"🚪 Dedicated Entry Gates: Bab Makkah (37) & Bab Bilal (38)",
+    rawdahWomenTitle:"Women Pilgrims (2 Daily Slots)",
+    rawdahWomenTimes:"• Slot 1: After Fajr until 11:00 AM.<br>• Slot 2: After Isha until 02:00 AM.",
+    rawdahWomenGate:"🚪 Dedicated Entry Gates: Bab Uthman bin Affan (24 & 25)",
+    secTips:"Golden Hours & Spiritual Tips",
+    tip1:"<strong>Best & Calmest Tawaf Hours:</strong> 01:00 AM until before Fajr, and mid-morning (09:00 AM - 11:00 AM).",
+    tip2:"<strong>Last Third of the Night:</strong> Divine descent & accepted prayers; spend it in tahajjud and tawaf.",
+    tip3:"<strong>Between Adhan and Iqamah:</strong> Supplications are not rejected; arrive early for front rows.",
+    tip4:"<strong>Friday Hour of Response:</strong> The last hour after Asr until sunset."
+  }},
+  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Retour à la Carte",
+    pageTitle:"Qibla & Horaires de Prière aux Deux Saintes Mosquées",
+    pageSubtitle:"Boussole précise, compte à rebours de l'Adhan et horaires de la Rawdah",
+    secQibla:"Boussole Intelligente de la Qibla", btnEnableCompass:"🧭 Activer la Boussole (GPS)",
+    secPrayer:"Horaires des Prières", cityMakkah:"La Mecque", cityMadinah:"Médine",
+    nextPrayerSub:"Prochaine prière dans :",
+    pFajr:"Fajr", pSunrise:"Lever", pDhuhr:"Dhuhr", pAsr:"Asr", pMaghrib:"Maghrib", pIsha:"Isha",
+    secRawdah:"Horaires de Visite de la Rawdah (Nusuk)",
+    rawdahMenTitle:"Hommes (2 créneaux par jour)",
+    rawdahMenTimes:"• 1er créneau : 02h00 jusqu'au Fajr.<br>• 2ème créneau : 11h20 jusqu'au Isha.",
+    rawdahMenGate:"🚪 Portes d'entrée : Porte de La Mecque (37) & Porte Bilal (38)",
+    rawdahWomenTitle:"Femmes (2 créneaux par jour)",
+    rawdahWomenTimes:"• 1er créneau : Après le Fajr jusqu'à 11h00.<br>• 2ème créneau : Après le Isha jusqu'à 02h00.",
+    rawdahWomenGate:"🚪 Portes d'entrée : Porte Othman ibn Affan (24 & 25)",
+    secTips:"Conseils pour Optimiser Vos Moments Sacrés",
+    tip1:"<strong>Meilleures heures pour le Tawaf :</strong> De 01h00 jusqu'au Fajr, et en milieu de matinée (09h00 - 11h00).",
+    tip2:"<strong>Dernier tiers de la nuit :</strong> Moment béni pour les invocations, le tahajjud et le tawaf.",
+    tip3:"<strong>Entre l'Adhan et l'Iqamah :</strong> Les invocations sont exaucées, avancez dans les premiers rangs.",
+    tip4:"<strong>Le Vendredi :</strong> L'heure de l'exaucement se situe après le Asr jusqu'au coucher du soleil."
+  }}
+};
+
+let currentLang = "ar";
+let currentCity = "makkah";
+let userLat = 21.4225, userLng = 39.8262; // إحداثيات مكة الافتراضية
+let targetQiblaAngle = 0;
+let prayerTimesData = {};
+
+const CITY_COORDS = {
+  makkah: { lat: 21.4225, lng: 39.8262 },
+  madinah: { lat: 24.4672, lng: 39.6111 }
+};
+
+const KAABA_COORDS = { lat: 21.422487, lng: 39.826206 };
+
+function renderLangSwitcher(){
+  const row = document.getElementById("lang-row");
+  row.innerHTML = "";
+  Object.keys(LANGS).forEach(code=>{
+    const chip = document.createElement("button");
+    chip.className = "lang-chip" + (code===currentLang ? " active":"");
+    chip.textContent = LANGS[code].flag + " " + LANGS[code].label;
+    chip.onclick = ()=> setLang(code);
+    row.appendChild(chip);
+  });
+}
+
+function setLang(code){
+  currentLang = code;
+  const L = LANGS[code];
+  document.documentElement.setAttribute("lang", code);
+  document.documentElement.setAttribute("dir", L.dir);
+  document.body.style.fontFamily = L.font;
+  Object.keys(L.t).forEach(key=>{
+    const el = document.getElementById("t-"+key);
+    if(el) el.innerHTML = L.t[key];
+  });
+  renderLangSwitcher();
+  updateNextPrayerUI();
+}
+
+/* ==================================================================
+   حساب زاوية القبلة وبوصلة الحساسات
+   ================================================================== */
+function calculateQibla(lat, lng) {
+  const phiK = (KAABA_COORDS.lat * Math.PI) / 180.0;
+  const lambdaK = (KAABA_COORDS.lng * Math.PI) / 180.0;
+  const phi = (lat * Math.PI) / 180.0;
+  const lambda = (lng * Math.PI) / 180.0;
+  const numerator = Math.sin(lambdaK - lambda);
+  const denominator = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda);
+  let qibla = (Math.atan2(numerator, denominator) * 180.0) / Math.PI;
+  return (qibla + 360) % 360;
+}
+
+function initQiblaSensor(){
+  const statusEl = document.getElementById("compassStatus");
+  statusEl.textContent = "جاري تحديد الموقع الجغرافي...";
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        targetQiblaAngle = calculateQibla(userLat, userLng);
+        document.getElementById("qiblaDegreeText").textContent = Math.round(targetQiblaAngle) + "°";
+        statusEl.textContent = "تم تحديد القبلة بنجاح، حرّك الهاتف لتطابق المؤشر";
+        enableOrientationSensor();
+      },
+      () => {
+        targetQiblaAngle = calculateQibla(CITY_COORDS[currentCity].lat, CITY_COORDS[currentCity].lng);
+        document.getElementById("qiblaDegreeText").textContent = Math.round(targetQiblaAngle) + "°";
+        statusEl.textContent = "تم ضبط القبلة حسب إحداثيات المدينة المختارة";
+        enableOrientationSensor();
+      }
+    );
+  } else {
+    enableOrientationSensor();
+  }
+}
+
+function enableOrientationSensor(){
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(response => {
+      if (response === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation, true);
+      }
+    }).catch(()=>{});
+  } else {
+    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    window.addEventListener('deviceorientation', handleOrientation, true);
+  }
+}
+
+function handleOrientation(e) {
+  let compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+  if (compass !== undefined && compass !== null) {
+    const needle = document.getElementById("compassNeedle");
+    const diff = (targetQiblaAngle - compass + 360) % 360;
+    needle.style.transform = `rotate(${diff}deg)`;
+    
+    // إذا تطابق الاتجاه مع القبلة في حدود 4 درجات
+    const statusEl = document.getElementById("compassStatus");
+    if (Math.abs(diff) < 5 || Math.abs(diff - 360) < 5) {
+      statusEl.textContent = "✨ أنت الآن باتجاه القبلة المشرفة تماماً!";
+      statusEl.style.color = "var(--green)";
+    } else {
+      statusEl.textContent = "حرّك الهاتف حتى يستقر المؤشر للأعلى باتجاه الكعبة";
+      statusEl.style.color = "var(--ink)";
+    }
+  }
+}
+
+/* ==================================================================
+   مواقيت الصلاة وجلب البيانات
+   ================================================================== */
+async function fetchPrayerTimes(cityKey) {
+  const coords = CITY_COORDS[cityKey];
+  const date = new Date();
+  const url = `https://api.aladhan.com/v1/timings/${Math.floor(date.getTime()/1000)}?latitude=${coords.lat}&longitude=${coords.lng}&method=4`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data && data.data && data.data.timings) {
+      prayerTimesData = data.data.timings;
+      localStorage.setItem(`prayer_times_${cityKey}`, JSON.stringify(prayerTimesData));
+      renderPrayerTimes(prayerTimesData);
+    }
+  } catch(e) {
+    const cached = localStorage.getItem(`prayer_times_${cityKey}`);
+    if(cached) {
+      prayerTimesData = JSON.parse(cached);
+      renderPrayerTimes(prayerTimesData);
+    } else {
+      // مواقيت احتياطية تقريبية للحرمين عند عدم توفر اتصال
+      prayerTimesData = (cityKey === 'makkah') 
+        ? { Fajr:"04:45", Sunrise:"06:00", Dhuhr:"12:25", Asr:"15:45", Maghrib:"18:45", Isha:"20:15" }
+        : { Fajr:"04:40", Sunrise:"05:55", Dhuhr:"12:24", Asr:"15:48", Maghrib:"18:48", Isha:"20:18" };
+      renderPrayerTimes(prayerTimesData);
+    }
+  }
+}
+
+function renderPrayerTimes(t) {
+  const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+  prayers.forEach(p => {
+    const el = document.getElementById(`time-${p}`);
+    if (el && t[p]) {
+      el.textContent = t[p].substring(0, 5);
+    }
+  });
+  updateNextPrayerUI();
+}
+
+function switchCity(city) {
+  currentCity = city;
+  document.getElementById("btn-city-makkah").classList.toggle("active", city === "makkah");
+  document.getElementById("btn-city-madinah").classList.toggle("active", city === "madinah");
+  fetchPrayerTimes(city);
+}
+
+function updateNextPrayerUI() {
+  if (!prayerTimesData || !prayerTimesData.Fajr) return;
+
+  const now = new Date();
+  const prayers = [
+    { key: 'Fajr', name: LANGS[currentLang].t.pFajr },
+    { key: 'Sunrise', name: LANGS[currentLang].t.pSunrise },
+    { key: 'Dhuhr', name: LANGS[currentLang].t.pDhuhr },
+    { key: 'Asr', name: LANGS[currentLang].t.pAsr },
+    { key: 'Maghrib', name: LANGS[currentLang].t.pMaghrib },
+    { key: 'Isha', name: LANGS[currentLang].t.pIsha }
+  ];
+
+  let nextPrayer = null;
+  let nextPrayerDate = null;
+
+  for (let i = 0; i < prayers.length; i++) {
+    const [h, m] = prayerTimesData[prayers[i].key].split(':');
+    const pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(h), parseInt(m), 0);
+    if (pDate > now) {
+      nextPrayer = prayers[i];
+      nextPrayerDate = pDate;
+      break;
+    }
+  }
+
+  // إذا كانت جميع صلوات اليوم قد انقضت (الصلاة القادمة هي فجر الغد)
+  if (!nextPrayer) {
+    nextPrayer = prayers[0];
+    const [h, m] = prayerTimesData.Fajr.split(':');
+    nextPrayerDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, parseInt(h), parseInt(m), 0);
+  }
+
+  document.querySelectorAll('.prayer-card').forEach(c => c.classList.remove('current'));
+  const activeCard = document.getElementById(`card-${nextPrayer.key}`);
+  if(activeCard) activeCard.classList.add('current');
+
+  document.getElementById("nextPrayerName").textContent = `${nextPrayer.name} (${prayerTimesData[nextPrayer.key].substring(0,5)})`;
+
+  const diffMs = nextPrayerDate - now;
+  const hours = Math.floor(diffMs / 3600000);
+  const minutes = Math.floor((diffMs % 3600000) / 60000);
+  const seconds = Math.floor((diffMs % 60000) / 1000);
+
+  const fmt = (n) => String(n).padStart(2, '0');
+  document.getElementById("prayerCountdown").textContent = `${fmt(hours)}:${fmt(minutes)}:${fmt(seconds)}`;
+}
+
+setInterval(updateNextPrayerUI, 1000);
+
+(function init(){
+  setLang("ar");
+  fetchPrayerTimes("makkah");
+  targetQiblaAngle = calculateQibla(CITY_COORDS.makkah.lat, CITY_COORDS.makkah.lng);
+  document.getElementById("qiblaDegreeText").textContent = Math.round(targetQiblaAngle) + "°";
+})();
+</script>
+</body>
+</html>
