@@ -164,19 +164,34 @@ body{
 .info-value{ font-weight:700; text-align:end; }
 .editable{ border-bottom:1px dotted var(--gold); }
 
-.notes-box{
+/* صندوق الحافلة والتوجيهات */
+.transport-notes-box{
   background:#fcfaf5;
   border:1px solid var(--gold-light);
   border-right:4px solid var(--gold);
-  border-radius:10px;
-  padding:12px 14px;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+[dir="ltr"] .transport-notes-box{ border-right:1px solid var(--gold-light); border-left:4px solid var(--gold); }
+
+.bus-badge-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-bottom:8px;
+  border-bottom:1px dashed var(--gold-light);
+  margin-bottom:8px;
+}
+.bus-badge-label{ font-weight:800; font-size:13.5px; color:var(--ink); }
+.bus-badge-val{ font-weight:800; font-size:14px; color:var(--maroon); }
+
+.notes-content{
   font-size:13px;
   line-height:1.6;
   color:var(--ink);
-  margin-bottom:12px;
   white-space: pre-line;
 }
-[dir="ltr"] .notes-box{ border-right:1px solid var(--gold-light); border-left:4px solid var(--gold); }
 
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
@@ -276,11 +291,10 @@ html[dir="ltr"] .info-value{ text-align:start; }
       <span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span>
     </button>
 
-    <!-- الإقامة والحافلة -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة والنقل</span><span class="line"></span></div>
+    <!-- الإقامة -->
+    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
 
     <div class="info-box">
-      <div class="info-row" id="row-bus"><span class="info-label" id="t-labelBusNo">🚌 رقم الحافلة / الباص</span><span class="info-value editable" id="v-busNo">—</span></div>
       <div class="info-row"><span class="info-label" id="t-labelHotelMakkah">فندق مكة</span><span class="info-value editable" id="v-hotelMakkah">[ --- ]</span></div>
       <div class="info-row"><span class="info-label" id="t-labelRoomMakkah">رقم الغرفة</span><span class="info-value editable" id="v-roomMakkah">[ --- ]</span></div>
     </div>
@@ -292,10 +306,16 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
     <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
 
-    <!-- الملاحظات والتوجيهات -->
-    <div id="section-notes-wrapper" style="display:none;">
-      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionNotes">تنبيهات وتوجيهات خاصة</span><span class="line"></span></div>
-      <div class="notes-box" id="v-notes"></div>
+    <!-- الحافلة والملاحظات والتوجيهات -->
+    <div id="section-transport-wrapper">
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionTransportNotes">الحافلة وتوجيهات الرحلة</span><span class="line"></span></div>
+      <div class="transport-notes-box">
+        <div class="bus-badge-row">
+          <span class="bus-badge-label" id="t-labelBusNo">🚌 رقم الحافلة / الباص:</span>
+          <span class="bus-badge-val" id="v-busNo">—</span>
+        </div>
+        <div class="notes-content" id="v-notes"></div>
+      </div>
     </div>
 
     <!-- QR -->
@@ -367,10 +387,10 @@ const LANGS = {
     step3:"إن تعذّر الاتصال، توجّه لأقرب رجل أمن أو نقطة إرشاد وأخبره أنك تائه من حملتك.",
     step4:"أظهر بطاقة الحملة أو الهوية لمن يساعدك ليتعرف على مجموعتك.",
     step5:"احفظ اسم نقطة تجمع معروفة بالحرم (مثل باب معيّن) كمرجع تعود إليه.",
-    sectionAccommodation:"أماكن الإقامة والنقل", labelBusNo:"🚌 رقم الحافلة / الباص", labelHotelMakkah:"فندق مكة", labelRoomMakkah:"رقم الغرفة",
+    sectionAccommodation:"أماكن الإقامة", labelHotelMakkah:"فندق مكة", labelRoomMakkah:"رقم الغرفة",
     labelHotelMadinah:"فندق المدينة", labelRoomMadinah:"رقم الغرفة",
     btnMapMakkah:"فتح موقع فندق مكة", btnMapMadinah:"فتح موقع فندق المدينة",
-    sectionNotes:"تنبيهات وتوجيهات خاصة",
+    sectionTransportNotes:"الحافلة وتوجيهات الرحلة", labelBusNo:"🚌 رقم الحافلة / الباص:",
     sectionQr:"مسح سريع للتواصل", qrHint:"امسح الرمز بكاميرا الجوال لفتح محادثة واتساب مباشرة مع المشرف الأساسي دون الحاجة لكتابة الرقم.",
     sectionEmergency:"أرقام الطوارئ الرسمية (السعودية)",
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
@@ -389,10 +409,10 @@ const LANGS = {
     step3:"If you can't reach them, go to the nearest security officer or information point and say you're lost from your group.",
     step4:"Show your group/ID card to whoever is helping you, so they can identify your group.",
     step5:"Remember a well-known meeting point in the mosque (such as a specific gate) as a reference.",
-    sectionAccommodation:"Accommodation & Transport", labelBusNo:"🚌 Bus Number", labelHotelMakkah:"Makkah Hotel", labelRoomMakkah:"Room Number",
+    sectionAccommodation:"Accommodation", labelHotelMakkah:"Makkah Hotel", labelRoomMakkah:"Room Number",
     labelHotelMadinah:"Madinah Hotel", labelRoomMadinah:"Room Number",
     btnMapMakkah:"Open Makkah Hotel Location", btnMapMadinah:"Open Madinah Hotel Location",
-    sectionNotes:"Important Group Notes",
+    sectionTransportNotes:"Bus & Group Instructions", labelBusNo:"🚌 Bus Number:",
     sectionQr:"Quick Scan to Contact", qrHint:"Scan with your phone camera to open a WhatsApp chat with the primary supervisor instantly.",
     sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
     emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
@@ -411,10 +431,10 @@ const LANGS = {
     step3:"اگر رابطہ نہ ہو سکے تو قریب ترین سیکیورٹی اہلکار یا معلوماتی مرکز کے پاس جائیں اور بتائیں کہ آپ اپنے گروپ سے بچھڑ گئے ہیں۔",
     step4:"اپنی مدد کرنے والے کو گروپ/شناختی کارڈ دکھائیں تاکہ وہ آپ کا گروپ پہچان سکے۔",
     step5:"حرم میں کسی معروف مقام (جیسے مخصوص دروازہ) کو یاد رکھیں بطور حوالہ۔",
-    sectionAccommodation:"رہائش اور بس", labelBusNo:"🚌 بس نمبر", labelHotelMakkah:"مکہ ہوٹل", labelRoomMakkah:"کمرہ نمبر",
+    sectionAccommodation:"رہائش", labelHotelMakkah:"مکہ ہوٹل", labelRoomMakkah:"کمرہ نمبر",
     labelHotelMadinah:"مدینہ ہوٹل", labelRoomMadinah:"کمرہ نمبر",
     btnMapMakkah:"مکہ ہوٹل کا مقام کھولیں", btnMapMadinah:"مدینہ ہوٹل کا مقام کھولیں",
-    sectionNotes:"اہم ہدایات",
+    sectionTransportNotes:"بس اور ہدایات", labelBusNo:"🚌 بس نمبر:",
     sectionQr:"فوری رابطے کے لیے اسکین کریں", qrHint:"فوری طور پر بنیادی نگران کے ساتھ واٹس ایپ چیٹ کھولنے کے لیے کیمرے سے اسکین کریں۔",
     sectionEmergency:"سرکاری ہنگامی نمبرز (سعودی عرب)",
     emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
@@ -433,10 +453,10 @@ const LANGS = {
     step3:"Jika tidak bisa dihubungi, pergi ke petugas keamanan atau pusat informasi terdekat dan katakan Anda tersesat dari rombongan.",
     step4:"Tunjukkan kartu kelompok/identitas Anda kepada yang membantu agar mereka bisa mengenali kelompok Anda.",
     step5:"Ingat titik kumpul yang dikenal di Masjid (misalnya pintu tertentu) sebagai referensi.",
-    sectionAccommodation:"Akomodasi & Bus", labelBusNo:"🚌 Nomor Bus", labelHotelMakkah:"Hotel Makkah", labelRoomMakkah:"Nomor Kamar",
+    sectionAccommodation:"Akomodasi", labelHotelMakkah:"Hotel Makkah", labelRoomMakkah:"Nomor Kamar",
     labelHotelMadinah:"Hotel Madinah", labelRoomMadinah:"Nomor Kamar",
     btnMapMakkah:"Buka Lokasi Hotel Makkah", btnMapMadinah:"Buka Lokasi Hotel Madinah",
-    sectionNotes:"Catatan Penting",
+    sectionTransportNotes:"Bus & Petunjuk Rombongan", labelBusNo:"🚌 Nomor Bus:",
     sectionQr:"Pindai Cepat untuk Kontak", qrHint:"Pindai dengan kamera ponsel untuk langsung membuka WhatsApp dengan pembimbing utama.",
     sectionEmergency:"Nomor Darurat Resmi (Arab Saudi)",
     emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah (Ambulans)", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
@@ -455,10 +475,10 @@ const LANGS = {
     step3:"Si vous ne pouvez pas les joindre, allez au poste de sécurité ou d'information le plus proche et dites que vous êtes perdu.",
     step4:"Montrez votre carte de groupe/identité à la personne qui vous aide pour qu'elle identifie votre groupe.",
     step5:"Retenez un point de rassemblement connu dans la mosquée (comme une porte précise) comme repère.",
-    sectionAccommodation:"Hébergement & Bus", labelBusNo:"🚌 Numéro de Bus", labelHotelMakkah:"Hôtel à La Mecque", labelRoomMakkah:"Numéro de Chambre",
+    sectionAccommodation:"Hébergement", labelHotelMakkah:"Hôtel à La Mecque", labelRoomMakkah:"Numéro de Chambre",
     labelHotelMadinah:"Hôtel à Médine", labelRoomMadinah:"Numéro de Chambre",
     btnMapMakkah:"Ouvrir la Localisation (La Mecque)", btnMapMadinah:"Ouvrir la Localisation (Médine)",
-    sectionNotes:"Instructions Importantes",
+    sectionTransportNotes:"Bus et Instructions", labelBusNo:"🚌 Numéro de Bus:",
     sectionQr:"Scan Rapide pour Contacter", qrHint:"Scannez avec l'appareil photo pour ouvrir directement une conversation WhatsApp avec le superviseur principal.",
     sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
     emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
@@ -477,10 +497,10 @@ const LANGS = {
     step3:"Ulaşamazsanız en قريب güvenlik görevlisine veya bilgi noktasına gidip grubunuzdan ayrı düştüğünüzü söyleyin.",
     step4:"Size yardım edene grup/kimlik kartınızı gösterin ki grubunuzu tanıyabilsin.",
     step5:"Camideki bilinen bir buluşma noktasını (belirli bir kapı gibi) referans olarak hatırlayın.",
-    sectionAccommodation:"Konaklama ve Otobüs", labelBusNo:"🚌 Otobüs No", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
+    sectionAccommodation:"Konaklama", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
     labelHotelMadinah:"Medine Oteli", labelRoomMadinah:"Oda No",
     btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
-    sectionNotes:"Önemli Notlar",
+    sectionTransportNotes:"Otobüs ve Talimatlar", labelBusNo:"🚌 Otobüs No:",
     sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti açmak için telefon kamerasıyla tarayın.",
     sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
@@ -495,19 +515,20 @@ function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
 function renderUI(data){
   document.getElementById("v-companyName").textContent = "🏢 " + (data.company_name || window.CONFIG.companyName);
-  document.getElementById("v-busNo").textContent = data.bus_no || window.CONFIG.busNo || "—";
   document.getElementById("v-hotelMakkah").textContent = data.hm || "—";
   document.getElementById("v-roomMakkah").textContent = data.rm || "—";
   document.getElementById("v-hotelMadinah").textContent = data.hd || "—";
   document.getElementById("v-roomMadinah").textContent = data.rd || "—";
 
-  const notesWrapper = document.getElementById("section-notes-wrapper");
+  // قسم الحافلة والملاحظات
+  document.getElementById("v-busNo").textContent = data.bus_no || window.CONFIG.busNo || "—";
+  
   const notesEl = document.getElementById("v-notes");
   if(data.notes && String(data.notes).trim() !== ""){
     notesEl.textContent = data.notes;
-    notesWrapper.style.display = "block";
+    notesEl.style.display = "block";
   } else {
-    notesWrapper.style.display = "none";
+    notesEl.textContent = "لا توجد ملاحظات إضافية مسجلة.";
   }
 
   const pPhone = data.p1 || window.CONFIG.primarySupervisorPhone;
