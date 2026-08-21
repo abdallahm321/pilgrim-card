@@ -3,48 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>إدارة وتحديث بيانات الفوج السحابية</title>
+<title>لوحة التحكم السحابية وإدارة الأفواج</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-:root{ --ink:#1c1c1e; --sand:#f7f3ea; --card:#fffdf8; --gold:#b8934a; --line:#e7ded0; --green:#2f5233; --danger:#8a2a2a; }
+:root{
+  --ink:#1c1c1e;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --gold-light:#e8d9b5;
+  --line:#e7ded0;
+  --green:#2f5233;
+  --green-hover:#244027;
+  --danger:#8a2a2a;
+  --radius:14px;
+}
 *{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
-body{ background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%); color:var(--ink); padding:20px 12px 60px; display:flex; justify-content:center; min-height:100vh; }
-.box{ width:100%; max-width:520px; background:var(--card); border-radius:16px; border:1px solid var(--line); padding:22px; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
-h2{ font-size:18px; font-weight:800; margin-bottom:4px; text-align:center; }
-p.desc{ font-size:12px; color:#666; margin-bottom:14px; text-align:center; }
 
-.section{ font-size:13px; font-weight:800; color:var(--gold); margin:12px 0 6px; border-bottom:1px solid var(--line); padding-bottom:4px; }
-label{ display:block; font-size:11.5px; font-weight:700; margin:6px 0 3px; color:#444; }
-input{ width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13.5px; outline:none; background:#fff; margin-bottom:6px; }
-input:focus{ border-color:var(--gold); }
-.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.btn-save{ width:100%; padding:13px; background:var(--green); color:#fff; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-top:14px; }
-.btn-save:active{ transform:scale(.98); }
+body{
+  background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:22px 14px 60px;
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
+}
 
-#result-panel{ display:none; flex-direction:column; align-items:center; margin-top:16px; padding-top:16px; border-top:1px dashed var(--line); }
-#qrcode{ background:#fff; padding:10px; border:1px solid var(--line); border-radius:8px; margin-bottom:10px; }
-.url-text{ font-size:11px; color:#0066cc; word-break:break-all; text-align:center; margin-bottom:10px; }
+.box{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:24px 20px;
+  box-shadow:0 8px 30px rgba(28,28,30,0.06);
+}
+
+.header-title{ text-align:center; margin-bottom:18px; }
+.header-title h2{ font-size:19px; font-weight:800; color:var(--ink); margin-bottom:4px; }
+.header-title p{ font-size:12.5px; color:#666; line-height:1.5; }
+
+.section-tag{
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:800; color:var(--gold);
+  margin:18px 0 8px; border-bottom:1px solid var(--line);
+  padding-bottom:5px; text-transform:uppercase;
+}
+
+label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
+input{
+  width:100%; padding:10px 12px;
+  border:1px solid var(--line); border-radius:8px;
+  font-size:13.5px; outline:none; background:#fff;
+  transition:border-color .15s, box-shadow .15s;
+  margin-bottom:6px;
+}
+input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15); }
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+.btn-save{
+  width:100%; padding:14px; background:var(--green);
+  color:#fff; font-size:15.5px; font-weight:700;
+  border:none; border-radius:10px; cursor:pointer;
+  margin-top:18px; transition:background .15s, transform .1s;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-save:hover{ background:var(--green-hover); }
+.btn-save:active{ transform:scale(0.98); }
+.btn-save:disabled{ opacity:0.65; cursor:not-allowed; }
+
+#result-panel{
+  display:none; flex-direction:column; align-items:center;
+  margin-top:20px; padding-top:18px; border-top:1px dashed var(--line);
+}
+#qrcode{
+  background:#fff; padding:12px;
+  border:1px solid var(--line); border-radius:10px;
+  margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.04);
+}
+.url-box{
+  background:#fff; border:1px solid var(--line);
+  border-radius:8px; padding:8px 12px; width:100%;
+  font-size:11.5px; color:#0066cc; word-break:break-all;
+  text-align:center; margin-bottom:12px; line-height:1.4;
+}
+
 .action-row{ display:flex; gap:8px; width:100%; }
-.action-row a, .action-row button{ flex:1; text-align:center; padding:9px; font-size:12.5px; font-weight:700; border-radius:8px; text-decoration:none; cursor:pointer; }
-.btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; }
-.btn-download{ background:var(--ink); color:#fff; border:none; }
+.action-row a, .action-row button{
+  flex:1; text-align:center; padding:10px;
+  font-size:12.5px; font-weight:700; border-radius:8px;
+  text-decoration:none; cursor:pointer; border:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  transition:.15s;
+}
+.btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line) !important; }
+.btn-copy{ background:var(--ink); color:#fff; }
+.btn-download{ background:var(--gold); color:#fff; }
+.action-row a:active, .action-row button:active{ transform:scale(0.97); }
+
+.status-badge{
+  font-size:11px; padding:2px 8px; border-radius:4px;
+  background:#eef4ed; color:var(--green); font-weight:700;
+  display:inline-block; margin-right:auto;
+}
 </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>لوحة التحكم السحابية للأفواج</h2>
-  <p class="desc">أدخل معرّف الفوج والرمز السري لتحديث بيانات السكن وأرقام المشرفين فوراً.</p>
+  <div class="header-title">
+    <h2>لوحة التحكم السحابية للأفواج</h2>
+    <p>أدخل معرّف الفوج والرمز السري لتعديل وحفظ بيانات الرحلة فوراً في السحابة</p>
+  </div>
 
-  <div class="section">بيانات اعتماد الفوج</div>
+  <div class="section-tag">
+    <span>بيانات الفوج والاعتماد</span>
+    <span id="load-status" class="status-badge" style="display:none;">جاري جلب البيانات...</span>
+  </div>
+  
   <div class="grid-2">
     <div>
       <label>معرّف الفوج (Group ID):</label>
-      <input type="text" id="group_id" placeholder="مثال: A1">
+      <input type="text" id="group_id" placeholder="مثال: A1" onchange="autoFetch()">
     </div>
     <div>
       <label>الرمز السري (PIN):</label>
@@ -52,41 +136,62 @@ input:focus{ border-color:var(--gold); }
     </div>
   </div>
 
-  <div class="section">أرقام هواتف المشرفين</div>
-  <label>رقم المشرف الأساسي:</label>
+  <label>اسم شركة السياحة / الحملة:</label>
+  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة" value="شركة الهدى للسياحة">
+
+  <div class="section-tag">أرقام هواتف المشرفين</div>
+  <label>رقم المشرف الأساسي (بصيغة دولية):</label>
   <input type="text" id="p1" placeholder="+966500000000">
 
   <label>رقم المشرف الاحتياطي:</label>
   <input type="text" id="p2" placeholder="+966500000000">
 
-  <div class="section">فندق مكة المكرمة</div>
+  <div class="section-tag">فندق مكة المكرمة</div>
   <div class="grid-2">
-    <input type="text" id="hm" placeholder="اسم الفندق والشارع">
-    <input type="text" id="rm" placeholder="رقم الغرفة">
+    <div>
+      <label>اسم الفندق والشارع:</label>
+      <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
+    </div>
+    <div>
+      <label>رقم الغرفة:</label>
+      <input type="text" id="rm" placeholder="مثال: 402">
+    </div>
   </div>
-  <input type="text" id="mm" placeholder="رابط خرائط جوجل لفندق مكة">
+  <label>رابط خرائط جوجل لفندق مكة:</label>
+  <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
 
-  <div class="section">فندق المدينة المنورة</div>
+  <div class="section-tag">فندق المدينة المنورة</div>
   <div class="grid-2">
-    <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
-    <input type="text" id="rd" placeholder="رقم الغرفة">
+    <div>
+      <label>اسم الفندق والمنطقة:</label>
+      <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
+    </div>
+    <div>
+      <label>رقم الغرفة:</label>
+      <input type="text" id="rd" placeholder="مثال: 215">
+    </div>
   </div>
-  <input type="text" id="md" placeholder="رابط خرائط جوجل لفندق المدينة">
+  <label>رابط خرائط جوجل لفندق المدينة:</label>
+  <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
 
-  <button class="btn-save" id="save-btn" onclick="saveToCloud()">حفظ التعديلات في السحابة ☁️</button>
+  <button class="btn-save" id="save-btn" onclick="saveToCloud()">
+    <span>حفظ التعديلات في السحابة ☁️</span>
+  </button>
 
   <div id="result-panel">
     <div id="qrcode"></div>
-    <div class="url-text" id="link-preview"></div>
+    <div class="url-box" id="link-preview"></div>
     <div class="action-row">
-      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة بطاقة الفوج 👁️</a>
-      <button class="btn-download" onclick="downloadQR()">تحميل QR الفوج 💾</button>
+      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة 👁️</a>
+      <button class="btn-copy" onclick="copyLink()">نسخ الرابط 📋</button>
+      <button class="btn-download" onclick="downloadQR()">تحميل QR 💾</button>
     </div>
   </div>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbym7UuoDjcJkqrp7XqRpzkJdwm3h5ecwY814hxYmdD60fLMKZPqMt0cQFbJPKTteQ/exec";
+let currentGroupUrl = "";
 
 window.onload = function(){
   const p = new URLSearchParams(window.location.search);
@@ -97,11 +202,24 @@ window.onload = function(){
   }
 };
 
+function autoFetch(){
+  const g = document.getElementById('group_id').value.trim();
+  if(g) fetchGroupData(g);
+}
+
 async function fetchGroupData(groupId){
+  const badge = document.getElementById('load-status');
+  badge.style.display = "inline-block";
+  badge.textContent = "جاري الجلب...";
+  
   try {
-    const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`);
+    const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`, {
+      method: "GET",
+      redirect: "follow"
+    });
     const data = await res.json();
     if(!data.error){
+      document.getElementById('company_name').value = data.company_name || "شركة الهدى للسياحة";
       document.getElementById('p1').value = data.p1 || "";
       document.getElementById('p2').value = data.p2 || "";
       document.getElementById('hm').value = data.hm || "";
@@ -110,8 +228,13 @@ async function fetchGroupData(groupId){
       document.getElementById('hd').value = data.hd || "";
       document.getElementById('rd').value = data.rd || "";
       document.getElementById('md').value = data.md || "";
+      badge.textContent = "تم استرجاع البيانات ✓";
+    } else {
+      badge.textContent = "فوج جديد غير مسجل";
     }
-  } catch(e){}
+  } catch(e){
+    badge.textContent = "فشل الاتصال";
+  }
 }
 
 async function saveToCloud(){
@@ -120,17 +243,18 @@ async function saveToCloud(){
   const pin = get('pin');
 
   if(!groupId || !pin){
-    alert("يرجى إدخال معرّف الفوج والرمز السري!");
+    alert("يرجى إدخال معرّف الفوج والرمز السري أولاً!");
     return;
   }
 
   const btn = document.getElementById('save-btn');
   btn.disabled = true;
-  btn.textContent = "جاري الحفظ بالسحابة...";
+  btn.innerHTML = "<span>جاري التحديث والحفظ بالسحابة... ⏳</span>";
 
   const payload = {
     group_id: groupId,
     pin: pin,
+    company_name: get('company_name') || "شركة الهدى للسياحة",
     p1: get('p1'),
     p2: get('p2'),
     hm: get('hm'),
@@ -158,27 +282,35 @@ async function saveToCloud(){
     alert("❌ حدث خطأ أثناء الاتصال بالسيرفر");
   } finally {
     btn.disabled = false;
-    btn.textContent = "حفظ التعديلات في السحابة ☁️";
+    btn.innerHTML = "<span>حفظ التعديلات في السحابة ☁️</span>";
   }
 }
 
 function showQR(groupId){
-  const targetUrl = `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(groupId)}`;
+  currentGroupUrl = `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(groupId)}`;
   const panel = document.getElementById('result-panel');
   const qrBox = document.getElementById('qrcode');
   qrBox.innerHTML = "";
-  new QRCode(qrBox, { text: targetUrl, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.H });
+  new QRCode(qrBox, { text: currentGroupUrl, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.H });
 
-  document.getElementById('link-preview').textContent = targetUrl;
-  document.getElementById('view-btn').href = targetUrl;
+  document.getElementById('link-preview').textContent = currentGroupUrl;
+  document.getElementById('view-btn').href = currentGroupUrl;
   panel.style.display = "flex";
+  panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyLink(){
+  if(!currentGroupUrl) return;
+  navigator.clipboard.writeText(currentGroupUrl).then(() => {
+    alert("📋 تم نسخ رابط بطاقة الفوج بنجاح!");
+  });
 }
 
 function downloadQR(){
   const img = document.querySelector('#qrcode img');
   if(!img) return;
   const link = document.createElement('a');
-  link.download = `group-${document.getElementById('group_id').value || 'card'}-qr.png`;
+  link.download = `QR-${document.getElementById('group_id').value || 'Group'}.png`;
   link.href = img.src;
   link.click();
 }
