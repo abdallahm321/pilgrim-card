@@ -4,6 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>بطاقة تعريف وطوارئ المعتمر</title>
+
+<!-- إضافة كأيقونة على شاشة الجوال (PWA) -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="بطاقة المعتمر">
+
+<!-- معاينة مشاركة احترافية (واتساب / تليجرام / فيسبوك) -->
+<meta name="description" content="بطاقة طوارئ رقمية للمعتمر — اتصال فوري بالمشرف، مواقع الفنادق، وإرشادات في حال التوهان.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="بطاقة تعريف وطوارئ المعتمر">
+<meta property="og:description" content="بطاقة طوارئ رقمية للمعتمر — اتصال فوري بالمشرف، مواقع الفنادق، وإرشادات في حال التوهان.">
+<meta property="og:image" content="https://abdallahm321.github.io/pilgrim-card/og-image.png">
+<meta property="og:url" content="https://abdallahm321.github.io/pilgrim-card/">
+<meta property="og:locale" content="ar_AR">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -283,11 +304,19 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
 </div>
 
-<script src="config.js"></script>
 <script>
 /* ================================================================
    بيانات هذه الرحلة موجودة في ملف config.js المنفصل — عدّل هناك فقط
    ================================================================ */
+
+/* حماية احتياطية: قيم افتراضية تُستخدم فقط إن تعذّر تحميل config.js
+   (خطأ شبكة، اسم ملف خاطئ...) بدل أن تظهر الصفحة فارغة أو معطوبة */
+window.CONFIG = {
+  primarySupervisorPhone: "+966500000000",
+  secondarySupervisorPhone: "+966500000000",
+  hotelMakkah:  { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" },
+  hotelMadinah: { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" }
+};
 
 /* ================================================================
    الترجمات — أضف لغة جديدة بنسخ كتلة كاملة وتعديلها
@@ -506,8 +535,20 @@ function shareCard(){
   }
 }
 
-applyStatic();
-setLang("ar");
+/* منع تأخر ظهور التحديثات: يحمّل config.js مع رقم عشوائي في الرابط
+   في كل مرة، فيجبر المتصفح على تجاهل أي نسخة قديمة محفوظة (Cache) */
+(function loadConfig(){
+  var s = document.createElement("script");
+  s.src = "config.js?v=" + Date.now();
+  s.onload = init;
+  s.onerror = init; // فشل التحميل؟ القيم الافتراضية أعلاه تكفي لعرض صفحة سليمة
+  document.head.appendChild(s);
+})();
+
+function init(){
+  applyStatic();
+  setLang("ar");
+}
 </script>
 </body>
 </html>
