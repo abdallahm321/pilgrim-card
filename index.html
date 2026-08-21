@@ -239,13 +239,59 @@ body{
   border-top:1px dashed var(--line);
   padding-top:10px;
   margin-top:4px;
+  width: 100%;
 }
+
+/* بطاقة تعاقدات الشركات والدعم بالفوتر */
+.footer-partner-card{
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold-light);
+  border-radius: 12px;
+  text-align: center;
+}
+.footer-partner-card p{
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.partner-links{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.partner-btn{
+  flex: 1;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: .15s;
+}
+.partner-btn-contract{
+  background: var(--gold);
+  color: #fff;
+}
+.partner-btn-help{
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.partner-btn:active{ transform: scale(0.97); }
 
 html[dir="ltr"] .info-value{ text-align:start; }
 
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-link{ display:none !important; }
+  .lang-row, .footer-actions, .admin-link, .footer-partner-card{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
@@ -354,9 +400,24 @@ html[dir="ltr"] .info-value{ text-align:start; }
       <button class="share-btn" onclick="shareCard()">📤 <span id="t-footerShare">مشاركة البطاقة</span></button>
     </div>
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
+    
     <div>
       <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ تعديل بيانات هذه الرحلة في المولد</a>
     </div>
+
+    <!-- قسم تعاقدات الشركات والدعم الفني للمنصة -->
+    <div class="footer-partner-card">
+      <p>💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:</p>
+      <div class="partner-links">
+        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="partner-btn partner-btn-contract">
+          🤝 طلب تعاقد
+        </a>
+        <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="partner-btn partner-btn-help">
+          💬 الدعم والمساعدة
+        </a>
+      </div>
+    </div>
+
   </div>
 
 </div>
