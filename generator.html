@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>لوحة إنشاء وتخصيص بطاقات المعتمرين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+:root{
+  --ink:#1c1c1e;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --line:#e7ded0;
+  --green:#2f5233;
+}
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
+body{
+  background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:20px 12px 60px;
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
+}
+.box{
+  width:100%;
+  max-width:480px;
+  background:var(--card);
+  border-radius:16px;
+  border:1px solid var(--line);
+  padding:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.06);
+}
+h2{ font-size:18px; font-weight:800; margin-bottom:6px; text-align:center; }
+p.desc{ font-size:12.5px; color:#666; margin-bottom:18px; text-align:center; line-height:1.5; }
+.section{ font-size:13px; font-weight:800; color:var(--gold); margin:14px 0 6px; border-bottom:1px solid var(--line); padding-bottom:4px; }
+label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
+input{ width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:13.5px; outline:none; background:#fff; }
+input:focus{ border-color:var(--gold); }
+.grid-2{ display:grid; grid-template-columns:2fr 1fr; gap:8px; }
+.btn-gen{ width:100%; padding:14px; background:var(--ink); color:#fff; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-top:18px; }
+.btn-gen:active{ transform:scale(.98); }
+
+#result-panel{ display:none; flex-direction:column; align-items:center; margin-top:20px; padding-top:16px; border-top:1px dashed var(--line); }
+#qrcode{ background:#fff; padding:12px; border:1px solid var(--line); border-radius:10px; margin-bottom:12px; }
+.url-text{ font-size:11.5px; color:#0066cc; word-break:break-all; text-align:center; margin-bottom:12px; line-height:1.4; }
+.action-row{ display:flex; gap:8px; width:100%; }
+.action-row a, .action-row button{ flex:1; text-align:center; padding:10px; font-size:13px; font-weight:700; border-radius:8px; text-decoration:none; cursor:pointer; }
+.btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line); }
+.btn-download{ background:var(--green); color:#fff; border:none; }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>لوحة تخصيص كرت المعتمر</h2>
+  <p class="desc">أدخل بيانات السكن والمشرفين لأي رحلة لتوليد الرابط والـ QR الخاص بها فوراً بدون تعديل أي ملف في GitHub.</p>
+
+  <div class="section">بيانات الاتصال</div>
+  <label>رقم المشرف الأساسي (بصيغة دولية):</label>
+  <input type="text" id="p1" placeholder="+966500000000">
+
+  <label>رقم المشرف الاحتياطي:</label>
+  <input type="text" id="p2" placeholder="+966500000000">
+
+  <div class="section">فندق مكة المكرمة</div>
+  <div class="grid-2">
+    <div>
+      <label>اسم الفندق / العنوان:</label>
+      <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
+    </div>
+    <div>
+      <label>الغرفة:</label>
+      <input type="text" id="rm" placeholder="مثال: 402">
+    </div>
+  </div>
+  <label>رابط خرائط جوجل لفندق مكة:</label>
+  <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
+
+  <div class="section">فندق المدينة المنورة</div>
+  <div class="grid-2">
+    <div>
+      <label>اسم الفندق / العنوان:</label>
+      <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
+    </div>
+    <div>
+      <label>الغرفة:</label>
+      <input type="text" id="rd" placeholder="مثال: 205">
+    </div>
+  </div>
+  <label>رابط خرائط جوجل لفندق المدينة:</label>
+  <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
+
+  <button class="btn-gen" onclick="buildCard()">إنشاء الـ QR والرابط المخصص</button>
+
+  <div id="result-panel">
+    <div id="qrcode"></div>
+    <div class="url-text" id="link-preview"></div>
+    <div class="action-row">
+      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة</a>
+      <button class="btn-download" onclick="downloadQR()">تحميل الـ QR للطباعة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let lastGeneratedUrl = "";
+
+function buildCard(){
+  const baseUrl = "https://abdallahm321.github.io/pilgrim-card/";
+  const p = new URLSearchParams();
+
+  const get = id => document.getElementById(id).value.trim();
+
+  if(get('p1')) p.set('p1', get('p1'));
+  if(get('p2')) p.set('p2', get('p2'));
+  if(get('hm')) p.set('hm', get('hm'));
+  if(get('rm')) p.set('rm', get('rm'));
+  if(get('mm')) p.set('mm', get('mm'));
+  if(get('hd')) p.set('hd', get('hd'));
+  if(get('rd')) p.set('rd', get('rd'));
+  if(get('md')) p.set('md', get('md'));
+
+  lastGeneratedUrl = p.toString() ? (baseUrl + "?" + p.toString()) : baseUrl;
+
+  const panel = document.getElementById('result-panel');
+  const qrBox = document.getElementById('qrcode');
+  const preview = document.getElementById('link-preview');
+  const viewBtn = document.getElementById('view-btn');
+
+  qrBox.innerHTML = "";
+  new QRCode(qrBox, {
+    text: lastGeneratedUrl,
+    width: 190,
+    height: 190,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  preview.textContent = lastGeneratedUrl;
+  viewBtn.href = lastGeneratedUrl;
+  panel.style.display = "flex";
+}
+
+function downloadQR(){
+  const img = document.querySelector('#qrcode img');
+  if(!img) return;
+  const link = document.createElement('a');
+  link.download = 'pilgrim-card-qr.png';
+  link.href = img.src;
+  link.click();
+}
+</script>
+</body>
+</html>
