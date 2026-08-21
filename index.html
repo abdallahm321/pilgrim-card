@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>بطاقة تعريف وطوارئ المعتمر</title>
 
-<!-- إضافة كأيقونة على شاشة الجوال (PWA) -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon-32.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -15,7 +14,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="بطاقة المعتمر">
 
-<!-- معاينة مشاركة احترافية (واتساب / تليجرام / فيسبوك) -->
 <meta name="description" content="بطاقة طوارئ رقمية للمعتمر — اتصال فوري بالمشرف، مواقع الفنادق، وإرشادات في حال التوهان.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="بطاقة تعريف وطوارئ المعتمر">
@@ -48,8 +46,7 @@
 *{box-sizing:border-box; margin:0; padding:0;}
 
 body{
-  background:
-    radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
   color:var(--ink);
   padding:22px 14px 60px;
   display:flex;
@@ -71,7 +68,6 @@ body{
   position:relative;
 }
 
-/* --- Islamic geometric strip (signature motif) --- */
 .pattern-strip{
   height:10px;
   background-image: linear-gradient(45deg, var(--gold) 25%, transparent 25%),
@@ -80,7 +76,6 @@ body{
   opacity:.55;
 }
 
-/* --- Header / stamp emblem --- */
 .header{
   background: linear-gradient(160deg, var(--ink) 0%, #2c2c2e 100%);
   color:#fff;
@@ -101,7 +96,6 @@ body{
 }
 .header p{ font-size:13px; color:#d8d3c6; line-height:1.6; max-width:340px; margin:0 auto; }
 
-/* --- Language switcher --- */
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
   padding:14px 18px 4px; background:var(--sand);
@@ -130,7 +124,6 @@ body{
 .section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-title span.line{ flex:1; height:1px; background:var(--line); }
 
-/* --- Buttons --- */
 .btn{
   display:flex; align-items:center; justify-content:center; gap:10px;
   width:100%; padding:15px 14px; margin-bottom:10px;
@@ -145,7 +138,6 @@ body{
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn small{ font-weight:500; opacity:.85; font-size:12px; }
 
-/* --- Info boxes --- */
 .info-box{
   background:#fff; border:1px solid var(--line); border-radius:12px;
   padding:14px; margin-bottom:12px;
@@ -156,7 +148,6 @@ body{
 .info-value{ font-weight:700; text-align:end; }
 .editable{ border-bottom:1px dotted var(--gold); }
 
-/* --- Lost-pilgrim steps --- */
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
   counter-increment:step;
@@ -171,13 +162,11 @@ body{
   display:flex; align-items:center; justify-content:center;
 }
 
-/* --- Emergency grid --- */
 .em-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .em-card{ background:#fbf3f2; border:1px solid #ecd8d6; border-radius:10px; padding:10px; text-align:center; }
 .em-num{ font-size:17px; font-weight:800; color:var(--maroon); direction:ltr; }
 .em-label{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
 
-/* --- QR block --- */
 .qr-box{
   display:flex; align-items:center; gap:14px;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;
@@ -185,7 +174,6 @@ body{
 .qr-box img{ width:84px; height:84px; border-radius:8px; border:1px solid var(--line); flex:none; }
 .qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
 
-/* --- Footer --- */
 .footer{ padding:6px 20px 22px; text-align:center; }
 .footer-actions{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
 .footer-actions button{
@@ -197,7 +185,6 @@ body{
 .footer-actions button:active{ transform:scale(.97); }
 .footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:8px; }
 
-/* زر تعديل المشرف */
 .admin-link{
   display:inline-block;
   font-size:11.5px;
@@ -207,14 +194,10 @@ body{
   border-top:1px dashed var(--line);
   padding-top:10px;
   margin-top:4px;
-  transition:.15s;
 }
-.admin-link:hover{ text-decoration:underline; }
 
-/* --- RTL / LTR handling --- */
 html[dir="ltr"] .info-value{ text-align:start; }
 
-/* --- Print card --- */
 @media print{
   body{ background:#fff; padding:0; }
   .lang-row, .footer-actions, .admin-link{ display:none !important; }
@@ -320,7 +303,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 /* ================================================================
    الرابط البرمجي لقاعدة البيانات السحابية (Google Apps Script API)
    ================================================================ */
-const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbym7UuoDjcJkqrp7XqRpzkJdwm3h5ecwY814hxYmdD60fLMKZPqMt0cQFbJPKTteQ/exec";
 
 /* حماية احتياطية: قيم افتراضية تُستخدم إن تعذّر تحميل config.js وفشل الاتصال */
 window.CONFIG = {
@@ -330,9 +313,6 @@ window.CONFIG = {
   hotelMadinah: { name: "بيانات الفندق غير متاحة حالياً", room: "—", mapsUrl: "https://maps.google.com" }
 };
 
-/* ================================================================
-   الترجمات
-   ================================================================ */
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
     cardTitle:"بطاقة تعريف وطوارئ المعتمر",
@@ -448,13 +428,13 @@ const LANGS = {
     sectionLostSteps:"Kaybolursanız Ne Yapmalısınız?",
     step1:"Bulunduğunuz yerde kalın ve fazla hareket etmeyin — sabit kalırsanız bulunmanız daha kolay olur.",
     step2:"Yukarıdaki butonları kullanarak hemen ana veya yedek sorumluyu arayın.",
-    step3:"Ulaşamazsanız en yakın güvenlik görevlisine veya bilgi noktasına gidip grubunuzdan ayrı düştüğünüzü söyleyin.",
+    step3:"Ulaşamazsanız en قريب güvenlik görevlisine veya bilgi noktasına gidip grubunuzdan ayrı düştüğünüzü söyleyin.",
     step4:"Size yardım edene grup/kimlik kartınızı gösterin ki grubunuzu tanıyabilsin.",
     step5:"Camideki bilinen bir buluşma noktasını (belirli bir kapı gibi) referans olarak hatırlayın.",
     sectionAccommodation:"Konaklama", labelHotelMakkah:"Mekke Oteli", labelRoomMakkah:"Oda No",
     labelHotelMadinah:"Medine Oteli", labelRoomMadinah:"Oda No",
     btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
-    sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti أفتح محادثة مع المشرف.",
+    sectionQr:"Hızlı İletişim için Tara", qrHint:"Ana sorumluyla anında WhatsApp sohbeti açmak için telefon kamerasıyla tarayın.",
     sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
     footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
@@ -470,14 +450,12 @@ async function applyStatic(){
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get('g') || params.get('group');
 
-  // تحديث رابط زر المشرف في الفوتر ليمرر نفس معاملات الصفحة الحالية
   const editBtn = document.getElementById("admin-edit-btn");
   if(editBtn){
     editBtn.href = "generator.html" + (window.location.search || "");
   }
 
-  // في حال وجود معرّف الفوج g=... نسحب البيانات من قاعدة بيانات جوجل السحابية فوراً
-  if (groupId && API_URL && !API_URL.includes("YOUR_SCRIPT_ID")) {
+  if (groupId) {
     try {
       const res = await fetch(`${API_URL}?g=${encodeURIComponent(groupId)}`);
       const data = await res.json();
@@ -503,11 +481,10 @@ async function applyStatic(){
         return;
       }
     } catch(err) {
-      console.warn("جاري استخدام البيانات المحلية والافتراضية...");
+      console.warn("جاري استخدام البيانات الافتراضية...");
     }
   }
 
-  // في حال غياب المعرف أو انقطاع الاتصال بالسحابة: قراءة معاملات الرابط المباشرة أو config.js
   const pPhone = params.get('p1') || window.CONFIG.primarySupervisorPhone;
   const sPhone = params.get('p2') || window.CONFIG.secondarySupervisorPhone;
   
@@ -600,7 +577,6 @@ function shareCard(){
   }
 }
 
-/* منع تأخر ظهور التحديثات: يحمّل config.js مع رقم عشوائي في الرابط */
 (function loadConfig(){
   var s = document.createElement("script");
   s.src = "config.js?v=" + Date.now();
