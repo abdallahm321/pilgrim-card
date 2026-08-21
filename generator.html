@@ -55,14 +55,15 @@ body{
 }
 
 label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
-input{
+input, textarea{
   width:100%; padding:10px 12px;
   border:1px solid var(--line); border-radius:8px;
   font-size:13.5px; outline:none; background:#fff;
   transition:border-color .15s, box-shadow .15s;
   margin-bottom:6px;
 }
-input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15); }
+input:focus, textarea:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15); }
+textarea{ min-height:75px; resize:vertical; }
 .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 
 .btn-save{
@@ -136,8 +137,16 @@ input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15
     </div>
   </div>
 
-  <label>اسم شركة السياحة / الحملة:</label>
-  <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
+  <div class="grid-2">
+    <div>
+      <label>اسم شركة السياحة / الحملة:</label>
+      <input type="text" id="company_name" placeholder="مثال: شركة الهدى للسياحة">
+    </div>
+    <div>
+      <label>رقم الحافلة / الباص:</label>
+      <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
+    </div>
+  </div>
 
   <div class="section-tag">أرقام هواتف المشرفين</div>
   <label>رقم المشرف الأساسي (بصيغة دولية):</label>
@@ -174,6 +183,9 @@ input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15
   <label>رابط خرائط جوجل لفندق المدينة:</label>
   <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
 
+  <div class="section-tag">ملاحظات وتوجيهات خاصة للفوج</div>
+  <textarea id="notes" placeholder="اكتب هنا أي مواعيد تحرك، نقطة تجمع بالحرم، أو أرقام غرف الأطباء..."></textarea>
+
   <button class="btn-save" id="save-btn" onclick="saveToCloud()">
     <span>حفظ التعديلات في السحابة ☁️</span>
   </button>
@@ -190,20 +202,21 @@ input:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzSfLIEMwxxxbppJppKnmpAvVb8QGZHeiLRgWbdFJyZwJQhhM2bOQbKh9Rh8iZF9g_1/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxhj9wg4c09HdZQja5knW61KH8hwmTIB0C6eMmEwLR8pWG2sONexEgap98tAvaPWGep/exec";
 let currentGroupUrl = "";
 
 window.onload = function(){
   const p = new URLSearchParams(window.location.search);
-  const g = p.get('g') || p.get('group');
-  if(g){
+  const rawG = p.get('g') || p.get('group');
+  if(rawG){
+    const g = rawG.trim().toUpperCase();
     document.getElementById('group_id').value = g;
     fetchGroupData(g);
   }
 };
 
 function autoFetch(){
-  const g = document.getElementById('group_id').value.trim();
+  const g = document.getElementById('group_id').value.trim().toUpperCase();
   if(g) fetchGroupData(g);
 }
 
@@ -220,6 +233,7 @@ async function fetchGroupData(groupId){
     const data = await res.json();
     if(!data.error){
       document.getElementById('company_name').value = data.company_name || "";
+      document.getElementById('bus_no').value = data.bus_no || "";
       document.getElementById('p1').value = data.p1 || "";
       document.getElementById('p2').value = data.p2 || "";
       document.getElementById('hm').value = data.hm || "";
@@ -228,6 +242,7 @@ async function fetchGroupData(groupId){
       document.getElementById('hd').value = data.hd || "";
       document.getElementById('rd').value = data.rd || "";
       document.getElementById('md').value = data.md || "";
+      document.getElementById('notes').value = data.notes || "";
       badge.textContent = "تم استرجاع البيانات ✓";
     } else {
       badge.textContent = "فوج جديد";
@@ -239,7 +254,7 @@ async function fetchGroupData(groupId){
 
 async function saveToCloud(){
   const get = id => document.getElementById(id).value.trim();
-  const groupId = get('group_id');
+  const groupId = get('group_id').toUpperCase();
   const pin = get('pin');
 
   if(!groupId || !pin){
@@ -256,6 +271,7 @@ async function saveToCloud(){
     group_id: groupId,
     pin: pin,
     company_name: get('company_name'),
+    bus_no: get('bus_no'),
     p1: get('p1'),
     p2: get('p2'),
     hm: get('hm'),
@@ -263,7 +279,8 @@ async function saveToCloud(){
     mm: get('mm'),
     hd: get('hd'),
     rd: get('rd'),
-    md: get('md')
+    md: get('md'),
+    notes: get('notes')
   });
 
   try {
