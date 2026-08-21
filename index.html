@@ -211,34 +211,55 @@ body{
   display:flex; align-items:center; gap:14px;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;
 }
-#qr-local-container{
+.qr-render-frame{
   background:#fff; padding:4px; border:1px solid var(--line);
   border-radius:8px; flex:none; width:92px; height:92px;
   display:flex; align-items:center; justify-content:center;
 }
-#qr-local-container canvas, #qr-local-container img{
+.qr-render-frame canvas, .qr-render-frame img{
   width:84px !important; height:84px !important; display:block;
 }
 .qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
 
 .footer{ padding:6px 20px 22px; text-align:center; }
-.footer-actions{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
-.footer-actions button{
-  flex:1; max-width:190px; background:none; border:1px solid var(--line);
-  color:var(--ink-soft); font-size:12.5px; padding:10px 14px; border-radius:999px; cursor:pointer;
-  font-weight:700;
+.footer-btn-unified{
+  width:100%; background:var(--ink); color:#fff; border:none;
+  font-size:14px; padding:13px 14px; border-radius:12px; cursor:pointer;
+  font-weight:700; margin-bottom:10px; display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 4px 12px rgba(28,28,30,0.12);
 }
-.footer-actions .print-btn-main{ background:var(--ink); color:#fff; border-color:var(--ink); }
+.footer-btn-unified:active{ transform:scale(0.98); }
+.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:12px; }
 
 .admin-edit-card-btn{
   display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
-  padding:12px 14px; background:#f7f4ec; border:1px solid var(--gold-light);
-  border-radius:10px; color:var(--ink); text-decoration:none; font-size:13px; font-weight:700;
+  padding:11px 14px; background:#f7f4ec; border:1px solid var(--gold-light);
+  border-radius:10px; color:var(--ink); text-decoration:none; font-size:12.5px; font-weight:700;
 }
 
+/* بطاقة الدليل ودعم المنصة */
 .bottom-guide-card{
   width:100%; max-width:460px; background:var(--card); border-radius:var(--radius);
   box-shadow:var(--shadow); border:1px solid var(--line); padding:14px 16px; text-align:center;
+}
+.support-subtle-toggle{
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; color:#8a857b; text-decoration:none;
+  cursor:pointer; margin-top:10px; padding:4px 8px; border-radius:6px;
+  background:transparent; border:none; transition:.15s;
+}
+.support-subtle-toggle:hover{ color:var(--gold); }
+.support-details-box{
+  display:none; margin-top:10px; padding:12px; background:#fff;
+  border:1px dashed var(--gold-light); border-radius:10px; text-align:start;
+  font-size:11.5px; line-height:1.6; color:var(--ink);
+}
+.iban-copy-btn{
+  background:#f4eee2; border:1px solid var(--gold-light); padding:2px 8px;
+  border-radius:4px; font-size:10.5px; font-weight:bold; cursor:pointer; color:var(--ink); margin-right:4px;
+}
+.instapay-link{
+  display:inline-block; margin-top:6px; color:#582c8b; font-weight:bold; text-decoration:none;
 }
 
 /* Modal */
@@ -249,7 +270,7 @@ body{
   z-index:9999; padding:14px;
 }
 .print-modal-box{
-  background:#fff; border-radius:18px; width:100%; max-width:480px;
+  background:#fff; border-radius:18px; width:100%; max-width:460px;
   padding:22px 20px; box-shadow:0 20px 40px rgba(0,0,0,0.25);
   max-height:90vh; overflow-y:auto; position:relative;
 }
@@ -260,22 +281,21 @@ body{
 [dir="ltr"] .modal-close-btn{ left:auto; right:16px; }
 
 .modal-header{ text-align:center; margin-bottom:16px; }
-.modal-header h3{ font-size:17px; font-weight:800; color:var(--ink); }
+.modal-header h3{ font-size:16.5px; font-weight:800; color:var(--ink); }
 .modal-header p{ font-size:12px; color:#666; margin-top:2px; }
 
 .print-option-card{
   border:1px solid var(--line); border-radius:12px; padding:14px;
-  margin-bottom:12px; background:#fbf9f4; transition:.15s;
+  margin-bottom:12px; background:#fbf9f4;
 }
-.print-option-card:hover{ border-color:var(--gold); }
-.print-option-card h4{ font-size:14px; font-weight:800; color:var(--ink); display:flex; align-items:center; gap:6px; }
+.print-option-card h4{ font-size:13.5px; font-weight:800; color:var(--ink); }
 .print-option-card p{ font-size:11.5px; color:#666; line-height:1.5; margin:4px 0 10px; }
 
 .modal-btn-row{ display:flex; gap:8px; }
 .modal-action-btn{
-  flex:1; padding:9px 12px; border-radius:8px; font-size:12.5px;
+  flex:1; padding:9px 10px; border-radius:8px; font-size:12px;
   font-weight:700; border:none; cursor:pointer; display:inline-flex;
-  align-items:center; justify-content:center; gap:6px; transition:.15s;
+  align-items:center; justify-content:center; gap:5px; transition:.15s;
 }
 .btn-primary-m{ background:var(--ink); color:#fff; }
 .btn-gold-m{ background:var(--gold); color:#fff; }
@@ -292,6 +312,7 @@ body{
 </head>
 <body>
 
+<!-- 1. بطاقة المعتمر الأساسية -->
 <div class="card" id="card">
 
   <div class="pattern-strip"></div>
@@ -314,6 +335,7 @@ body{
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
+  <!-- صندوق اختيار الفوج التفاعلي -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -332,12 +354,14 @@ body{
 
   <div class="body">
 
+    <!-- الاتصال الفوري -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionContact">التواصل الفوري مع المشرفين</span><span class="line"></span></div>
 
     <a href="#" id="btn-primary" class="btn btn-primary"><span id="t-btnPrimary">اتصال بالمشرف الأساسي</span></a>
     <a href="#" id="btn-secondary" class="btn btn-secondary"><span id="t-btnSecondary">اتصال بالمشرف الاحتياطي</span></a>
     <button id="btn-whatsapp" class="btn btn-whatsapp"><span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span></button>
 
+    <!-- الإقامة -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
 
     <div class="info-box">
@@ -352,6 +376,7 @@ body{
     </div>
     <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
 
+    <!-- الحافلة والملاحظات والتوجيهات -->
     <div id="section-transport-wrapper">
       <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionTransportNotes">الحافلة وتوجيهات الرحلة</span><span class="line"></span></div>
       <div class="transport-notes-box">
@@ -363,12 +388,14 @@ body{
       </div>
     </div>
 
+    <!-- QR -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
     <div class="qr-box">
-      <div id="qr-local-container"></div>
+      <div class="qr-render-frame" id="qr-local-container"></div>
       <p id="t-qrHint">امسح الرمز بكاميرا الجوال لعرض بيانات السكن والتواصل المباشر مع المشرف دون الحاجة لتثبيت تطبيقات.</p>
     </div>
 
+    <!-- طوارئ رسمية -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionEmergency">أرقام الطوارئ الرسمية (السعودية)</span><span class="line"></span></div>
     <div class="em-grid">
       <div class="em-card"><div class="em-num">911 / 999</div><div class="em-label" id="t-emSecurity">الأمن والشرطة</div></div>
@@ -377,6 +404,7 @@ body{
       <div class="em-card"><div class="em-num">998</div><div class="em-label" id="t-emCivilDefense">الدفاع المدني</div></div>
     </div>
 
+    <!-- ماذا تفعل إن تهت -->
     <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionLostSteps">ماذا تفعل إن تهت؟</span><span class="line"></span></div>
     <div class="info-box steps-box">
       <ol>
@@ -391,10 +419,11 @@ body{
   </div>
 
   <div class="footer">
-    <div class="footer-actions">
-      <button class="print-btn-main" onclick="openPrintModal()">🖨️ <span id="t-footerPrint">خيارات الطباعة والتصدير</span></button>
-      <button class="share-btn" onclick="shareCard()">📤 <span id="t-footerShare">مشاركة الرابط</span></button>
-    </div>
+    <!-- الزر المدمج الشامل -->
+    <button class="footer-btn-unified" onclick="openPrintModal()">
+      <span>📤 مشاركة وطباعة وتصدير البطاقة</span>
+    </button>
+
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
     
     <div>
@@ -407,44 +436,77 @@ body{
 
 </div>
 
+<!-- 2. بطاقة دليل المناسك المستقلة بالأسفل + سطر الدعم الهادئ -->
 <div class="bottom-guide-card">
   <a href="umrah-guide.html" class="btn btn-guide" style="margin:0;">
     <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
   </a>
+
+  <!-- سطر الدعم الهادئ غير البارز -->
+  <div>
+    <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
+      <span>☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
+    </button>
+    
+    <div id="support-details" class="support-details-box">
+      <div>
+        <strong>IBAN:</strong> <span id="iban-val">EG890003052250019122198000140</span>
+        <button class="iban-copy-btn" onclick="copyIBAN()">نسخ</button>
+      </div>
+      <div>
+        <a href="https://ipn.eg/S/abdallah32122/instapay/7obrf8" target="_blank" class="instapay-link">
+          ⚡ الدفع المباشر عبر InstaPay
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- 3. نافذة خيارات المشاركة والطباعة والتصدير (Modal) -->
 <div class="print-modal-overlay" id="print-modal">
   <div class="print-modal-box">
     <button class="modal-close-btn" onclick="closePrintModal()">✕</button>
     
     <div class="modal-header">
-      <h3>🖨️ مركز الطباعة وتصدير الكروت</h3>
-      <p>اختر صيغة وشكل البطاقة المناسبة للمعتمر أو لشركة السياحة</p>
+      <h3>📤 مركز المشاركة وتصدير الكروت</h3>
+      <p>اختر ما يناسبك لحفظ أو طباعة أو إرسال بيانات الفوج</p>
     </div>
 
+    <!-- المشاركة السريعة -->
     <div class="print-option-card">
-      <h4>👤 1. بطاقة المعتمر الشخصية الحالية</h4>
-      <p>طباعة أو حفظ بيانات الفندق الحالي ورقم الغرفة وأرقام المشرفين الخاصة بالرحلة الحالية.</p>
+      <h4>🔗 1. مشاركة الرابط المباشر للفوج</h4>
+      <p>إرسال رابط الفوج الحالي عبر واتساب مع كامل بيانات الفندق والمشرفين.</p>
       <div class="modal-btn-row">
-        <button class="modal-action-btn btn-primary-m" onclick="printPersonalCard()">🖨️ طباعة البطاقة</button>
+        <button class="modal-action-btn btn-primary-m" onclick="shareGroupLink()">📲 إرسال / نسخ الرابط</button>
+      </div>
+    </div>
+
+    <!-- كارت المعتمر الشخصي -->
+    <div class="print-option-card">
+      <h4>👤 2. بطاقة المعتمر الشخصية الحالية</h4>
+      <p>طباعة الكارت الفردي للرحلة الحالية أو حفظه كصورة في معرض الصور.</p>
+      <div class="modal-btn-row">
+        <button class="modal-action-btn btn-primary-m" onclick="printPersonalCard()">🖨️ طباعة عادية</button>
         <button class="modal-action-btn btn-gold-m" onclick="downloadCardImage()">🖼️ حفظ كصورة</button>
       </div>
     </div>
 
+    <!-- خلفية شاشة القفل -->
     <div class="print-option-card">
-      <h4>📱 2. خلفية شاشة قفل الجوال (Lock Screen)</h4>
-      <p>صورة بأبعاد الهاتف تحتوي على الباركود وأرقام الطوارئ ليتم مسحها حتى لو كان هاتف المعتمر مغلقاً.</p>
+      <h4>📱 3. خلفية شاشة قفل الجوال (Lock Screen)</h4>
+      <p>صورة بأبعاد الهاتف تحتوي على الباركود المباشر وأرقام الطوارئ للمسح دون فتح الهاتف.</p>
       <div class="modal-btn-row">
         <button class="modal-action-btn btn-green-m" onclick="generateLockScreen()">📲 توليد خلفية الشاشة</button>
       </div>
     </div>
 
+    <!-- كروت الشركات الدائمة -->
     <div class="print-option-card" style="border-right: 4px solid var(--gold);">
-      <h4>🏢 3. كروت الشركات الذكية الدائمة (PVC / A4)</h4>
-      <p>كروت مختصرة باسم الشركة وكود الفوج والـ QR فقط (بدون كتابة أسماء الفنادق) لتصلح لجميع الرحلات والمواسم دون إعادة طباعة.</p>
+      <h4>🏢 4. كروت الشركات الذكية الدائمة (A4 / بادج)</h4>
+      <p>كروت مختصرة باسم الشركة والباركود الدائم دون كتابة أسماء الفنادق لتصلح لكل المواسم.</p>
       <div class="modal-btn-row">
-        <button class="modal-action-btn btn-primary-m" onclick="printCompanyCardSingle()">💳 كارت بادج مفرد</button>
-        <button class="modal-action-btn btn-gold-m" onclick="printCompanyBatchA4()">📄 طباعة مجمعة (A4 Sheet)</button>
+        <button class="modal-action-btn btn-primary-m" onclick="printCompanyCardSingle()">💳 بادج مفرد</button>
+        <button class="modal-action-btn btn-gold-m" onclick="printCompanyBatchA4()">📄 طباعة 8 كروت (A4)</button>
       </div>
     </div>
 
@@ -482,7 +544,7 @@ const LANGS = {
     sectionQr:"مسح سريع للتواصل", qrHint:"امسح الرمز بكاميرا الجوال لعرض بيانات السكن والتواصل المباشر مع المشرف دون الحاجة لتثبيت تطبيقات.",
     sectionEmergency:"أرقام الطوارئ الرسمية (السعودية)",
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
-    footerPrint:"خيارات الطباعة والتصدير", footerShare:"مشاركة الرابط", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
+    footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
     adminEditBtn:"تعديل بيانات هذه الرحلة في لوحة التحكم",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع."
   }}
@@ -491,7 +553,7 @@ const LANGS = {
 let currentLang = "ar";
 function digitsOnly(p){ return p ? p.replace(/[^\d+]/g,"") : ""; }
 
-// توليد QR محلياً داخل المتصفح بدون سيرفرات خارجية
+// توليد الباركود محلياً كعنصر Canvas مباشر
 function generateLocalQR(elementId, text, size) {
   const container = document.getElementById(elementId);
   if (!container) return;
@@ -534,7 +596,7 @@ function renderUI(data){
   document.getElementById("btn-mapMakkah").href = data.mm || "https://maps.google.com";
   document.getElementById("btn-mapMadinah").href = data.md || "https://maps.google.com";
 
-  // توليد الباركود محلياً فوراً
+  // توليد فوري للباركود برابط الفوج المباشر
   generateLocalQR("qr-local-container", groupDirectUrl, 84);
   
   window.ACTIVE_PRIMARY_PHONE = pPhone;
@@ -640,45 +702,32 @@ document.getElementById("btn-whatsapp").addEventListener("click", function(){
   }, { timeout: 8000 });
 });
 
-function shareCard(){
+/* نافذة وخيارات الطباعة */
+function openPrintModal(){ document.getElementById('print-modal').style.display = 'flex'; }
+function closePrintModal(){ document.getElementById('print-modal').style.display = 'none'; }
+
+function shareGroupLink(){
   const gUrl = window.CURRENT_GROUP_URL || window.location.href;
   const compName = window.CURRENT_RECORD?.company_name || "منصة بطاقة المعتمر";
   const gId = window.CURRENT_RECORD?.group_id || "";
-
   const shareData = {
     title: `بطاقة معتمر - ${compName}`,
     text: `بطاقة تعريف وطوارئ المعتمر (فوج ${gId}) - ${compName}:\n`,
     url: gUrl
   };
-
   if (navigator.share) {
     navigator.share(shareData).catch(() => {});
-    return;
-  }
-
-  const fullText = `${shareData.text}${shareData.url}`;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(fullText).then(() => {
-      alert("📋 تم نسخ رابط بطاقة الفوج بنجاح!");
-    });
   } else {
-    window.open(`https://wa.me/?text=${encodeURIComponent(fullText)}`, "_blank");
+    const fullText = `${shareData.text}${shareData.url}`;
+    navigator.clipboard && navigator.clipboard.writeText(fullText).then(() => alert("📋 تم نسخ الرابط!"));
   }
 }
 
-/* ==================================================================
-   دوال الطباعة والتصدير المحلية المباشرة
-   ================================================================== */
-function openPrintModal(){ document.getElementById('print-modal').style.display = 'flex'; }
-function closePrintModal(){ document.getElementById('print-modal').style.display = 'none'; }
-
-// 1. طباعة البطاقة الشخصية
 function printPersonalCard(){
   closePrintModal();
   window.print();
 }
 
-// 2. تنزيل البطاقة كصورة عادية مع ضمان ظهور الباركود
 function downloadCardImage(){
   closePrintModal();
   const card = document.getElementById("card");
@@ -690,7 +739,6 @@ function downloadCardImage(){
   });
 }
 
-// 3. توليد خلفية شاشة القفل للجوال بباركود محلي
 function generateLockScreen(){
   closePrintModal();
   const gId = window.CURRENT_RECORD?.group_id || "A1";
@@ -742,7 +790,6 @@ function generateLockScreen(){
   }, 300);
 }
 
-// 4. طباعة كارت الشركة المختصر الدائم (مفرد)
 function printCompanyCardSingle(){
   closePrintModal();
   const gId = window.CURRENT_RECORD?.group_id || "A1";
@@ -776,7 +823,6 @@ function printCompanyCardSingle(){
   setTimeout(() => { window.print(); }, 200);
 }
 
-// 5. طباعة مجمعة 8 كروت في صفحة A4 بباركود محلي
 function printCompanyBatchA4(){
   closePrintModal();
   const gId = window.CURRENT_RECORD?.group_id || "A1";
@@ -817,6 +863,16 @@ function printCompanyBatchA4(){
   }
 
   setTimeout(() => { window.print(); }, 300);
+}
+
+function toggleSupportDetails(){
+  const box = document.getElementById('support-details');
+  box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+}
+
+function copyIBAN(){
+  const val = document.getElementById('iban-val').textContent;
+  navigator.clipboard.writeText(val).then(() => alert("تم نسخ رقم الآيبان بنجاح"));
 }
 
 (function init(){
