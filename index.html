@@ -278,86 +278,61 @@ body{
 }
 .footer-actions .share-btn{ background:var(--ink); color:#fff; border-color:var(--ink); }
 .footer-actions button:active{ transform:scale(.97); }
-.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:8px; }
+.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:12px; }
 
-.admin-link{
-  display:inline-block;
-  font-size:11.5px;
-  color:#b8934a;
+/* زر تعديل بيانات الرحلة المحسّن */
+.admin-edit-card-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:12px 14px;
+  background:#f7f4ec;
+  border:1px solid var(--gold-light);
+  border-radius:10px;
+  color:var(--ink);
   text-decoration:none;
+  font-size:13px;
   font-weight:700;
-  border-top:1px dashed var(--line);
-  padding-top:10px;
-  margin-top:4px;
-  width: 100%;
+  transition:.15s;
+}
+.admin-edit-card-btn:hover{
+  background:#f1ebe0;
+  border-color:var(--gold);
+}
+.admin-edit-card-btn:active{
+  transform:scale(0.98);
+}
+.admin-edit-card-btn svg{
+  color:var(--gold);
+  flex:none;
 }
 
-/* ==================================================================
-   البطاقة السفلية الجديدة (دليل المناسك وتعاقدات الشركات)
-   ================================================================== */
-.bottom-extra-card{
+/* بطاقة دليل المناسك بالأسفل */
+.bottom-guide-card{
   width:100%;
   max-width:460px;
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   border:1px solid var(--line);
-  padding:16px 18px;
+  padding:14px 16px;
   text-align:center;
 }
-.bottom-extra-card h4{
-  font-size:13.5px;
-  font-weight:800;
-  color:var(--ink);
-  margin-bottom:6px;
-}
-.bottom-extra-card p{
-  font-size:11.5px;
-  color:var(--ink-soft);
-  line-height:1.5;
-  margin-bottom:12px;
-}
-.bottom-partner-btns{
-  display:flex;
-  gap:8px;
-  justify-content:center;
-}
-.bottom-btn{
-  flex:1;
-  font-size:12px;
-  font-weight:700;
-  padding:9px 10px;
-  border-radius:8px;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  transition:.15s;
-}
-.bottom-btn-contract{
-  background:var(--gold);
-  color:#fff;
-}
-.bottom-btn-help{
-  background:#fff;
-  color:var(--ink);
-  border:1px solid var(--line);
-}
-.bottom-btn:active{ transform:scale(0.97); }
 
 html[dir="ltr"] .info-value{ text-align:start; }
 
 @media print{
   body{ background:#fff; padding:0; }
-  .lang-row, .footer-actions, .admin-link, .bottom-extra-card, .group-selector-card{ display:none !important; }
+  .lang-row, .footer-actions, .admin-edit-card-btn, .bottom-guide-card, .group-selector-card{ display:none !important; }
   .card{ box-shadow:none; border:1px solid #ccc; max-width:100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- 1. بطاقة المعتمر الأساسية (طوارئ وإقامة وتواصل فقط) -->
+<!-- 1. بطاقة المعتمر الأساسية -->
 <div class="card" id="card">
 
   <div class="pattern-strip"></div>
@@ -380,7 +355,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
+  <!-- صندوق اختيار الفوج التفاعلي -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -476,32 +451,22 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
     
+    <!-- زر تعديل البيانات المحسن للمشرفين -->
     <div>
-      <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في المولد</span></a>
+      <a href="generator.html" id="admin-edit-btn" class="admin-edit-card-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في لوحة التحكم</span>
+      </a>
     </div>
   </div>
 
 </div>
 
-<!-- 2. بطاقة الخدمات الإضافية والتعاقدات (بطاقة منفصلة بالأسفل لعدم تشتيت المعتمر) -->
-<div class="bottom-extra-card">
-  <!-- زر دليل العمرة والمناسك -->
-  <a href="umrah-guide.html" class="btn btn-guide" style="margin-bottom:14px;">
+<!-- 2. بطاقة دليل المناسك المستقلة بالأسفل -->
+<div class="bottom-guide-card">
+  <a href="umrah-guide.html" class="btn btn-guide" style="margin:0;">
     <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
   </a>
-
-  <!-- خدمات الشركات والدعم الفني -->
-  <h4 id="t-partnerCardTitle">💼 خدمات الشركات ومنظمي الرحلات</h4>
-  <p id="t-partnerCardText">لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني والاستفسار:</p>
-  
-  <div class="bottom-partner-btns">
-    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="bottom-btn bottom-btn-contract">
-      🤝 <span id="t-partnerBtnContract">طلب تعاقد</span>
-    </a>
-    <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="bottom-btn bottom-btn-help">
-      💬 <span id="t-partnerBtnHelp">الدعم والمساعدة</span>
-    </a>
-  </div>
 </div>
 
 <script>
@@ -541,10 +506,7 @@ const LANGS = {
     sectionEmergency:"أرقام الطوارئ الرسمية (السعودية)",
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
     footerPrint:"طباعة البطاقة", footerShare:"مشاركة البطاقة", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
-    adminEditBtn:"تعديل بيانات هذه الرحلة في المولد",
-    partnerCardTitle:"💼 خدمات الشركات ومنظمي الرحلات",
-    partnerCardText:"لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني والاستفسار:",
-    partnerBtnContract:"طلب تعاقد", partnerBtnHelp:"الدعم والمساعدة",
+    adminEditBtn:"تعديل بيانات هذه الرحلة في لوحة التحكم",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع."
   }},
   en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
@@ -570,10 +532,7 @@ const LANGS = {
     sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
     emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
     footerPrint:"Print Card", footerShare:"Share Card", footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
-    adminEditBtn:"Edit Group Data in Generator",
-    partnerCardTitle:"💼 Travel Agencies & Services",
-    partnerCardText:"For custom smart cards, cloud management or technical support:",
-    partnerBtnContract:"Agency Partnership", partnerBtnHelp:"Help & Support",
+    adminEditBtn:"Edit Group Data in Control Panel",
     locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it."
   }},
   ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
@@ -599,10 +558,7 @@ const LANGS = {
     sectionEmergency:"سرکاری ہنگامی نمبرز (سعودی عرب)",
     emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
     footerPrint:"کارڈ پرنٹ کریں", footerShare:"کارڈ شیئر کریں", footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
-    adminEditBtn:"جنریٹر میں اس گروپ کا ڈیٹا تبدیل کریں",
-    partnerCardTitle:"💼 کمپنیوں اور ایجنسیوں کے لیے خدمات",
-    partnerCardText:"اپنی کمپنی کے لیے اسمارٹ کارڈز اور کلاؤڈ سسٹم یا سپورٹ کے لیے رابطہ کریں:",
-    partnerBtnContract:"نئے معاہدے کی درخواست", partnerBtnHelp:"مدد اور سپورٹ",
+    adminEditBtn:"کنٹرول پینل میں اس گروپ کا ڈیٹا تبدیل کریں",
     locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔"
   }},
   id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
@@ -628,10 +584,7 @@ const LANGS = {
     sectionEmergency:"Nomor Darurat Resmi (Arab Saudi)",
     emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah (Ambulans)", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
     footerPrint:"Cetak Kartu", footerShare:"Bagikan Kartu", footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
-    adminEditBtn:"Edit Data Grup di Generator",
-    partnerCardTitle:"💼 Layanan Biro Travel & Agensi",
-    partnerCardText:"Untuk kartu pintar kustom, sistem cloud atau bantuan teknis:",
-    partnerBtnContract:"Kemitraan Baru", partnerBtnHelp:"Bantuan & Dukungan",
+    adminEditBtn:"Edit Data Grup di Panel Kontrol",
     locating:"Mencari lokasi Anda...", locFail:"Lokasi tidak ditemukan — WhatsApp akan terbuka tanpa lokasi."
   }},
   fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
@@ -657,10 +610,7 @@ const LANGS = {
     sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
     emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
     footerPrint:"Imprimer la Carte", footerShare:"Partager la Carte", footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
-    adminEditBtn:"Modifier les données du groupe",
-    partnerCardTitle:"💼 Services Agences de Voyage",
-    partnerCardText:"Pour des cartes personnalisées, gestion cloud ou support technique:",
-    partnerBtnContract:"Partenariat d'agence", partnerBtnHelp:"Aide & Support",
+    adminEditBtn:"Modifier les données dans le panneau de contrôle",
     locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle."
   }},
   tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
@@ -686,10 +636,7 @@ const LANGS = {
     sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
     footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
-    adminEditBtn:"Grup Verilerini Düzenle",
-    partnerCardTitle:"💼 Seyahat Acentesi Hizmetleri",
-    partnerCardText:"Özel akıllı kartlar, bulut sistemi veya teknik destek için:",
-    partnerBtnContract:"Acente Anlaşması", partnerBtnHelp:"Yardım & Destek",
+    adminEditBtn:"Kontrol Panelinde Grup Verilerini Düzenle",
     locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak."
   }}
 };
