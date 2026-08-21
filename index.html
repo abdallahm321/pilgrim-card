@@ -486,7 +486,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzY7X-diPTJxv0l7ocLkViEz-XkEXXRuNN1w3LGH1jwc7KyezhWfyMURnp6DtHZSIEP/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwk1Uw_1_Dh-5vxOHJGN7tBP_GKhJX7V5SFIgTJXtynamC6ikoU4KTFf2r16tHCCOT3/exec";
 
 window.CONFIG = {
   companyName: "منصة بطاقة المعتمر الذكية",
@@ -740,14 +740,12 @@ async function applyStatic(){
     editBtn.href = "generator.html" + (window.location.search || "");
   }
 
-  // إذا لم يُحدد كود فوج في الرابط، نظهر بطاقة الاختيار الذكية ونجلب القائمة
   if (!groupId) {
     document.getElementById("group-selector-box").style.display = "block";
     fetchGroupsList();
     return;
   }
 
-  // إذا تم تحديد كود فوج، نجلب بياناته فوراً ونخفي صندوق الاختيار
   document.getElementById("group-selector-box").style.display = "none";
   try {
     const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`, {
