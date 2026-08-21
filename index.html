@@ -402,18 +402,18 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
     
     <div>
-      <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ تعديل بيانات هذه الرحلة في المولد</a>
+      <a href="generator.html" id="admin-edit-btn" class="admin-link">✏️ <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في المولد</span></a>
     </div>
 
     <!-- قسم تعاقدات الشركات والدعم الفني للمنصة -->
     <div class="footer-partner-card">
-      <p>💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:</p>
+      <p id="t-partnerCardText">💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:</p>
       <div class="partner-links">
         <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%82%D8%AF%20%D9%88%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A7%D8%AA%20%D8%B0%D9%83%D9%8A%D8%A9%20%D9%84%D8%B4%D8%B1%D9%83%D8%AA%D9%86%D8%A7" target="_blank" class="partner-btn partner-btn-contract">
-          🤝 طلب تعاقد
+          🤝 <span id="t-partnerBtnContract">طلب تعاقد</span>
         </a>
         <a href="https://wa.me/201004509977?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20%D8%A8%D8%B7%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B9%D8%AA%D9%85%D8%B1" target="_blank" class="partner-btn partner-btn-help">
-          💬 الدعم والمساعدة
+          💬 <span id="t-partnerBtnHelp">الدعم والمساعدة</span>
         </a>
       </div>
     </div>
@@ -456,6 +456,9 @@ const LANGS = {
     sectionEmergency:"أرقام الطوارئ الرسمية (السعودية)",
     emSecurity:"الأمن والشرطة", emRedCrescent:"الهلال الأحمر (الإسعاف)", emHajjMinistry:"وزارة الحج والعمرة", emCivilDefense:"الدفاع المدني",
     footerPrint:"طباعة البطاقة", footerShare:"مشاركة البطاقة", footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
+    adminEditBtn:"تعديل بيانات هذه الرحلة في المولد",
+    partnerCardText:"💼 لتجهيز بطاقات ذكية مطبوعة وسحابية باسم شركتك أو للدعم الفني:",
+    partnerBtnContract:"طلب تعاقد", partnerBtnHelp:"الدعم والمساعدة",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع."
   }},
   en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
@@ -478,6 +481,9 @@ const LANGS = {
     sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
     emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
     footerPrint:"Print Card", footerShare:"Share Card", footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
+    adminEditBtn:"Edit Group Data in Generator",
+    partnerCardText:"💼 For custom smart cards & cloud management for your agency:",
+    partnerBtnContract:"Agency Partnership", partnerBtnHelp:"Help & Support",
     locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it."
   }},
   ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
@@ -500,6 +506,9 @@ const LANGS = {
     sectionEmergency:"سرکاری ہنگامی نمبرز (سعودی عرب)",
     emSecurity:"پولیس و سیکیورٹی", emRedCrescent:"ہلال احمر (ایمبولینس)", emHajjMinistry:"وزارت حج و عمرہ", emCivilDefense:"سول ڈیفنس",
     footerPrint:"کارڈ پرنٹ کریں", footerShare:"کارڈ شیئر کریں", footerNote:"یہ صفحہ موبائل لنک کے طور پر رکھا جا سکتا ہے یا کاغذی کارڈ کے طور پر پرنٹ کیا جا سکتا ہے۔",
+    adminEditBtn:"جنریٹر میں اس گروپ کا ڈیٹا تبدیل کریں",
+    partnerCardText:"💼 اپنی کمپنی کے لیے اسمارٹ کارڈز اور کلاؤڈ سسٹم کے لیے:",
+    partnerBtnContract:"نئے معاہدے کی درخواست", partnerBtnHelp:"مدد اور سپورٹ",
     locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔"
   }},
   id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
@@ -522,6 +531,9 @@ const LANGS = {
     sectionEmergency:"Nomor Darurat Resmi (Arab Saudi)",
     emSecurity:"Polisi & Keamanan", emRedCrescent:"Bulan Sabit Merah (Ambulans)", emHajjMinistry:"Kementerian Haji & Umrah", emCivilDefense:"Pertahanan Sipil",
     footerPrint:"Cetak Kartu", footerShare:"Bagikan Kartu", footerNote:"Halaman ini dapat disimpan sebagai tautan ponsel atau dicetak sebagai kartu kertas.",
+    adminEditBtn:"Edit Data Grup di Generator",
+    partnerCardText:"💼 Untuk kartu pintar & sistem cloud kustom biro travel Anda:",
+    partnerBtnContract:"Kemitraan Baru", partnerBtnHelp:"Bantuan & Dukungan",
     locating:"Mencari lokasi Anda...", locFail:"Lokasi tidak ditemukan — WhatsApp akan terbuka tanpa lokasi."
   }},
   fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
@@ -544,6 +556,9 @@ const LANGS = {
     sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
     emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
     footerPrint:"Imprimer la Carte", footerShare:"Partager la Carte", footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
+    adminEditBtn:"Modifier les données du groupe",
+    partnerCardText:"💼 Pour équiper votre agence de cartes intelligentes et gestion cloud:",
+    partnerBtnContract:"Partenariat d'agence", partnerBtnHelp:"Aide & Support",
     locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle."
   }},
   tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
@@ -566,6 +581,9 @@ const LANGS = {
     sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
     footerPrint:"Kartı Yazdır", footerShare:"Kartı Paylaş", footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
+    adminEditBtn:"Grup Verilerini Düzenle",
+    partnerCardText:"💼 Acenteniz için akıllı kartlar ve bulut sistemi oluşturmak için:",
+    partnerBtnContract:"Acente Anlaşması", partnerBtnHelp:"Yardım & Destek",
     locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak."
   }}
 };
