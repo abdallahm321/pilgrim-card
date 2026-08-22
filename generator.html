@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>لوحة التحكم الإدارية للأفواج</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1c1c1e">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
@@ -23,7 +29,7 @@
   --radius:16px;
   --shadow:0 10px 30px rgba(28,28,30,0.08);
 }
-*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal','Inter',sans-serif;}
 
 body{
   background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
@@ -35,6 +41,8 @@ body{
   gap:14px;
   min-height:100vh;
 }
+
+[dir="ltr"] body, .lang-en body{ font-family:'Inter','Tajawal',sans-serif; }
 
 .box{
   width:100%;
@@ -63,12 +71,22 @@ body{
 }
 .nav-back:active{ transform:scale(0.97); }
 
+.lang-row{
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  padding:8px 10px; background:var(--sand); border-radius:10px; margin-bottom:14px;
+}
+.lang-chip{
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; cursor:pointer;
+}
+.lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
 .header-title{ text-align:center; margin-bottom:16px; border-bottom:1px solid var(--line); padding-bottom:12px; }
 .header-title h2{ font-family:'Reem Kufi',sans-serif; font-size:20px; font-weight:800; color:var(--ink); margin-bottom:4px; }
 .header-title p{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
 
 /* أزرار اختيار الوضع */
-.mode-selector{ display:flex; gap:8px; margin-bottom:18px; }
+.mode-selector{ display:flex; gap:8px; margin-bottom:16px; }
 .mode-btn{
   flex:1; padding:11px 8px; border:1.5px solid var(--gold);
   background:#fff; color:var(--gold); border-radius:10px;
@@ -188,98 +206,102 @@ textarea{ min-height:70px; resize:vertical; }
 <body>
 
 <div class="box">
-  <a href="index.html" class="nav-back">➔ العودة لبطاقة المعتمر</a>
+  <!-- زر العودة المحفوظ ذكياً بكود الفوج الحالي -->
+  <a href="index.html" id="btn-nav-back" class="nav-back"><span id="t-navBack">➔ العودة لبطاقة المعتمر</span></a>
+
+  <!-- شريط تبديل اللغات -->
+  <div class="lang-row" id="lang-row"></div>
 
   <div class="header-title">
-    <h2 id="form-title">إضافة فوج جديد للسحابة</h2>
+    <h2 id="form-title">لوحة التحكم السحابية للأفواج</h2>
     <p id="form-desc">أدخل كود الفوج والرمز السري الخاص بك لإصدار بطاقة ذكية أو تعديلها</p>
   </div>
 
   <!-- مفتاح التبديل الذكي بين الإضافة والتعديل -->
   <div class="mode-selector">
-    <button class="mode-btn active" id="btn-add" onclick="setMode('add')">➕ إضافة فوج جديد</button>
-    <button class="mode-btn" id="btn-edit" onclick="setMode('edit')">✏️ تعديل فوج مسجل</button>
+    <button class="mode-btn active" id="btn-add" onclick="setMode('add')"><span id="t-modeAdd">➕ إضافة فوج جديد</span></button>
+    <button class="mode-btn" id="btn-edit" onclick="setMode('edit')"><span id="t-modeEdit">✏️ تعديل فوج مسجل</span></button>
   </div>
 
   <!-- قائمة اختيار الفوج في وضع التعديل -->
   <div id="group-select-wrapper" style="display:none; margin-bottom:10px;">
-    <label>اختر الفوج المطلوب تعديله من القائمة:</label>
+    <label id="t-lblSelectGroup">اختر الفوج المطلوب تعديله من القائمة:</label>
     <select id="group-dropdown" onchange="onDropdownSelect(this.value)">
       <option value="">-- جارِ جلب الأفواج المسجلة --</option>
     </select>
   </div>
 
   <div class="section-tag">
-    <span>بيانات الاعتماد والتحقق</span>
+    <span id="t-secAuth">بيانات الاعتماد والتحقق</span>
     <span id="load-status" class="status-badge">تم استرجاع البيانات ✓</span>
   </div>
 
   <div class="grid-2">
     <div>
       <label>
-        كود الفوج (ID):
-        <button id="gen-btn" class="btn-random" onclick="generateRandomID()">توليد كود ⚡</button>
+        <span id="t-lblGroupId">كود الفوج (ID):</span>
+        <button id="gen-btn" class="btn-random" onclick="generateRandomID()"><span id="t-btnGenId">توليد كود ⚡</span></button>
       </label>
       <input type="text" id="group_id" placeholder="مثال: A1" onblur="autoFetch()">
     </div>
     <div>
-      <label>الرمز السري (PIN):</label>
+      <label id="t-lblPin">الرمز السري (PIN):</label>
       <input type="password" id="pin" placeholder="حفظ رمز الأمان">
     </div>
   </div>
 
-  <label>اسم شركة السياحة / المنظم:</label>
+  <label id="t-lblCompany">اسم شركة السياحة / المنظم:</label>
   <input type="text" id="company_name" placeholder="مثال: شركة الهدى لتنظيم العمرة">
 
-  <div class="section-tag"><span>أرقام هواتف المشرفين</span></div>
+  <div class="section-tag"><span id="t-secPhones">أرقام هواتف المشرفين</span></div>
   <div class="grid-2">
     <div>
-      <label>المشرف الأساسي:</label>
+      <label id="t-lblP1">المشرف الأساسي:</label>
       <input type="text" id="p1" placeholder="+966500000000">
     </div>
     <div>
-      <label>المشرف الاحتياطي:</label>
+      <label id="t-lblP2">المشرف الاحتياطي:</label>
       <input type="text" id="p2" placeholder="+966500000000">
     </div>
   </div>
 
-  <div class="section-tag"><span>فندق مكة المكرمة</span></div>
+  <div class="section-tag"><span id="t-secMakkah">فندق مكة المكرمة</span></div>
   <div class="grid-2">
     <div>
-      <label>اسم الفندق والمنطقة:</label>
+      <label id="t-lblHm">اسم الفندق والمنطقة:</label>
       <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
     </div>
     <div>
-      <label>رقم الغرفة:</label>
+      <label id="t-lblRm">رقم الغرفة:</label>
       <input type="text" id="rm" placeholder="مثال: 402">
     </div>
   </div>
-  <label>رابط موقع فندق مكة (Google Maps):</label>
+  <label id="t-lblMm">رابط موقع فندق مكة (Google Maps):</label>
   <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
 
-  <div class="section-tag"><span>فندق المدينة المنورة</span></div>
+  <div class="section-tag"><span id="t-secMadinah">فندق المدينة المنورة</span></div>
   <div class="grid-2">
     <div>
-      <label>اسم الفندق والمنطقة:</label>
+      <label id="t-lblHd">اسم الفندق والمنطقة:</label>
       <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
     </div>
     <div>
-      <label>رقم الغرفة:</label>
+      <label id="t-lblRd">رقم الغرفة:</label>
       <input type="text" id="rd" placeholder="مثال: 215">
     </div>
   </div>
-  <label>رابط موقع فندق المدينة (Google Maps):</label>
+  <label id="t-lblMd">رابط موقع فندق المدينة (Google Maps):</label>
   <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
 
-  <div class="section-tag"><span>الحافلة وتوجيهات الرحلة</span></div>
-  <label>رقم الحافلة / الباص:</label>
+  <div class="section-tag"><span id="t-secBus">الحافلة وتوجيهات الرحلة</span></div>
+  <label id="t-lblBus">رقم الحافلة / الباص:</label>
   <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
 
-  <label>ملاحظات وتوجيهات خاصة بالفوج:</label>
+  <label id="t-lblNotes">ملاحظات وتوجيهات خاصة بالفوج:</label>
   <textarea id="notes" placeholder="مواعيد التجمع، أرقام غرف الأطباء، توجيهات التحرك..."></textarea>
 
   <button class="btn-main" id="save-btn" onclick="saveToCloud()">
-    <span>حفظ البيانات وإصدار البطاقة ☁️</span>
+    <span id="t-btnSaveText">حفظ البيانات وإصدار البطاقة ☁️</span>
   </button>
 
   <!-- مركز عرض النتائج والباركود المباشر -->
@@ -287,27 +309,27 @@ textarea{ min-height:70px; resize:vertical; }
     <div id="qrcode"></div>
     <div class="url-box" id="link-preview"></div>
     <div class="action-row">
-      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة 👁️</a>
-      <button class="btn-copy" onclick="copyLink()">نسخ الرابط 📋</button>
-      <button class="btn-download" onclick="downloadQR()">تحميل QR 💾</button>
+      <a href="#" id="view-btn" target="_blank" class="btn-view"><span id="t-btnView">معاينة البطاقة 👁️</span></a>
+      <button class="btn-copy" onclick="copyLink()"><span id="t-btnCopy">نسخ الرابط 📋</span></button>
+      <button class="btn-download" onclick="downloadQR()"><span id="t-btnDl">تحميل QR 💾</span></button>
     </div>
   </div>
 </div>
 
 <!-- بطاقة باقات الشركات وحلول السياحة (business.html) -->
 <div class="platform-business-card">
-  <h4>💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
-  <p>احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
+  <h4 id="t-b2bTitle">💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
+  <p id="t-b2bDesc">احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
   
   <div class="b2b-btn-row">
-    <a href="business.html" class="b2b-action-btn">
-      <span>✨ استعراض باقات الشركات (مجاني & Pro)</span>
+    <a href="business.html" id="btn-business-link" class="b2b-action-btn">
+      <span id="t-btnBusinessPage">✨ استعراض باقات الشركات (مجاني & Pro)</span>
     </a>
   </div>
 
   <!-- سطر التبرع الهادئ غير البارز -->
   <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
-    <span>☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
+    <span id="t-btnSupport">☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
   </button>
   
   <div id="support-details" class="support-details-box">
@@ -327,19 +349,198 @@ textarea{ min-height:70px; resize:vertical; }
 const API_URL = "https://script.google.com/macros/s/AKfycbxJhFjnjFT70f_82YsII66RVoR7d5xsg5taB6hip5HAcCAnsBxcEhIZcKpB5p22C8-I/exec";
 let currentGroupUrl = "";
 let currentMode = "add";
+let activeGroupId = "";
+
+// 🕋 اللغات المعتمدة والترجمة لصفحة الإدارة
+const LANGS = {
+  ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
+    navBack:"➔ العودة لبطاقة المعتمر",
+    formTitleAdd:"إضافة فوج جديد للسحابة", formDescAdd:"أدخل كود الفوج الجديد وعيّن رمز PIN لحماية التعديل",
+    formTitleEdit:"تعديل بيانات فوج مسجل", formDescEdit:"اختر الفوج وأدخل رمز الـ PIN الصحيح لتحديث البيانات",
+    modeAdd:"➕ إضافة فوج جديد", modeEdit:"✏️ تعديل فوج مسجل",
+    lblSelectGroup:"اختر الفوج المطلوب تعديله من القائمة:",
+    secAuth:"بيانات الاعتماد والتحقق", lblGroupId:"كود الفوج (ID):", btnGenId:"توليد كود ⚡",
+    lblPin:"الرمز السري (PIN):", lblCompany:"اسم شركة السياحة / المنظم:",
+    secPhones:"أرقام هواتف المشرفين", lblP1:"المشرف الأساسي:", lblP2:"المشرف الاحتياطي:",
+    secMakkah:"فندق مكة المكرمة", lblHm:"اسم الفندق والمنطقة:", lblRm:"رقم الغرفة:", lblMm:"رابط موقع فندق مكة (Google Maps):",
+    secMadinah:"فندق المدينة المنورة", lblHd:"اسم الفندق والمنطقة:", lblRd:"رقم الغرفة:", lblMd:"رابط موقع فندق المدينة (Google Maps):",
+    secBus:"الحافلة وتوجيهات الرحلة", lblBus:"رقم الحافلة / الباص:", lblNotes:"ملاحظات وتوجيهات خاصة بالفوج:",
+    btnSaveAdd:"حفظ الفوج الجديد وإصدار البطاقة ☁️", btnSaveEdit:"حفظ التعديلات في السحابة ☁️",
+    btnView:"معاينة البطاقة 👁️", btnCopy:"نسخ الرابط 📋", btnDl:"تحميل QR 💾",
+    b2bTitle:"💼 لشركات السياحة وتنظيم رحلات العمرة",
+    b2bDesc:"احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.",
+    btnBusinessPage:"✨ استعراض باقات الشركات (مجاني & Pro)",
+    btnSupport:"☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن"
+  }},
+  id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Kembali ke Kartu Jamaah",
+    formTitleAdd:"Tambah Rombongan Baru", formDescAdd:"Masukkan kode rombongan dan buat PIN keamanan",
+    formTitleEdit:"Edit Data Rombongan", formDescEdit:"Pilih rombongan dan masukkan PIN untuk mengubah data",
+    modeAdd:"➕ Rombongan Baru", modeEdit:"✏️ Edit Rombongan",
+    lblSelectGroup:"Pilih rombongan dari daftar:",
+    secAuth:"Kredensial & Validasi", lblGroupId:"Kode Rombongan (ID):", btnGenId:"Acak Kode ⚡",
+    lblPin:"Kode PIN Rahasia:", lblCompany:"Nama Biro Travel / Penyelenggara:",
+    secPhones:"Kontak Pembimbing / Mutawwif", lblP1:"Pembimbing Utama:", lblP2:"Pembimbing Cadangan:",
+    secMakkah:"Hotel Makkah", lblHm:"Nama Hotel & Area:", lblRm:"Nomor Kamar:", lblMm:"Tautan Google Maps Hotel Makkah:",
+    secMadinah:"Hotel Madinah", lblHd:"Nama Hotel & Area:", lblRd:"Nomor Kamar:", lblMd:"Tautan Google Maps Hotel Madinah:",
+    secBus:"Bus & Arahan Rombongan", lblBus:"Nomor Bus:", lblNotes:"Catatan Tambahan Rombongan:",
+    btnSaveAdd:"Simpan Rombongan Baru & Buat QR ☁️", btnSaveEdit:"Simpan Perubahan ke Cloud ☁️",
+    btnView:"Lihat Kartu 👁️", btnCopy:"Salin Tautan 📋", btnDl:"Unduh QR 💾",
+    b2bTitle:"💼 Solusi & Paket Biro Travel Umrah",
+    b2bDesc:"Dapatkan kartu pintar tercetak dengan branding travel Anda serta panel kontrol cloud permanen.",
+    btnBusinessPage:"✨ Lihat Paket Travel (Gratis & Pro)",
+    btnSupport:"☕ Donasi untuk Pengembangan Layanan Jamaah"
+  }},
+  ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
+    navBack:"➔ کارڈ پر واپس جائیں",
+    formTitleAdd:"نیا گروپ کلاؤڈ میں شامل کریں", formDescAdd:"نیا گروپ کوڈ درج کریں اور سیکیورٹی پن مقرر کریں",
+    formTitleEdit:"رجسٹرڈ گروپ ڈیٹا تبدیل کریں", formDescEdit:"گروپ منتخب کریں اور تبدیل کرنے کے لیے درست پن درج کریں",
+    modeAdd:"➕ نیا گروپ", modeEdit:"✏️ گروپ تبدیل کریں",
+    lblSelectGroup:"فہرست سے مطلوبہ گروپ منتخب کریں:",
+    secAuth:"تصدیق اور اسناد", lblGroupId:"گروپ کوڈ (ID):", btnGenId:"کوڈ بنائیں ⚡",
+    lblPin:"خفیہ پن (PIN):", lblCompany:"ٹریول ایجنسی / قافلہ کا نام:",
+    secPhones:"نگرانوں کے رابطہ نمبرز", lblP1:"بنیادی نگران:", lblP2:"متبادل نگران:",
+    secMakkah:"مکہ ہوٹل", lblHm:"ہوٹل اور علاقے کا نام:", lblRm:"کمرہ نمبر:", lblMm:"مکہ ہوٹل گوگل میپ لنک:",
+    secMadinah:"مدینہ ہوٹل", lblHd:"ہوٹل اور علاقے کا نام:", lblRd:"کمرہ نمبر:", lblMd:"مدینہ ہوٹل گوگل میپ لنک:",
+    secBus:"بس اور خصوصی ہدایات", lblBus:"بس نمبر:", lblNotes:"گروپ کے لیے خصوصی ہدایات:",
+    btnSaveAdd:"نیا گروپ محفوظ کریں اور کارڈ بنائیں ☁️", btnSaveEdit:"تبدیلیاں کلاؤڈ میں محفوظ کریں ☁️",
+    btnView:"کارڈ دیکھیں 👁️", btnCopy:"لنک کاپی کریں 📋", btnDl:"کیو آر ڈاؤن لوڈ 💾",
+    b2bTitle:"💼 ٹریول ایجنسیوں کے لیے اسمارٹ پیکجز",
+    b2bDesc:"اپنی کمپنی کے نام اور بارکوڈ کے ساتھ کارڈز اور کلاؤڈ کنٹرول پینل حاصل کریں۔",
+    btnBusinessPage:"✨ ٹریول ایجنسی پیکجز دیکھیں (مفت اور پرو)",
+    btnSupport:"☕ زائرین حرم کی خدمت کے لیے تعاون"
+  }},
+  tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Karta Geri Dön",
+    formTitleAdd:"Yeni Grup Ekle", formDescAdd:"Yeni grup kodunu girin ve PIN belirleyin",
+    formTitleEdit:"Kayıtlı Grubu Düzenle", formDescEdit:"Grubu seçin ve verileri güncellemek için PIN girin",
+    modeAdd:"➕ Yeni Grup Ekle", modeEdit:"✏️ Grubu Düzenle",
+    lblSelectGroup:"Düzenlenecek grubu listeden seçin:",
+    secAuth:"Kimlik Doğrulama & Yetki", lblGroupId:"Grup Kodu (ID):", btnGenId:"Kod Üret ⚡",
+    lblPin:"Gizli PIN Kodu:", lblCompany:"Acente / Tur Şirketi Adı:",
+    secPhones:"Rehber / Sorumlu Telefonları", lblP1:"Ana Sorumlu:", lblP2:"Yedek Sorumlu:",
+    secMakkah:"Mekke Oteli", lblHm:"Otel Adı & Bölge:", lblRm:"Oda No:", lblMm:"Mekke Oteli Google Maps:",
+    secMadinah:"Medine Oteli", lblHd:"Otel Adı & Bölge:", lblRd:"Oda No:", lblMd:"Medine Oteli Google Maps:",
+    secBus:"Otobüs & Talimatlar", lblBus:"Otobüs No:", lblNotes:"Grup İçin Özel Notlar:",
+    btnSaveAdd:"Yeni Grubu Kaydet & Kart Oluştur ☁️", btnSaveEdit:"Değişiklikleri Buluta Kaydet ☁️",
+    btnView:"Kartı Görüntüle 👁️", btnCopy:"Bağlantıyı Kopyala 📋", btnDl:"QR İndir 💾",
+    b2bTitle:"💼 Acenteler İçin Akıllı Çözümler ve Paketler",
+    b2bDesc:"Şirket logonuzla basılmış akıllı kartlar ve bulut kontrol paneli edinin.",
+    btnBusinessPage:"✨ Acente Paketlerini İncele (Ücretsiz & Pro)",
+    btnSupport:"☕ Platformun Devamlılığına Katkıda Bulun"
+  }},
+  en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Back to Pilgrim Card",
+    formTitleAdd:"Add New Group to Cloud", formDescAdd:"Enter new group code and set security PIN",
+    formTitleEdit:"Edit Existing Group", formDescEdit:"Select group and enter correct PIN to update data",
+    modeAdd:"➕ Add New Group", modeEdit:"✏️ Edit Group",
+    lblSelectGroup:"Select group to edit from dropdown:",
+    secAuth:"Credentials & Validation", lblGroupId:"Group ID:", btnGenId:"Gen Code ⚡",
+    lblPin:"Secret PIN Code:", lblCompany:"Travel Agency / Organizer Name:",
+    secPhones:"Supervisor Phone Numbers", lblP1:"Primary Supervisor:", lblP2:"Backup Supervisor:",
+    secMakkah:"Makkah Hotel", lblHm:"Hotel Name & Area:", lblRm:"Room No:", lblMm:"Makkah Hotel Google Maps Link:",
+    secMadinah:"Madinah Hotel", lblHd:"Hotel Name & Area:", lblRd:"Room No:", lblMd:"Madinah Hotel Google Maps Link:",
+    secBus:"Bus & Group Instructions", lblBus:"Bus Number:", lblNotes:"Special Group Instructions:",
+    btnSaveAdd:"Save New Group & Generate Card ☁️", btnSaveEdit:"Save Changes to Cloud ☁️",
+    btnView:"Preview Card 👁️", btnCopy:"Copy Link 📋", btnDl:"Download QR 💾",
+    b2bTitle:"💼 Travel Agency Packages & Smart Solutions",
+    b2bDesc:"Get smart printed cards branded with your agency logo with lifetime cloud control panel.",
+    btnBusinessPage:"✨ View Agency Plans (Free & Pro)",
+    btnSupport:"☕ Support Platform Continuity for Pilgrims"
+  }},
+  fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
+    navBack:"➔ Retour à la Carte",
+    formTitleAdd:"Ajouter un Nouveau Groupe", formDescAdd:"Entrez le code du groupe et définissez le code PIN",
+    formTitleEdit:"Modifier un Groupe Existant", formDescEdit:"Sélectionnez le groupe et entrez le PIN pour mettre à jour",
+    modeAdd:"➕ Nouveau Groupe", modeEdit:"✏️ Modifier Groupe",
+    lblSelectGroup:"Sélectionnez le groupe dans la liste :",
+    secAuth:"Authentification & Sécurité", lblGroupId:"Code du Groupe (ID) :", btnGenId:"Générer Code ⚡",
+    lblPin:"Code PIN Secret :", lblCompany:"Nom de l'Agence / Organisateur :",
+    secPhones:"Téléphones des Superviseurs", lblP1:"Superviseur Principal :", lblP2:"Superviseur Suppléant :",
+    secMakkah:"Hôtel à La Mecque", lblHm:"Nom de l'Hôtel & Quartier :", lblRm:"Chambre N° :", lblMm:"Lien Google Maps La Mecque :",
+    secMadinah:"Hôtel à Médine", lblHd:"Nom de l'Hôtel & Quartier :", lblRd:"Chambre N° :", lblMd:"Lien Google Maps Médine :",
+    secBus:"Bus & Instructions", lblBus:"N° de Bus :", lblNotes:"Instructions Spéciales du Groupe :",
+    btnSaveAdd:"Enregistrer le Groupe & Créer la Carte ☁️", btnSaveEdit:"Sauvegarder les Modifications ☁️",
+    btnView:"Voir la Carte 👁️", btnCopy:"Copier le Lien 📋", btnDl:"Télécharger QR 💾",
+    b2bTitle:"💼 Solutions & Offres Agences de Voyage",
+    b2bDesc:"Obtenez des cartes intelligentes au nom de votre agence avec panneau de contrôle cloud.",
+    btnBusinessPage:"✨ Découvrir les Offres Agences (Gratuit & Pro)",
+    btnSupport:"☕ Soutenir la continuité du service pour les pèlerins"
+  }}
+};
+
+let currentLang = "ar";
+
+function renderLangSwitcher(){
+  const row = document.getElementById("lang-row");
+  row.innerHTML = "";
+  Object.keys(LANGS).forEach(code=>{
+    const chip = document.createElement("button");
+    chip.className = "lang-chip" + (code===currentLang ? " active":"");
+    chip.textContent = LANGS[code].flag + " " + LANGS[code].label;
+    chip.onclick = ()=> setLang(code);
+    row.appendChild(chip);
+  });
+}
+
+function setLang(code){
+  currentLang = code;
+  const L = LANGS[code];
+  document.documentElement.setAttribute("lang", code);
+  document.documentElement.setAttribute("dir", L.dir);
+  document.body.style.fontFamily = L.font;
+
+  // تحديث النصوص الثابتة
+  Object.keys(L.t).forEach(key=>{
+    const el = document.getElementById("t-"+key);
+    if(el) el.innerHTML = L.t[key];
+  });
+
+  // تحديث العناوين بحسب الوضع الحالي
+  const formTitle = document.getElementById('form-title');
+  const formDesc = document.getElementById('form-desc');
+  const saveBtn = document.getElementById('save-btn');
+
+  if(currentMode === 'add'){
+    formTitle.textContent = L.t.formTitleAdd;
+    formDesc.textContent = L.t.formDescAdd;
+    saveBtn.innerHTML = `<span>${L.t.btnSaveAdd}</span>`;
+  } else {
+    formTitle.textContent = L.t.formTitleEdit;
+    formDesc.textContent = L.t.formDescEdit;
+    saveBtn.innerHTML = `<span>${L.t.btnSaveEdit}</span>`;
+  }
+
+  renderLangSwitcher();
+}
 
 window.onload = function(){
   const p = new URLSearchParams(window.location.search);
   const rawG = p.get('g') || p.get('group');
   if(rawG){
+    activeGroupId = rawG.trim().toUpperCase();
+    updateNavigationLinks(activeGroupId);
     setMode('edit');
-    const g = rawG.trim().toUpperCase();
-    document.getElementById('group_id').value = g;
-    fetchGroupData(g);
+    document.getElementById('group_id').value = activeGroupId;
+    fetchGroupData(activeGroupId);
   } else {
     generateRandomID();
+    updateNavigationLinks("");
   }
+  renderLangSwitcher();
 };
+
+function updateNavigationLinks(gid){
+  const navBack = document.getElementById('btn-nav-back');
+  const b2bLink = document.getElementById('btn-business-link');
+  if(gid){
+    navBack.href = `index.html?g=${encodeURIComponent(gid)}`;
+    b2bLink.href = `business.html?g=${encodeURIComponent(gid)}`;
+  } else {
+    navBack.href = `index.html`;
+    b2bLink.href = `business.html`;
+  }
+}
 
 function setMode(mode){
   currentMode = mode;
@@ -351,21 +552,22 @@ function setMode(mode){
   const formTitle = document.getElementById('form-title');
   const formDesc = document.getElementById('form-desc');
   const saveBtn = document.getElementById('save-btn');
+  const L = LANGS[currentLang].t;
 
   if(mode === 'add'){
     genBtn.style.display = "inline-block";
     dropdownWrapper.style.display = "none";
-    formTitle.textContent = "إضافة فوج جديد للسحابة";
-    formDesc.textContent = "أدخل كود الفوج الجديد وعيّن رمز PIN لحماية التعديل";
-    saveBtn.innerHTML = "<span>حفظ الفوج الجديد وإصدار البطاقة ☁️</span>";
+    formTitle.textContent = L.formTitleAdd;
+    formDesc.textContent = L.formDescAdd;
+    saveBtn.innerHTML = `<span>${L.btnSaveAdd}</span>`;
     clearFormFields();
     generateRandomID();
   } else {
     genBtn.style.display = "none";
     dropdownWrapper.style.display = "block";
-    formTitle.textContent = "تعديل بيانات فوج مسجل";
-    formDesc.textContent = "اختر الفوج وأدخل رمز الـ PIN الصحيح لتحديث بيانات الفندق والمشرفين";
-    saveBtn.innerHTML = "<span>حفظ التعديلات في السحابة ☁️</span>";
+    formTitle.textContent = L.formTitleEdit;
+    formDesc.textContent = L.formDescEdit;
+    saveBtn.innerHTML = `<span>${L.btnSaveEdit}</span>`;
     fetchGroupsDropdown();
   }
 }
@@ -375,7 +577,10 @@ function generateRandomID(){
   const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
   const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
   const randomNum = Math.floor(Math.random() * 900 + 100);
-  document.getElementById('group_id').value = `${randomLetter}${randomNum}`;
+  const newId = `${randomLetter}${randomNum}`;
+  document.getElementById('group_id').value = newId;
+  activeGroupId = newId;
+  updateNavigationLinks(newId);
 }
 
 function clearFormFields(){
@@ -397,6 +602,7 @@ async function fetchGroupsDropdown(){
         const opt = document.createElement('option');
         opt.value = g.id;
         opt.textContent = `${g.id} - ${g.name}`;
+        if(activeGroupId && g.id === activeGroupId) opt.selected = true;
         select.appendChild(opt);
       });
     } else {
@@ -409,14 +615,20 @@ async function fetchGroupsDropdown(){
 
 function onDropdownSelect(val){
   if(val){
+    activeGroupId = val;
     document.getElementById('group_id').value = val;
+    updateNavigationLinks(val);
     fetchGroupData(val);
   }
 }
 
 function autoFetch(){
   const g = document.getElementById('group_id').value.trim().toUpperCase();
-  if(g && currentMode === 'edit') fetchGroupData(g);
+  if(g){
+    activeGroupId = g;
+    updateNavigationLinks(g);
+    if(currentMode === 'edit') fetchGroupData(g);
+  }
 }
 
 async function fetchGroupData(groupId){
@@ -469,6 +681,9 @@ async function saveToCloud(){
     return;
   }
 
+  activeGroupId = groupId;
+  updateNavigationLinks(groupId);
+
   const btn = document.getElementById('save-btn');
   btn.disabled = true;
   btn.innerHTML = "<span>جاري التحديث والحفظ بالسحابة... ⏳</span>";
@@ -504,7 +719,8 @@ async function saveToCloud(){
     alert("❌ حدث خطأ أثناء الاتصال بالسيرفر");
   } finally {
     btn.disabled = false;
-    btn.innerHTML = currentMode === 'add' ? "<span>حفظ الفوج الجديد وإصدار البطاقة ☁️</span>" : "<span>حفظ التعديلات في السحابة ☁️</span>";
+    const L = LANGS[currentLang].t;
+    btn.innerHTML = currentMode === 'add' ? `<span>${L.btnSaveAdd}</span>` : `<span>${L.btnSaveEdit}</span>`;
   }
 }
 
