@@ -26,6 +26,9 @@
   --line:#e7ded0;
   --green:#2f5233;
   --green-hover:#244027;
+  --whatsapp:#22bd5c;
+  --danger:#8a2a2a;
+  --danger-soft:#fdf3f2;
   --radius:16px;
   --shadow:0 10px 30px rgba(28,28,30,0.08);
 }
@@ -121,6 +124,11 @@ textarea{ min-height:70px; resize:vertical; }
 }
 .btn-random:active{ transform:scale(0.95); }
 
+.btn-autofill-clear{
+  background:transparent; color:#888; border:none;
+  font-size:10.5px; text-decoration:underline; cursor:pointer;
+}
+
 .status-badge{
   font-size:10.5px; padding:2px 8px; border-radius:4px;
   background:#eef4ed; color:var(--green); font-weight:700;
@@ -138,6 +146,15 @@ textarea{ min-height:70px; resize:vertical; }
 .btn-main:active{ transform:scale(0.98); }
 .btn-main:disabled{ opacity:0.65; cursor:not-allowed; }
 
+/* أزرار الإجراءات الخاصة بوضع التعديل */
+.btn-deactivate-trigger{
+  width:100%; padding:10px; background:transparent;
+  color:var(--danger); font-size:12px; font-weight:700;
+  border:1px dashed var(--danger); border-radius:8px; cursor:pointer;
+  margin-top:10px; transition:.15s; display:none; align-items:center; justify-content:center; gap:6px;
+}
+.btn-deactivate-trigger:hover{ background:var(--danger-soft); }
+
 /* مركز عرض النتائج */
 #result-panel{
   display:none; flex-direction:column; align-items:center;
@@ -154,6 +171,15 @@ textarea{ min-height:70px; resize:vertical; }
   font-size:11.5px; color:#0066cc; word-break:break-all;
   text-align:center; margin-bottom:10px; line-height:1.4;
 }
+.btn-wa-copy{
+  width:100%; background:var(--whatsapp); color:#fff;
+  font-size:13px; font-weight:800; padding:12px; border-radius:10px;
+  border:none; cursor:pointer; margin-bottom:8px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 4px 12px rgba(34,189,92,0.2); transition:.15s;
+}
+.btn-wa-copy:active{ transform:scale(0.98); }
+
 .action-row{ display:flex; gap:6px; width:100%; }
 .action-row a, .action-row button{
   flex:1; text-align:center; padding:9px 6px;
@@ -250,8 +276,11 @@ textarea{ min-height:70px; resize:vertical; }
     </div>
   </div>
 
-  <label id="t-lblCompany">اسم شركة السياحة / المنظم:</label>
-  <input type="text" id="company_name" placeholder="مثال: شركة الهدى لتنظيم العمرة">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <label id="t-lblCompany" style="margin:0;">اسم شركة السياحة / المنظم:</label>
+    <button class="btn-autofill-clear" onclick="clearSavedCompanyProfile()" id="t-btnClearProfile" style="display:none;">مسح الحفظ التلقائي</button>
+  </div>
+  <input type="text" id="company_name" placeholder="مثال: شركة الهدى لتنظيم العمرة" style="margin-top:4px;">
 
   <div class="section-tag"><span id="t-secPhones">أرقام هواتف المشرفين</span></div>
   <div class="grid-2">
@@ -304,10 +333,21 @@ textarea{ min-height:70px; resize:vertical; }
     <span id="t-btnSaveText">حفظ البيانات وإصدار البطاقة ☁️</span>
   </button>
 
+  <!-- زر تعطيل / إنهاء الفوج الآمن (يظهر في وضع التعديل فقط) -->
+  <button class="btn-deactivate-trigger" id="btn-deactivate-trigger" onclick="deactivateGroupSafely()">
+    <span id="t-btnDeactivate">🛑 إنهاء / تعطيل هذا الفوج في السحابة</span>
+  </button>
+
   <!-- مركز عرض النتائج والباركود المباشر -->
   <div id="result-panel">
     <div id="qrcode"></div>
     <div class="url-box" id="link-preview"></div>
+    
+    <!-- زر نسخ رسالة واتساب الترحيبية الجاهزة للمعتمرين -->
+    <button class="btn-wa-copy" onclick="copyWhatsAppMessage()">
+      <span id="t-btnWaCopy">📲 نسخ رسالة الواتساب للمعتمرين</span>
+    </button>
+
     <div class="action-row">
       <a href="#" id="view-btn" target="_blank" class="btn-view"><span id="t-btnView">معاينة البطاقة 👁️</span></a>
       <button class="btn-copy" onclick="copyLink()"><span id="t-btnCopy">نسخ الرابط 📋</span></button>
@@ -360,12 +400,14 @@ const LANGS = {
     modeAdd:"➕ إضافة فوج جديد", modeEdit:"✏️ تعديل فوج مسجل",
     lblSelectGroup:"اختر الفوج المطلوب تعديله من القائمة:",
     secAuth:"بيانات الاعتماد والتحقق", lblGroupId:"كود الفوج (ID):", btnGenId:"توليد كود ⚡",
-    lblPin:"الرمز السري (PIN):", lblCompany:"اسم شركة السياحة / المنظم:",
+    lblPin:"الرمز السري (PIN):", lblCompany:"اسم شركة السياحة / المنظم:", btnClearProfile:"مسح الحفظ التلقائي",
     secPhones:"أرقام هواتف المشرفين", lblP1:"المشرف الأساسي:", lblP2:"المشرف الاحتياطي:",
     secMakkah:"فندق مكة المكرمة", lblHm:"اسم الفندق والمنطقة:", lblRm:"رقم الغرفة:", lblMm:"رابط موقع فندق مكة (Google Maps):",
     secMadinah:"فندق المدينة المنورة", lblHd:"اسم الفندق والمنطقة:", lblRd:"رقم الغرفة:", lblMd:"رابط موقع فندق المدينة (Google Maps):",
     secBus:"الحافلة وتوجيهات الرحلة", lblBus:"رقم الحافلة / الباص:", lblNotes:"ملاحظات وتوجيهات خاصة بالفوج:",
     btnSaveAdd:"حفظ الفوج الجديد وإصدار البطاقة ☁️", btnSaveEdit:"حفظ التعديلات في السحابة ☁️",
+    btnDeactivate:"🛑 إنهاء / تعطيل هذا الفوج في السحابة",
+    btnWaCopy:"📲 نسخ رسالة الواتساب للمعتمرين",
     btnView:"معاينة البطاقة 👁️", btnCopy:"نسخ الرابط 📋", btnDl:"تحميل QR 💾",
     b2bTitle:"💼 لشركات السياحة وتنظيم رحلات العمرة",
     b2bDesc:"احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.",
@@ -379,12 +421,14 @@ const LANGS = {
     modeAdd:"➕ Rombongan Baru", modeEdit:"✏️ Edit Rombongan",
     lblSelectGroup:"Pilih rombongan dari daftar:",
     secAuth:"Kredensial & Validasi", lblGroupId:"Kode Rombongan (ID):", btnGenId:"Acak Kode ⚡",
-    lblPin:"Kode PIN Rahasia:", lblCompany:"Nama Biro Travel / Penyelenggara:",
+    lblPin:"Kode PIN Rahasia:", lblCompany:"Nama Biro Travel / Penyelenggara:", btnClearProfile:"Hapus Profil",
     secPhones:"Kontak Pembimbing / Mutawwif", lblP1:"Pembimbing Utama:", lblP2:"Pembimbing Cadangan:",
     secMakkah:"Hotel Makkah", lblHm:"Nama Hotel & Area:", lblRm:"Nomor Kamar:", lblMm:"Tautan Google Maps Hotel Makkah:",
     secMadinah:"Hotel Madinah", lblHd:"Nama Hotel & Area:", lblRd:"Nomor Kamar:", lblMd:"Tautan Google Maps Hotel Madinah:",
     secBus:"Bus & Arahan Rombongan", lblBus:"Nomor Bus:", lblNotes:"Catatan Tambahan Rombongan:",
     btnSaveAdd:"Simpan Rombongan Baru & Buat QR ☁️", btnSaveEdit:"Simpan Perubahan ke Cloud ☁️",
+    btnDeactivate:"🛑 Nonaktifkan Rombongan Ini di Cloud",
+    btnWaCopy:"📲 Salin Pesan WhatsApp untuk Jamaah",
     btnView:"Lihat Kartu 👁️", btnCopy:"Salin Tautan 📋", btnDl:"Unduh QR 💾",
     b2bTitle:"💼 Solusi & Paket Biro Travel Umrah",
     b2bDesc:"Dapatkan kartu pintar tercetak dengan branding travel Anda serta panel kontrol cloud permanen.",
@@ -398,12 +442,14 @@ const LANGS = {
     modeAdd:"➕ نیا گروپ", modeEdit:"✏️ گروپ تبدیل کریں",
     lblSelectGroup:"فہرست سے مطلوبہ گروپ منتخب کریں:",
     secAuth:"تصدیق اور اسناد", lblGroupId:"گروپ کوڈ (ID):", btnGenId:"کوڈ بنائیں ⚡",
-    lblPin:"خفیہ پن (PIN):", lblCompany:"ٹریول ایجنسی / قافلہ کا نام:",
+    lblPin:"خفیہ پن (PIN):", lblCompany:"ٹریول ایجنسی / قافلہ کا نام:", btnClearProfile:"پروفائل صاف کریں",
     secPhones:"نگرانوں کے رابطہ نمبرز", lblP1:"بنیادی نگران:", lblP2:"متبادل نگران:",
     secMakkah:"مکہ ہوٹل", lblHm:"ہوٹل اور علاقے کا نام:", lblRm:"کمرہ نمبر:", lblMm:"مکہ ہوٹل گوگل میپ لنک:",
     secMadinah:"مدینہ ہوٹل", lblHd:"ہوٹل اور علاقے کا نام:", lblRd:"کمرہ نمبر:", lblMd:"مدینہ ہوٹل گوگل میپ لنک:",
     secBus:"بس اور خصوصی ہدایات", lblBus:"بس نمبر:", lblNotes:"گروپ کے لیے خصوصی ہدایات:",
     btnSaveAdd:"نیا گروپ محفوظ کریں اور کارڈ بنائیں ☁️", btnSaveEdit:"تبدیلیاں کلاؤڈ میں محفوظ کریں ☁️",
+    btnDeactivate:"🛑 اس گروپ کو کلاؤڈ میں غیر فعال کریں",
+    btnWaCopy:"📲 زائرین کے لیے واٹس ایپ پیغام کاپی کریں",
     btnView:"کارڈ دیکھیں 👁️", btnCopy:"لنک کاپی کریں 📋", btnDl:"کیو آر ڈاؤن لوڈ 💾",
     b2bTitle:"💼 ٹریول ایجنسیوں کے لیے اسمارٹ پیکجز",
     b2bDesc:"اپنی کمپنی کے نام اور بارکوڈ کے ساتھ کارڈز اور کلاؤڈ کنٹرول پینل حاصل کریں۔",
@@ -417,12 +463,14 @@ const LANGS = {
     modeAdd:"➕ Yeni Grup Ekle", modeEdit:"✏️ Grubu Düzenle",
     lblSelectGroup:"Düzenlenecek grubu listeden seçin:",
     secAuth:"Kimlik Doğrulama & Yetki", lblGroupId:"Grup Kodu (ID):", btnGenId:"Kod Üret ⚡",
-    lblPin:"Gizli PIN Kodu:", lblCompany:"Acente / Tur Şirketi Adı:",
+    lblPin:"Gizli PIN Kodu:", lblCompany:"Acente / Tur Şirketi Adı:", btnClearProfile:"Profili Temizle",
     secPhones:"Rehber / Sorumlu Telefonları", lblP1:"Ana Sorumlu:", lblP2:"Yedek Sorumlu:",
     secMakkah:"Mekke Oteli", lblHm:"Otel Adı & Bölge:", lblRm:"Oda No:", lblMm:"Mekke Oteli Google Maps:",
     secMadinah:"Medine Oteli", lblHd:"Otel Adı & Bölge:", lblRd:"Oda No:", lblMd:"Medine Oteli Google Maps:",
     secBus:"Otobüs & Talimatlar", lblBus:"Otobüs No:", lblNotes:"Grup İçin Özel Notlar:",
     btnSaveAdd:"Yeni Grubu Kaydet & Kart Oluştur ☁️", btnSaveEdit:"Değişiklikleri Buluta Kaydet ☁️",
+    btnDeactivate:"🛑 Bu Grubu Bulutta Devre Dışı Bırak",
+    btnWaCopy:"📲 Hacılar İçin WhatsApp Mesajını Kopyala",
     btnView:"Kartı Görüntüle 👁️", btnCopy:"Bağlantıyı Kopyala 📋", btnDl:"QR İndir 💾",
     b2bTitle:"💼 Acenteler İçin Akıllı Çözümler ve Paketler",
     b2bDesc:"Şirket logonuzla basılmış akıllı kartlar ve bulut kontrol paneli edinin.",
@@ -436,12 +484,14 @@ const LANGS = {
     modeAdd:"➕ Add New Group", modeEdit:"✏️ Edit Group",
     lblSelectGroup:"Select group to edit from dropdown:",
     secAuth:"Credentials & Validation", lblGroupId:"Group ID:", btnGenId:"Gen Code ⚡",
-    lblPin:"Secret PIN Code:", lblCompany:"Travel Agency / Organizer Name:",
+    lblPin:"Secret PIN Code:", lblCompany:"Travel Agency / Organizer Name:", btnClearProfile:"Clear Saved Profile",
     secPhones:"Supervisor Phone Numbers", lblP1:"Primary Supervisor:", lblP2:"Backup Supervisor:",
     secMakkah:"Makkah Hotel", lblHm:"Hotel Name & Area:", lblRm:"Room No:", lblMm:"Makkah Hotel Google Maps Link:",
     secMadinah:"Madinah Hotel", lblHd:"Hotel Name & Area:", lblRd:"Room No:", lblMd:"Madinah Hotel Google Maps Link:",
     secBus:"Bus & Group Instructions", lblBus:"Bus Number:", lblNotes:"Special Group Instructions:",
     btnSaveAdd:"Save New Group & Generate Card ☁️", btnSaveEdit:"Save Changes to Cloud ☁️",
+    btnDeactivate:"🛑 Deactivate / Archive This Group in Cloud",
+    btnWaCopy:"📲 Copy WhatsApp Message for Pilgrims",
     btnView:"Preview Card 👁️", btnCopy:"Copy Link 📋", btnDl:"Download QR 💾",
     b2bTitle:"💼 Travel Agency Packages & Smart Solutions",
     b2bDesc:"Get smart printed cards branded with your agency logo with lifetime cloud control panel.",
@@ -455,12 +505,14 @@ const LANGS = {
     modeAdd:"➕ Nouveau Groupe", modeEdit:"✏️ Modifier Groupe",
     lblSelectGroup:"Sélectionnez le groupe dans la liste :",
     secAuth:"Authentification & Sécurité", lblGroupId:"Code du Groupe (ID) :", btnGenId:"Générer Code ⚡",
-    lblPin:"Code PIN Secret :", lblCompany:"Nom de l'Agence / Organisateur :",
+    lblPin:"Code PIN Secret :", lblCompany:"Nom de l'Agence / Organisateur :", btnClearProfile:"Effacer le Profil",
     secPhones:"Téléphones des Superviseurs", lblP1:"Superviseur Principal :", lblP2:"Superviseur Suppléant :",
     secMakkah:"Hôtel à La Mecque", lblHm:"Nom de l'Hôtel & Quartier :", lblRm:"Chambre N° :", lblMm:"Lien Google Maps La Mecque :",
     secMadinah:"Hôtel à Médine", lblHd:"Nom de l'Hôtel & Quartier :", lblRd:"Chambre N° :", lblMd:"Lien Google Maps Médine :",
     secBus:"Bus & Instructions", lblBus:"N° de Bus :", lblNotes:"Instructions Spéciales du Groupe :",
     btnSaveAdd:"Enregistrer le Groupe & Créer la Carte ☁️", btnSaveEdit:"Sauvegarder les Modifications ☁️",
+    btnDeactivate:"🛑 Désactiver / Archiver ce Groupe sur le Cloud",
+    btnWaCopy:"📲 Copier le Message WhatsApp pour les Pèlerins",
     btnView:"Voir la Carte 👁️", btnCopy:"Copier le Lien 📋", btnDl:"Télécharger QR 💾",
     b2bTitle:"💼 Solutions & Offres Agences de Voyage",
     b2bDesc:"Obtenez des cartes intelligentes au nom de votre agence avec panneau de contrôle cloud.",
@@ -524,7 +576,7 @@ window.onload = function(){
     document.getElementById('group_id').value = activeGroupId;
     fetchGroupData(activeGroupId);
   } else {
-    generateRandomID();
+    setMode('add');
     updateNavigationLinks("");
   }
   renderLangSwitcher();
@@ -552,19 +604,23 @@ function setMode(mode){
   const formTitle = document.getElementById('form-title');
   const formDesc = document.getElementById('form-desc');
   const saveBtn = document.getElementById('save-btn');
+  const deactBtn = document.getElementById('btn-deactivate-trigger');
   const L = LANGS[currentLang].t;
 
   if(mode === 'add'){
     genBtn.style.display = "inline-block";
     dropdownWrapper.style.display = "none";
+    deactBtn.style.display = "none";
     formTitle.textContent = L.formTitleAdd;
     formDesc.textContent = L.formDescAdd;
     saveBtn.innerHTML = `<span>${L.btnSaveAdd}</span>`;
     clearFormFields();
+    autoFillCompanyProfile();
     generateRandomID();
   } else {
     genBtn.style.display = "none";
     dropdownWrapper.style.display = "block";
+    deactBtn.style.display = "flex";
     formTitle.textContent = L.formTitleEdit;
     formDesc.textContent = L.formDescEdit;
     saveBtn.innerHTML = `<span>${L.btnSaveEdit}</span>`;
@@ -588,6 +644,42 @@ function clearFormFields(){
   fields.forEach(id => document.getElementById(id).value = "");
   document.getElementById('load-status').style.display = "none";
   document.getElementById('result-panel').style.display = "none";
+}
+
+/* ==================================================================
+   نظام التعبئة التلقائية لبيانات الشركة (Auto-Fill Profile)
+   ================================================================== */
+function autoFillCompanyProfile(){
+  const savedComp = localStorage.getItem('pilgrim_saved_company');
+  const savedP1 = localStorage.getItem('pilgrim_saved_p1');
+  const savedP2 = localStorage.getItem('pilgrim_saved_p2');
+  const clearBtn = document.getElementById('t-btnClearProfile');
+
+  if(savedComp || savedP1 || savedP2){
+    if(savedComp) document.getElementById('company_name').value = savedComp;
+    if(savedP1) document.getElementById('p1').value = savedP1;
+    if(savedP2) document.getElementById('p2').value = savedP2;
+    if(clearBtn) clearBtn.style.display = "inline";
+  } else {
+    if(clearBtn) clearBtn.style.display = "none";
+  }
+}
+
+function saveCompanyProfileLocal(comp, p1, p2){
+  if(comp) localStorage.setItem('pilgrim_saved_company', comp);
+  if(p1) localStorage.setItem('pilgrim_saved_p1', p1);
+  if(p2) localStorage.setItem('pilgrim_saved_p2', p2);
+}
+
+function clearSavedCompanyProfile(){
+  localStorage.removeItem('pilgrim_saved_company');
+  localStorage.removeItem('pilgrim_saved_p1');
+  localStorage.removeItem('pilgrim_saved_p2');
+  document.getElementById('company_name').value = "";
+  document.getElementById('p1').value = "";
+  document.getElementById('p2').value = "";
+  document.getElementById('t-btnClearProfile').style.display = "none";
+  alert("تم مسح بيانات الشركة المحفوظة تلقائياً.");
 }
 
 async function fetchGroupsDropdown(){
@@ -681,6 +773,9 @@ async function saveToCloud(){
     return;
   }
 
+  // حفظ بيانات الشركة للاستخدام اللاحق في الأفواج الجديدة
+  saveCompanyProfileLocal(get('company_name'), get('p1'), get('p2'));
+
   activeGroupId = groupId;
   updateNavigationLinks(groupId);
 
@@ -724,6 +819,31 @@ async function saveToCloud(){
   }
 }
 
+/* ==================================================================
+   تعطيل / إنهاء الفوج الآمن (بدون مساس بالسكربت)
+   ================================================================== */
+function deactivateGroupSafely(){
+  const gId = document.getElementById('group_id').value.trim();
+  const pin = document.getElementById('pin').value.trim();
+
+  if(!gId || !pin){
+    alert("يرجى إدخال كود الفوج والرمز السري (PIN) أولاً لإتمام التعطيل.");
+    return;
+  }
+
+  const confirmDeact = confirm(`⚠️ تنبيه: هل أنت متأكد من إنهاء رحلة الفوج (${gId})؟\n\nسيتم تفريغ أرقام الغرف ووضع تنبيه بأن الرحلة منتهية عند فتح البطاقة.`);
+  if(!confirmDeact) return;
+
+  document.getElementById('hm').value = "[الرحلة منتهية]";
+  document.getElementById('hd').value = "[الرحلة منتهية]";
+  document.getElementById('rm').value = "—";
+  document.getElementById('rd').value = "—";
+  document.getElementById('bus_no').value = "—";
+  document.getElementById('notes').value = "⚠️ تنبيه للمعتمر: تم إنهاء أعمال هذا الفوج رسمياً، يرجى التواصل مع إدارة الشركة للاستفسار.";
+
+  saveToCloud();
+}
+
 function showQR(groupId){
   currentGroupUrl = `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(groupId)}`;
   const panel = document.getElementById('result-panel');
@@ -735,6 +855,46 @@ function showQR(groupId){
   document.getElementById('view-btn').href = currentGroupUrl;
   panel.style.display = "flex";
   panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ==================================================================
+   توليد ونسخ رسالة الواتساب الترحيبية الجاهزة للمعتمرين
+   ================================================================== */
+function copyWhatsAppMessage(){
+  const get = id => document.getElementById(id).value.trim();
+  const gId = get('group_id') || activeGroupId;
+  const comp = get('company_name') || "إدارة الرحلة";
+  const p1 = get('p1') || "—";
+  const p2 = get('p2') || "—";
+  const hm = get('hm') || "—";
+  const hd = get('hd') || "—";
+  const bus = get('bus_no') || "—";
+  const url = currentGroupUrl || `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(gId)}`;
+
+  const waMsg = 
+`🕋 *بطاقة الطوارئ الرقمية لضيوف الرحمن*
+🏢 *${comp}* | كود الفوج: *${gId}*
+━━━━━━━━━━━━━━━━━━
+السلام عليكم ورحمة الله وبركاته، تقبل الله طاعتكم وعمرة مباركة وميسرة بإذن الله.
+
+يرجى حفظ رابط بطاقتكم الرقمية للوصول السريع إلى الفنادق، بوصلة القبلة، ودليل المناسك:
+🔗 *رابط البطاقة المباشر:*
+${url}
+
+📌 *بيانات الإقامة والمشرفين:*
+• 🕋 فندق مكة: ${hm}
+• 🕌 فندق المدينة: ${hd}
+• 🚌 الحافلة: ${bus}
+• 📞 المشرف الأساسي: ${p1}
+• 📞 المشرف الاحتياطي: ${p2}
+
+⚠️ *تنبيه:* في حال الانفصال عن المجموعة، افتح الرابط واضغط على "إرسال موقعي عبر واتساب" أو تواصل فوراً مع المشرف.`;
+
+  navigator.clipboard.writeText(waMsg).then(() => {
+    alert("✅ تم نسخ رسالة الواتساب المنسقة بنجاح!\n\nيمكنك الآن لصقها مباشرة في جروب الواتساب الخاص بالمعتمرين.");
+  }).catch(() => {
+    alert("تعذر النسخ التلقائي، يمكنك نسخ الرابط يدوياً.");
+  });
 }
 
 function copyLink(){
