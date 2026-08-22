@@ -117,24 +117,38 @@ body{
 
 .header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
 
+/* صندوق اختيار الفوج التفاعلي الترحيبي */
 .group-selector-card{
   background:#fbf8f0;
   border:1.5px solid var(--gold);
   border-radius:12px;
-  padding:16px;
-  margin:14px 20px 4px;
+  padding:18px 16px;
+  margin:16px 18px 8px;
   text-align:center;
 }
 .group-selector-card h3{ font-size:15px; color:var(--ink); font-weight:800; margin-bottom:6px; }
-.group-selector-card p{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; }
+.group-selector-card p{ font-size:12px; color:var(--ink-soft); line-height:1.55; margin-bottom:14px; }
 .group-input-wrapper{ display:flex; flex-direction:column; gap:8px; }
 .group-select, .group-input{
-  width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--line);
+  width:100%; padding:11px 12px; border-radius:8px; border:1px solid var(--line);
   font-size:13px; font-family:'Tajawal',sans-serif; outline:none; background:#fff;
 }
 .group-btn-go{
-  padding:11px; background:var(--ink); color:#fff; font-size:14px;
-  font-weight:700; border-radius:8px; border:none; cursor:pointer;
+  padding:12px; background:var(--ink); color:#fff; font-size:14px;
+  font-weight:700; border-radius:8px; border:none; cursor:pointer; transition:.15s;
+}
+.group-btn-go:active{ transform:scale(0.98); }
+
+.welcome-info-strip{
+  background:#fff;
+  border:1px dashed var(--gold-light);
+  border-radius:10px;
+  padding:12px;
+  margin:12px 18px 18px;
+  font-size:12px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  text-align:center;
 }
 
 .lang-row{
@@ -170,7 +184,6 @@ body{
 .btn-whatsapp{ background:var(--whatsapp); color:#fff; }
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-guide{ background: linear-gradient(135deg, #b8934a 0%, #9a7632 100%); color:#fff; }
-.btn-b2b-link{ background:#fdfbf7; border:1.5px solid var(--gold-light); color:var(--ink); }
 
 .info-box{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:12px; }
 .info-row{ display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:5px 0; }
@@ -238,6 +251,7 @@ body{
   border-radius:10px; color:var(--ink); text-decoration:none; font-size:12.5px; font-weight:700;
 }
 
+/* بطاقات الخدمات العامة والأدوات المستقلة (تظهر دائماً) */
 .bottom-action-card{
   width:100%; max-width:460px; background:var(--card); border-radius:var(--radius);
   box-shadow:var(--shadow); border:1px solid var(--line); padding:12px 14px; text-align:center;
@@ -354,7 +368,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي -->
+  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -369,113 +383,121 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
   </div>
 
-  <div class="lang-row" id="lang-row"></div>
-
-  <div class="body">
-
-    <!-- الاتصال الفوري -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionContact">التواصل الفوري مع المشرفين</span><span class="line"></span></div>
-
-    <a href="#" id="btn-primary" class="btn btn-primary"><span id="t-btnPrimary">اتصال بالمشرف الأساسي</span></a>
-    <a href="#" id="btn-secondary" class="btn btn-secondary"><span id="t-btnSecondary">اتصال بالمشرف الاحتياطي</span></a>
-    <button id="btn-whatsapp" class="btn btn-whatsapp"><span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span></button>
-
-    <!-- الإقامة -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
-
-    <div class="info-box">
-      <div class="info-row"><span class="info-label" id="t-labelHotelMakkah">فندق مكة</span><span class="info-value editable" id="v-hotelMakkah">[ برجاء تحديد الفوج ]</span></div>
-      <div class="info-row"><span class="info-label" id="t-labelRoomMakkah">رقم الغرفة</span><span class="info-value editable" id="v-roomMakkah">—</span></div>
-    </div>
-    <a href="#" target="_blank" id="btn-mapMakkah" class="btn btn-outline">📍 <span id="t-btnMapMakkah">فتح موقع فندق مكة</span></a>
-
-    <div class="info-box">
-      <div class="info-row"><span class="info-label" id="t-labelHotelMadinah">فندق المدينة</span><span class="info-value editable" id="v-hotelMadinah">[ برجاء تحديد الفوج ]</span></div>
-      <div class="info-row"><span class="info-label" id="t-labelRoomMadinah">رقم الغرفة</span><span class="info-value editable" id="v-roomMadinah">—</span></div>
-    </div>
-    <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
-
-    <!-- الحافلة والملاحظات -->
-    <div id="section-transport-wrapper">
-      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionTransportNotes">الحافلة وتوجيهات الرحلة</span><span class="line"></span></div>
-      <div class="transport-notes-box">
-        <div class="bus-badge-row">
-          <span class="bus-badge-label" id="t-labelBusNo">🚌 رقم الحافلة / الباص:</span>
-          <span class="bus-badge-val" id="v-busNo">—</span>
-        </div>
-        <div class="notes-content" id="v-notes">لم يتم تحديد كود فوج بعد.</div>
-      </div>
-    </div>
-
-    <!-- QR -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
-    <div class="qr-box">
-      <div class="qr-render-frame" id="qr-local-container"></div>
-      <p id="t-qrHint">امسح الرمز بكاميرا الجوال لعرض بيانات السكن والتواصل المباشر مع المشرف دون الحاجة لتثبيت تطبيقات.</p>
-    </div>
-
-    <!-- طوارئ رسمية -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionEmergency">أرقام الطوارئ الرسمية (السعودية)</span><span class="line"></span></div>
-    <div class="em-grid">
-      <div class="em-card"><div class="em-num">911 / 999</div><div class="em-label" id="t-emSecurity">الأمن والشرطة</div></div>
-      <div class="em-card"><div class="em-num">997</div><div class="em-label" id="t-emRedCrescent">الهلال الأحمر</div></div>
-      <div class="em-card"><div class="em-num">1966</div><div class="em-label" id="t-emHajjMinistry">وزارة الحج والعمرة</div></div>
-      <div class="em-card"><div class="em-num">998</div><div class="em-label" id="t-emCivilDefense">الدفاع المدني</div></div>
-    </div>
-
-    <!-- ماذا تفعل إن تهت -->
-    <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionLostSteps">ماذا تفعل إن تهت؟</span><span class="line"></span></div>
-    <div class="info-box steps-box">
-      <ol>
-        <li id="t-step1">قف في مكانك ولا تتحرك كثيراً — يسهل العثور عليك إن بقيت ثابتاً.</li>
-        <li id="t-step2">اتصل بالمشرف الأساسي أو الاحتياطي فوراً عبر الأزرار أعلى هذه الصفحة.</li>
-        <li id="t-step3">إن تعذّر الاتصال، توجّه لأقرب رجل أمن أو نقطة إرشاد وأخبره أنك تائه من حملتك.</li>
-        <li id="t-step4">أظهر بطاقة الحملة أو الهوية لمن يساعدك ليتعرف على مجموعتك.</li>
-        <li id="t-step5">احفظ اسم نقطة تجمع معروفة بالحرم (مثل باب معيّن) كمرجع تعود إليه.</li>
-      </ol>
-    </div>
-
+  <!-- شريط توضيحي يظهر في حالة عدم اختيار فوج -->
+  <div id="no-group-welcome" class="welcome-info-strip" style="display:none;">
+    💡 <strong>مرحباً بك:</strong> أدخل كود الفوج الخاص بك أعلاه لعرض بيانات المشرفين والسكن، أو تصفح أدوات المعتمر الميدانية والخرائط بالأسفل مجاناً.
   </div>
 
-  <div class="footer">
-    <button class="footer-btn-unified" onclick="openPrintModal()">
-      <span id="t-footerBtnUnified">📤 مشاركة وطباعة وتصدير البطاقة</span>
-    </button>
+  <div class="lang-row" id="lang-row"></div>
 
-    <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
-    
-    <div>
-      <a href="generator.html" id="admin-edit-btn" class="admin-edit-card-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-        <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في لوحة التحكم</span>
-      </a>
+  <!-- حاوي بيانات الفوج المخصصة (يختفي بالكامل إذا لم يُحدد فوج لتجنب ظهور كروت فارغة) -->
+  <div id="group-details-container" style="display:none;">
+    <div class="body">
+
+      <!-- الاتصال الفوري -->
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionContact">التواصل الفوري مع المشرفين</span><span class="line"></span></div>
+
+      <a href="#" id="btn-primary" class="btn btn-primary"><span id="t-btnPrimary">اتصال بالمشرف الأساسي</span></a>
+      <a href="#" id="btn-secondary" class="btn btn-secondary"><span id="t-btnSecondary">اتصال بالمشرف الاحتياطي</span></a>
+      <button id="btn-whatsapp" class="btn btn-whatsapp"><span id="t-btnWhatsapp">إرسال موقعي الحالي عبر واتساب</span></button>
+
+      <!-- الإقامة -->
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionAccommodation">أماكن الإقامة</span><span class="line"></span></div>
+
+      <div class="info-box">
+        <div class="info-row"><span class="info-label" id="t-labelHotelMakkah">فندق مكة</span><span class="info-value editable" id="v-hotelMakkah">—</span></div>
+        <div class="info-row"><span class="info-label" id="t-labelRoomMakkah">رقم الغرفة</span><span class="info-value editable" id="v-roomMakkah">—</span></div>
+      </div>
+      <a href="#" target="_blank" id="btn-mapMakkah" class="btn btn-outline">📍 <span id="t-btnMapMakkah">فتح موقع فندق مكة</span></a>
+
+      <div class="info-box">
+        <div class="info-row"><span class="info-label" id="t-labelHotelMadinah">فندق المدينة</span><span class="info-value editable" id="v-hotelMadinah">—</span></div>
+        <div class="info-row"><span class="info-label" id="t-labelRoomMadinah">رقم الغرفة</span><span class="info-value editable" id="v-roomMadinah">—</span></div>
+      </div>
+      <a href="#" target="_blank" id="btn-mapMadinah" class="btn btn-outline">📍 <span id="t-btnMapMadinah">فتح موقع فندق المدينة</span></a>
+
+      <!-- الحافلة والملاحظات -->
+      <div id="section-transport-wrapper">
+        <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionTransportNotes">الحافلة وتوجيهات الرحلة</span><span class="line"></span></div>
+        <div class="transport-notes-box">
+          <div class="bus-badge-row">
+            <span class="bus-badge-label" id="t-labelBusNo">🚌 رقم الحافلة / الباص:</span>
+            <span class="bus-badge-val" id="v-busNo">—</span>
+          </div>
+          <div class="notes-content" id="v-notes">لا توجد ملاحظات إضافية مسجلة.</div>
+        </div>
+      </div>
+
+      <!-- QR -->
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionQr">مسح سريع للتواصل</span><span class="line"></span></div>
+      <div class="qr-box">
+        <div class="qr-render-frame" id="qr-local-container"></div>
+        <p id="t-qrHint">امسح الرمز بكاميرا الجوال لعرض بيانات السكن والتواصل المباشر مع المشرف دون الحاجة لتثبيت تطبيقات.</p>
+      </div>
+
+      <!-- طوارئ رسمية -->
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionEmergency">أرقام الطوارئ الرسمية (السعودية)</span><span class="line"></span></div>
+      <div class="em-grid">
+        <div class="em-card"><div class="em-num">911 / 999</div><div class="em-label" id="t-emSecurity">الأمن والشرطة</div></div>
+        <div class="em-card"><div class="em-num">997</div><div class="em-label" id="t-emRedCrescent">الهلال الأحمر</div></div>
+        <div class="em-card"><div class="em-num">1966</div><div class="em-label" id="t-emHajjMinistry">وزارة الحج والعمرة</div></div>
+        <div class="em-card"><div class="em-num">998</div><div class="em-label" id="t-emCivilDefense">الدفاع المدني</div></div>
+      </div>
+
+      <!-- ماذا تفعل إن تهت -->
+      <div class="section-title"><svg class="star" viewBox="0 0 100 100"><path d="M50 20c-14 0-25 11-25 25v5h50v-5c0-14-11-25-25-25z" fill="currentColor"/><rect x="16" y="50" width="68" height="9" rx="1.5" fill="currentColor"/><rect x="10" y="59" width="80" height="7" rx="1.5" fill="currentColor"/><rect x="45" y="8" width="10" height="10" rx="1.5" fill="currentColor"/><rect x="4" y="34" width="6" height="32" fill="currentColor"/><circle cx="7" cy="30" r="5.5" fill="currentColor"/><rect x="90" y="34" width="6" height="32" fill="currentColor"/><circle cx="93" cy="30" r="5.5" fill="currentColor"/></svg><span id="t-sectionLostSteps">ماذا تفعل إن تهت؟</span><span class="line"></span></div>
+      <div class="info-box steps-box">
+        <ol>
+          <li id="t-step1">قف في مكانك ولا تتحرك كثيراً — يسهل العثور عليك إن بقيت ثابتاً.</li>
+          <li id="t-step2">اتصل بالمشرف الأساسي أو الاحتياطي فوراً عبر الأزرار أعلى هذه الصفحة.</li>
+          <li id="t-step3">إن تعذّر الاتصال، توجّه لأقرب رجل أمن أو نقطة إرشاد وأخبره أنك تائه من حملتك.</li>
+          <li id="t-step4">أظهر بطاقة الحملة أو الهوية لمن يساعدك ليتعرف على مجموعتك.</li>
+          <li id="t-step5">احفظ اسم نقطة تجمع معروفة بالحرم (مثل باب معيّن) كمرجع تعود إليه.</li>
+        </ol>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button class="footer-btn-unified" onclick="openPrintModal()">
+        <span id="t-footerBtnUnified">📤 مشاركة وطباعة وتصدير البطاقة</span>
+      </button>
+
+      <div class="fine" id="t-footerNote">يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.</div>
+      
+      <div>
+        <a href="generator.html" id="admin-edit-btn" class="admin-edit-card-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          <span id="t-adminEditBtn">تعديل بيانات هذه الرحلة في لوحة التحكم</span>
+        </a>
+      </div>
     </div>
   </div>
 
 </div>
 
-<!-- 2. بطاقة دليل المناسك المستقلة بالأسفل -->
+<!-- 2. بطاقة دليل المناسك المستقلة (تظهر دائماً في جميع الحالات) -->
 <div class="bottom-action-card">
   <a href="umrah-guide.html" class="btn btn-guide" style="margin:0;">
     <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
   </a>
 </div>
 
-<!-- 3. بطاقة القبلة ومواقيت الصلاة بالحرمين -->
+<!-- 3. بطاقة القبلة ومواقيت الصلاة بالحرمين (تظهر دائماً في جميع الحالات) -->
 <div class="bottom-action-card">
   <a href="qibla-prayer.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
     <span id="t-btnQibla">🧭 القبلة ومواقيت الصلاة في الحرمين</span>
   </a>
 </div>
 
-<!-- 4. بطاقة خريطة المعالم ومحطات النقل بالحرمين -->
+<!-- 4. بطاقة خريطة المعالم ومحطات النقل بالحرمين (تظهر دائماً في جميع الحالات) -->
 <div class="bottom-action-card">
   <a href="landmarks.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
     <span id="t-btnLandmarks">🗺️ خريطة المعالم ومحطات النقل بالحرمين</span>
   </a>
 </div>
 
-<!-- 5. بطاقة باقات الشركات وحلول السياحة (business.html) -->
+<!-- 5. بطاقة باقات الشركات وحلول السياحة (تظهر دائماً وتفتح business.html) -->
 <div class="platform-business-card">
   <h4 id="t-b2bTitle">💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
   <p id="t-b2bDesc">احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
@@ -882,13 +904,23 @@ async function applyStatic(){
   const editBtn = document.getElementById("admin-edit-btn");
   if(editBtn) editBtn.href = "generator.html" + (window.location.search || "");
 
+  const groupSelectorBox = document.getElementById("group-selector-box");
+  const noGroupWelcome = document.getElementById("no-group-welcome");
+  const groupDetails = document.getElementById("group-details-container");
+
+  // الحالة الأولى: لم يتم اختيار كود فوج
   if (!groupId) {
-    document.getElementById("group-selector-box").style.display = "block";
+    if (groupSelectorBox) groupSelectorBox.style.display = "block";
+    if (noGroupWelcome) noGroupWelcome.style.display = "block";
+    if (groupDetails) groupDetails.style.display = "none";
     fetchGroupsList();
     return;
   }
 
-  document.getElementById("group-selector-box").style.display = "none";
+  // الحالة الثانية: تم تحديد فوج
+  if (groupSelectorBox) groupSelectorBox.style.display = "none";
+  if (noGroupWelcome) noGroupWelcome.style.display = "none";
+  if (groupDetails) groupDetails.style.display = "block";
 
   const localCached = localStorage.getItem(`pilgrim_data_${groupId}`);
   if(localCached){
@@ -906,7 +938,9 @@ async function applyStatic(){
       localStorage.setItem(`pilgrim_data_${groupId}`, JSON.stringify(data));
       renderUI(data);
     } else if(!localCached) {
-      document.getElementById("group-selector-box").style.display = "block";
+      if (groupSelectorBox) groupSelectorBox.style.display = "block";
+      if (noGroupWelcome) noGroupWelcome.style.display = "block";
+      if (groupDetails) groupDetails.style.display = "none";
       fetchGroupsList();
     }
   } catch(err){
