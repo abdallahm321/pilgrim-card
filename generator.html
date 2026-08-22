@@ -4,64 +4,548 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>لوحة التحكم الإدارية للأفواج</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
-:root{ --ink:#1c1c1e; --gold:#b8934a; --green:#2f5233; --line:#e7ded0; --card:#fffdf8; }
-body{ background:#f7f3ea; padding:20px; font-family:'Tajawal',sans-serif; }
-.box{ max-width:500px; margin:auto; background:var(--card); padding:20px; border-radius:16px; border:1px solid var(--line); box-shadow:0 10px 25px rgba(0,0,0,0.05); }
-.mode-selector{ display:flex; gap:10px; margin-bottom:20px; }const API_URL = "https://script.google.com/macros/s/AKfycbxJhFjnjFT70f_82YsII66RVoR7d5xsg5taB6hip5HAcCAnsBxcEhIZcKpB5p22C8-I/exec";
-.mode-btn{ flex:1; padding:10px; border:1px solid var(--gold); background:transparent; color:var(--gold); border-radius:8px; cursor:pointer; font-weight:700; }
+:root{
+  --ink:#1c1c1e;
+  --ink-soft:#48484a;
+  --sand:#f7f3ea;
+  --card:#fffdf8;
+  --gold:#b8934a;
+  --gold-light:#e8d9b5;
+  --line:#e7ded0;
+  --green:#2f5233;
+  --green-hover:#244027;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(28,28,30,0.08);
+}
+*{box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal',sans-serif;}
+
+body{
+  background:radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
+  color:var(--ink);
+  padding:22px 14px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  min-height:100vh;
+}
+
+.box{
+  width:100%;
+  max-width:500px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:22px 18px;
+  box-shadow:var(--shadow);
+}
+
+.nav-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:14px;
+  background:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  transition:.15s;
+}
+.nav-back:active{ transform:scale(0.97); }
+
+.header-title{ text-align:center; margin-bottom:16px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+.header-title h2{ font-family:'Reem Kufi',sans-serif; font-size:20px; font-weight:800; color:var(--ink); margin-bottom:4px; }
+.header-title p{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
+
+/* أزرار اختيار الوضع */
+.mode-selector{ display:flex; gap:8px; margin-bottom:18px; }
+.mode-btn{
+  flex:1; padding:11px 8px; border:1.5px solid var(--gold);
+  background:#fff; color:var(--gold); border-radius:10px;
+  cursor:pointer; font-weight:800; font-size:13px; transition:.15s;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
 .mode-btn.active{ background:var(--gold); color:#fff; }
-.generator-field{ margin-bottom:12px; }
-label{ font-size:12px; font-weight:700; color:#555; display:block; margin-bottom:4px; }
-input, textarea{ width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; outline:none; }
-.btn-main{ width:100%; padding:14px; background:var(--green); color:#fff; border:none; border-radius:10px; font-weight:800; cursor:pointer; margin-top:10px; }
-#result-panel{ display:none; margin-top:20px; text-align:center; padding-top:20px; border-top:1px dashed var(--line); }
+
+.section-tag{
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:12.5px; font-weight:800; color:var(--gold);
+  margin:16px 0 8px; border-bottom:1px solid var(--line);
+  padding-bottom:4px; text-transform:uppercase;
+}
+
+label{ display:block; font-size:12px; font-weight:700; margin:6px 0 3px; color:#444; }
+input, textarea, select{
+  width:100%; padding:10px 12px;
+  border:1px solid var(--line); border-radius:8px;
+  font-size:13px; outline:none; background:#fff;
+  transition:border-color .15s, box-shadow .15s;
+  margin-bottom:6px;
+}
+input:focus, textarea:focus, select:focus{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(184,147,74,0.15); }
+textarea{ min-height:70px; resize:vertical; }
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+.btn-random{
+  background:#f4eee2; color:var(--ink); border:1px solid var(--gold-light);
+  padding:2px 8px; border-radius:6px; font-size:10.5px; font-weight:bold;
+  cursor:pointer; transition:.15s;
+}
+.btn-random:active{ transform:scale(0.95); }
+
+.status-badge{
+  font-size:10.5px; padding:2px 8px; border-radius:4px;
+  background:#eef4ed; color:var(--green); font-weight:700;
+  display:none;
+}
+
+.btn-main{
+  width:100%; padding:14px; background:var(--green);
+  color:#fff; font-size:15px; font-weight:800;
+  border:none; border-radius:10px; cursor:pointer;
+  margin-top:14px; transition:background .15s, transform .1s;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-main:hover{ background:var(--green-hover); }
+.btn-main:active{ transform:scale(0.98); }
+.btn-main:disabled{ opacity:0.65; cursor:not-allowed; }
+
+/* مركز عرض النتائج */
+#result-panel{
+  display:none; flex-direction:column; align-items:center;
+  margin-top:18px; padding-top:16px; border-top:1px dashed var(--line);
+}
+#qrcode{
+  background:#fff; padding:10px;
+  border:1px solid var(--line); border-radius:10px;
+  margin-bottom:10px; box-shadow:0 4px 12px rgba(0,0,0,0.04);
+}
+.url-box{
+  background:#fff; border:1px solid var(--line);
+  border-radius:8px; padding:8px 10px; width:100%;
+  font-size:11.5px; color:#0066cc; word-break:break-all;
+  text-align:center; margin-bottom:10px; line-height:1.4;
+}
+.action-row{ display:flex; gap:6px; width:100%; }
+.action-row a, .action-row button{
+  flex:1; text-align:center; padding:9px 6px;
+  font-size:12px; font-weight:700; border-radius:8px;
+  text-decoration:none; cursor:pointer; border:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:4px;
+  transition:.15s;
+}
+.btn-view{ background:#fff; color:var(--ink); border:1px solid var(--line) !important; }
+.btn-copy{ background:var(--ink); color:#fff; }
+.btn-download{ background:var(--gold); color:#fff; }
+
+/* بطاقة خدمات الشركات ودعم المنصة */
+.platform-business-card{
+  width:100%; max-width:500px; background:#fbf9f4; border-radius:var(--radius);
+  border:1px solid var(--gold-light); box-shadow:var(--shadow); padding:16px 18px; text-align:center;
+}
+.platform-business-card h4{ font-size:14px; font-weight:800; color:var(--ink); margin-bottom:6px; }
+.platform-business-card p{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; }
+.b2b-btn-row{ display:flex; gap:8px; justify-content:center; margin-bottom:12px; }
+.b2b-action-btn{
+  flex:1; padding:10px 12px; border-radius:8px; font-size:12.5px; font-weight:700;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  background:var(--gold); color:#fff; border:none; transition:.15s;
+}
+.b2b-action-btn:active{ transform:scale(0.98); }
+
+.support-subtle-toggle{
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; color:#8a857b; text-decoration:none;
+  cursor:pointer; padding:4px 8px; border-radius:6px;
+  background:transparent; border:none; transition:.15s;
+  border-top:1px dashed var(--line); width:100%; justify-content:center; padding-top:10px;
+}
+.support-subtle-toggle:hover{ color:var(--gold); }
+.support-details-box{
+  display:none; margin-top:10px; padding:12px; background:#fff;
+  border:1px dashed var(--gold-light); border-radius:10px; text-align:start;
+  font-size:11.5px; line-height:1.6; color:var(--ink);
+}
+.iban-copy-btn{
+  background:#f4eee2; border:1px solid var(--gold-light); padding:2px 8px;
+  border-radius:4px; font-size:10.5px; font-weight:bold; cursor:pointer; color:var(--ink); margin-right:4px;
+}
+.instapay-link{
+  display:inline-block; margin-top:6px; color:#582c8b; font-weight:bold; text-decoration:none;
+}
 </style>
 </head>
 <body>
+
 <div class="box">
+  <a href="index.html" class="nav-back">➔ العودة لبطاقة المعتمر</a>
+
+  <div class="header-title">
+    <h2 id="form-title">إضافة فوج جديد للسحابة</h2>
+    <p id="form-desc">أدخل كود الفوج والرمز السري الخاص بك لإصدار بطاقة ذكية أو تعديلها</p>
+  </div>
+
+  <!-- مفتاح التبديل الذكي بين الإضافة والتعديل -->
   <div class="mode-selector">
-    <button class="mode-btn active" id="btn-add" onclick="setMode('add')">➕ إضافة فوج</button>
-    <button class="mode-btn" id="btn-edit" onclick="setMode('edit')">✏️ تعديل فوج</button>
+    <button class="mode-btn active" id="btn-add" onclick="setMode('add')">➕ إضافة فوج جديد</button>
+    <button class="mode-btn" id="btn-edit" onclick="setMode('edit')">✏️ تعديل فوج مسجل</button>
   </div>
-  <h2 id="form-title" style="text-align:center; margin-bottom:15px;">إضافة فوج جديد</h2>
+
+  <!-- قائمة اختيار الفوج في وضع التعديل -->
+  <div id="group-select-wrapper" style="display:none; margin-bottom:10px;">
+    <label>اختر الفوج المطلوب تعديله من القائمة:</label>
+    <select id="group-dropdown" onchange="onDropdownSelect(this.value)">
+      <option value="">-- جارِ جلب الأفواج المسجلة --</option>
+    </select>
+  </div>
+
+  <div class="section-tag">
+    <span>بيانات الاعتماد والتحقق</span>
+    <span id="load-status" class="status-badge">تم استرجاع البيانات ✓</span>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <label>
+        كود الفوج (ID):
+        <button id="gen-btn" class="btn-random" onclick="generateRandomID()">توليد كود ⚡</button>
+      </label>
+      <input type="text" id="group_id" placeholder="مثال: A1" onblur="autoFetch()">
+    </div>
+    <div>
+      <label>الرمز السري (PIN):</label>
+      <input type="password" id="pin" placeholder="حفظ رمز الأمان">
+    </div>
+  </div>
+
+  <label>اسم شركة السياحة / المنظم:</label>
+  <input type="text" id="company_name" placeholder="مثال: شركة الهدى لتنظيم العمرة">
+
+  <div class="section-tag"><span>أرقام هواتف المشرفين</span></div>
+  <div class="grid-2">
+    <div>
+      <label>المشرف الأساسي:</label>
+      <input type="text" id="p1" placeholder="+966500000000">
+    </div>
+    <div>
+      <label>المشرف الاحتياطي:</label>
+      <input type="text" id="p2" placeholder="+966500000000">
+    </div>
+  </div>
+
+  <div class="section-tag"><span>فندق مكة المكرمة</span></div>
+  <div class="grid-2">
+    <div>
+      <label>اسم الفندق والمنطقة:</label>
+      <input type="text" id="hm" placeholder="اسم الفندق - الشارع">
+    </div>
+    <div>
+      <label>رقم الغرفة:</label>
+      <input type="text" id="rm" placeholder="مثال: 402">
+    </div>
+  </div>
+  <label>رابط موقع فندق مكة (Google Maps):</label>
+  <input type="text" id="mm" placeholder="https://maps.app.goo.gl/...">
+
+  <div class="section-tag"><span>فندق المدينة المنورة</span></div>
+  <div class="grid-2">
+    <div>
+      <label>اسم الفندق والمنطقة:</label>
+      <input type="text" id="hd" placeholder="اسم الفندق - المركزية">
+    </div>
+    <div>
+      <label>رقم الغرفة:</label>
+      <input type="text" id="rd" placeholder="مثال: 215">
+    </div>
+  </div>
+  <label>رابط موقع فندق المدينة (Google Maps):</label>
+  <input type="text" id="md" placeholder="https://maps.app.goo.gl/...">
+
+  <div class="section-tag"><span>الحافلة وتوجيهات الرحلة</span></div>
+  <label>رقم الحافلة / الباص:</label>
+  <input type="text" id="bus_no" placeholder="مثال: باص 12 (ب د ج 45)">
+
+  <label>ملاحظات وتوجيهات خاصة بالفوج:</label>
+  <textarea id="notes" placeholder="مواعيد التجمع، أرقام غرف الأطباء، توجيهات التحرك..."></textarea>
+
+  <button class="btn-main" id="save-btn" onclick="saveToCloud()">
+    <span>حفظ البيانات وإصدار البطاقة ☁️</span>
+  </button>
+
+  <!-- مركز عرض النتائج والباركود المباشر -->
+  <div id="result-panel">
+    <div id="qrcode"></div>
+    <div class="url-box" id="link-preview"></div>
+    <div class="action-row">
+      <a href="#" id="view-btn" target="_blank" class="btn-view">معاينة البطاقة 👁️</a>
+      <button class="btn-copy" onclick="copyLink()">نسخ الرابط 📋</button>
+      <button class="btn-download" onclick="downloadQR()">تحميل QR 💾</button>
+    </div>
+  </div>
+</div>
+
+<!-- بطاقة باقات الشركات وحلول السياحة (business.html) -->
+<div class="platform-business-card">
+  <h4>💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
+  <p>احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
   
-  <div class="generator-field">
-    <label>معرّف الفوج (Group ID): <button id="gen-btn" class="btn-random" onclick="generateRandomID()">توليد كود</button></label>
-    <input type="text" id="group_id" onblur="autoLoad()">
+  <div class="b2b-btn-row">
+    <a href="business.html" class="b2b-action-btn">
+      <span>✨ استعراض باقات الشركات (مجاني & Pro)</span>
+    </a>
   </div>
-  <div class="generator-field">
-    <label>الرمز السري (PIN):</label>
-    <input type="password" id="pin" placeholder="يستخدم لمرة واحدة عند الحفظ أو للتعديل">
+
+  <!-- سطر التبرع الهادئ غير البارز -->
+  <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
+    <span>☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
+  </button>
+  
+  <div id="support-details" class="support-details-box">
+    <div>
+      <strong>IBAN:</strong> <span id="iban-val">EG890003052250019122198000140</span>
+      <button class="iban-copy-btn" onclick="copyIBAN()">نسخ</button>
+    </div>
+    <div>
+      <a href="https://ipn.eg/S/abdallah32122/instapay/7obrf8" target="_blank" class="instapay-link">
+        ⚡ الدفع المباشر عبر InstaPay
+      </a>
+    </div>
   </div>
-  <div id="form-fields">
-    <label>اسم الشركة:</label><input type="text" id="company_name">
-    <label>هاتف المشرف:</label><input type="text" id="p1">
-    <label>فندق مكة:</label><input type="text" id="hm">
-    <label>رقم غرفة مكة:</label><input type="text" id="rm">
-    <label>ملاحظات:</label><textarea id="notes"></textarea>
-    <button class="btn-main" onclick="saveToCloud()">حفظ البيانات ☁️</button>
-  </div>
-  <div id="result-panel"><div id="qrcode"></div><p id="link-preview"></p></div>
 </div>
 
 <script>
-const API_URL = "استبدل_بهذا_رابط_السكربت_الخاص_بك";
-function setMode(mode) {
+const API_URL = "https://script.google.com/macros/s/AKfycbxJhFjnjFT70f_82YsII66RVoR7d5xsg5taB6hip5HAcCAnsBxcEhIZcKpB5p22C8-I/exec";
+let currentGroupUrl = "";
+let currentMode = "add";
+
+window.onload = function(){
+  const p = new URLSearchParams(window.location.search);
+  const rawG = p.get('g') || p.get('group');
+  if(rawG){
+    setMode('edit');
+    const g = rawG.trim().toUpperCase();
+    document.getElementById('group_id').value = g;
+    fetchGroupData(g);
+  } else {
+    generateRandomID();
+  }
+};
+
+function setMode(mode){
+  currentMode = mode;
   document.getElementById('btn-add').classList.toggle('active', mode === 'add');
   document.getElementById('btn-edit').classList.toggle('active', mode === 'edit');
-  document.getElementById('gen-btn').style.display = (mode === 'edit') ? 'none' : 'inline-block';
-  document.getElementById('form-title').textContent = mode === 'add' ? "إضافة فوج جديد" : "تعديل فوج قائم";
-}
-async function autoLoad() {
-  if(document.getElementById('btn-edit').classList.contains('active')) {
-    // جلب البيانات تلقائياً عند تغيير الـ ID في وضع التعديل
+  
+  const genBtn = document.getElementById('gen-btn');
+  const dropdownWrapper = document.getElementById('group-select-wrapper');
+  const formTitle = document.getElementById('form-title');
+  const formDesc = document.getElementById('form-desc');
+  const saveBtn = document.getElementById('save-btn');
+
+  if(mode === 'add'){
+    genBtn.style.display = "inline-block";
+    dropdownWrapper.style.display = "none";
+    formTitle.textContent = "إضافة فوج جديد للسحابة";
+    formDesc.textContent = "أدخل كود الفوج الجديد وعيّن رمز PIN لحماية التعديل";
+    saveBtn.innerHTML = "<span>حفظ الفوج الجديد وإصدار البطاقة ☁️</span>";
+    clearFormFields();
+    generateRandomID();
+  } else {
+    genBtn.style.display = "none";
+    dropdownWrapper.style.display = "block";
+    formTitle.textContent = "تعديل بيانات فوج مسجل";
+    formDesc.textContent = "اختر الفوج وأدخل رمز الـ PIN الصحيح لتحديث بيانات الفندق والمشرفين";
+    saveBtn.innerHTML = "<span>حفظ التعديلات في السحابة ☁️</span>";
+    fetchGroupsDropdown();
   }
 }
-async function saveToCloud() { /* نفس كود الحفظ السابق */ }
-function generateRandomID() { document.getElementById('group_id').value = 'F-' + Math.floor(Math.random()*9000+1000); }
+
+function generateRandomID(){
+  if(currentMode !== 'add') return;
+  const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
+  const randomNum = Math.floor(Math.random() * 900 + 100);
+  document.getElementById('group_id').value = `${randomLetter}${randomNum}`;
+}
+
+function clearFormFields(){
+  const fields = ['company_name', 'p1', 'p2', 'hm', 'rm', 'mm', 'hd', 'rd', 'md', 'bus_no', 'notes', 'pin'];
+  fields.forEach(id => document.getElementById(id).value = "");
+  document.getElementById('load-status').style.display = "none";
+  document.getElementById('result-panel').style.display = "none";
+}
+
+async function fetchGroupsDropdown(){
+  const select = document.getElementById('group-dropdown');
+  select.innerHTML = '<option value="">-- جاري تحميل قائمة الأفواج --</option>';
+  try {
+    const res = await fetch(`${API_URL}?action=list&t=${Date.now()}`);
+    const data = await res.json();
+    if(data.groups && data.groups.length > 0){
+      select.innerHTML = '<option value="">-- اختر الفوج المطلوب تعديله --</option>';
+      data.groups.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.textContent = `${g.id} - ${g.name}`;
+        select.appendChild(opt);
+      });
+    } else {
+      select.innerHTML = '<option value="">-- لا توجد أفواج مسجلة بعد --</option>';
+    }
+  } catch(e){
+    select.innerHTML = '<option value="">-- تعذر جلب القائمة --</option>';
+  }
+}
+
+function onDropdownSelect(val){
+  if(val){
+    document.getElementById('group_id').value = val;
+    fetchGroupData(val);
+  }
+}
+
+function autoFetch(){
+  const g = document.getElementById('group_id').value.trim().toUpperCase();
+  if(g && currentMode === 'edit') fetchGroupData(g);
+}
+
+async function fetchGroupData(groupId){
+  const badge = document.getElementById('load-status');
+  badge.style.display = "inline-block";
+  badge.textContent = "جاري الاسترجاع...";
+  badge.style.background = "#fff3cd";
+  badge.style.color = "#856404";
+  
+  try {
+    const res = await fetch(`${API_URL}?action=read&g=${encodeURIComponent(groupId)}&t=${Date.now()}`);
+    const data = await res.json();
+    if(!data.error){
+      document.getElementById('company_name').value = data.company_name || "";
+      document.getElementById('p1').value = data.p1 || "";
+      document.getElementById('p2').value = data.p2 || "";
+      document.getElementById('hm').value = data.hm || "";
+      document.getElementById('rm').value = data.rm || "";
+      document.getElementById('mm').value = data.mm || "";
+      document.getElementById('hd').value = data.hd || "";
+      document.getElementById('rd').value = data.rd || "";
+      document.getElementById('md').value = data.md || "";
+      document.getElementById('bus_no').value = data.bus_no || "";
+      document.getElementById('notes').value = data.notes || "";
+      
+      badge.textContent = "تم استرجاع البيانات ✓";
+      badge.style.background = "#eef4ed";
+      badge.style.color = "var(--green)";
+    } else {
+      badge.textContent = "فوج غير مسجل";
+      badge.style.background = "#f8d7da";
+      badge.style.color = "#721c24";
+    }
+  } catch(e){
+    badge.textContent = "فشل الاتصال";
+  }
+}
+
+async function saveToCloud(){
+  const get = id => document.getElementById(id).value.trim();
+  const groupId = get('group_id').toUpperCase();
+  const pin = get('pin');
+
+  if(!groupId){
+    alert("يرجى إدخال أو توليد معرّف الفوج أولاً!");
+    return;
+  }
+  if(!pin){
+    alert("يرجى تعيين رمز سري (PIN) لحماية هذا الفوج!");
+    return;
+  }
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.innerHTML = "<span>جاري التحديث والحفظ بالسحابة... ⏳</span>";
+
+  const params = new URLSearchParams({
+    action: "update",
+    group_id: groupId,
+    pin: pin,
+    company_name: get('company_name'),
+    p1: get('p1'),
+    p2: get('p2'),
+    hm: get('hm'),
+    rm: get('rm'),
+    mm: get('mm'),
+    hd: get('hd'),
+    rd: get('rd'),
+    md: get('md'),
+    bus_no: get('bus_no'),
+    notes: get('notes')
+  });
+
+  try {
+    const res = await fetch(`${API_URL}?${params.toString()}&t=${Date.now()}`);
+    const result = await res.json();
+
+    if(result.success){
+      alert("✅ " + (result.msg || "تم حفظ وتحديث بيانات الفوج في السحابة بنجاح!"));
+      showQR(groupId);
+    } else {
+      alert("❌ خطأ: " + (result.msg || "تعذر الحفظ - تأكد من صحة الرمز السري"));
+    }
+  } catch(err){
+    alert("❌ حدث خطأ أثناء الاتصال بالسيرفر");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = currentMode === 'add' ? "<span>حفظ الفوج الجديد وإصدار البطاقة ☁️</span>" : "<span>حفظ التعديلات في السحابة ☁️</span>";
+  }
+}
+
+function showQR(groupId){
+  currentGroupUrl = `https://abdallahm321.github.io/pilgrim-card/?g=${encodeURIComponent(groupId)}`;
+  const panel = document.getElementById('result-panel');
+  const qrBox = document.getElementById('qrcode');
+  qrBox.innerHTML = "";
+  new QRCode(qrBox, { text: currentGroupUrl, width: 170, height: 170, correctLevel: QRCode.CorrectLevel.H });
+
+  document.getElementById('link-preview').textContent = currentGroupUrl;
+  document.getElementById('view-btn').href = currentGroupUrl;
+  panel.style.display = "flex";
+  panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyLink(){
+  if(!currentGroupUrl) return;
+  navigator.clipboard.writeText(currentGroupUrl).then(() => {
+    alert("📋 تم نسخ رابط بطاقة الفوج بنجاح!");
+  });
+}
+
+function downloadQR(){
+  const img = document.querySelector('#qrcode img') || document.querySelector('#qrcode canvas');
+  if(!img) return;
+  const link = document.createElement('a');
+  link.download = `QR-${document.getElementById('group_id').value || 'Group'}.png`;
+  link.href = (img.tagName.toLowerCase() === 'img') ? img.src : img.toDataURL("image/png");
+  link.click();
+}
+
+function toggleSupportDetails(){
+  const box = document.getElementById('support-details');
+  box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+}
+
+function copyIBAN(){
+  const val = document.getElementById('iban-val').textContent;
+  navigator.clipboard.writeText(val).then(() => alert("تم نسخ رقم الآيبان بنجاح"));
+}
 </script>
 </body>
 </html>
