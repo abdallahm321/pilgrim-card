@@ -26,7 +26,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Tajawal:wght@400;500;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- مكتبات التوليد المحلي الداخلي للباركود والتصدير -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -42,20 +41,21 @@
   --maroon:#7a2e2e;
   --whatsapp:#22bd5c;
   --line:#e7ded0;
-  --radius:16px;
-  --shadow:0 10px 30px rgba(28,28,30,.10), 0 2px 8px rgba(28,28,30,.06);
+  --radius:18px; /* Slightly rounder for modern look */
+  --shadow:0 12px 35px rgba(28,28,30,.08), 0 4px 10px rgba(28,28,30,.04);
 }
 
 *{box-sizing:border-box; margin:0; padding:0;}
 
+/* Added padding-bottom to account for the new floating tab bar */
 body{
   background: radial-gradient(1200px 600px at 50% -10%, #fbf8f1 0%, var(--sand) 55%);
   color:var(--ink);
-  padding:22px 14px 60px;
+  padding:22px 14px 100px; 
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:14px;
+  gap:16px;
   font-family:'Tajawal','Inter',sans-serif;
   min-height:100vh;
 }
@@ -64,7 +64,7 @@ body{
 
 .card{
   width:100%;
-  max-width:460px;
+  max-width:480px;
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
@@ -88,16 +88,38 @@ body{
   text-align:center;
   position:relative;
 }
+
+/* 3. Smart Live Status Banner */
+.live-status-banner {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #e8d9b5;
+}
+.live-status-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .emblem{
-  width:52px; height:52px; margin:0 auto 8px;
+  width:52px; height:52px; margin:0 auto 10px;
   display:flex; align-items:center; justify-content:center;
 }
 .emblem svg{ width:100%; height:100%; }
 .header h1{
   font-family:'Reem Kufi','Inter',sans-serif;
-  font-size:20px;
+  font-size:21px;
   letter-spacing:.2px;
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
 
 .company-badge{
@@ -105,228 +127,290 @@ body{
   align-items:center;
   justify-content:center;
   gap:6px;
-  background:rgba(184, 147, 74, 0.18);
-  border:1px solid var(--gold);
+  background:rgba(184, 147, 74, 0.2);
+  border:1px solid rgba(184, 147, 74, 0.4);
   color:var(--gold-light);
   font-size:13.5px;
   font-weight:700;
-  padding:5px 16px;
+  padding:6px 18px;
   border-radius:999px;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .header p{ font-size:12.5px; color:#d8d3c6; line-height:1.55; max-width:340px; margin:0 auto; }
 
-/* صندوق اختيار الفوج التفاعلي الترحيبي */
+/* 5. Flash Notice Ribbon (Dynamic Alert) */
+.flash-notice {
+  background: linear-gradient(90deg, #fbf3f2 0%, #fdf9f8 100%);
+  border-bottom: 1px solid #ebd8d6;
+  border-left: 4px solid var(--maroon);
+  padding: 12px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--maroon);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  display: none; /* Shown via JS if notes start with specific keywords */
+}
+[dir="ltr"] .flash-notice { border-left: none; border-right: 4px solid var(--maroon); }
+
 .group-selector-card{
   background:#fbf8f0;
   border:1.5px solid var(--gold);
   border-radius:12px;
-  padding:18px 16px;
-  margin:16px 18px 8px;
+  padding:20px 16px;
+  margin:18px 20px 8px;
   text-align:center;
 }
-.group-selector-card h3{ font-size:15px; color:var(--ink); font-weight:800; margin-bottom:6px; }
-.group-selector-card p{ font-size:12px; color:var(--ink-soft); line-height:1.55; margin-bottom:14px; }
-.group-input-wrapper{ display:flex; flex-direction:column; gap:8px; }
+.group-selector-card h3{ font-size:15px; color:var(--ink); font-weight:800; margin-bottom:8px; }
+.group-selector-card p{ font-size:12px; color:var(--ink-soft); line-height:1.55; margin-bottom:16px; }
+.group-input-wrapper{ display:flex; flex-direction:column; gap:10px; }
 .group-select, .group-input{
-  width:100%; padding:11px 12px; border-radius:8px; border:1px solid var(--line);
-  font-size:13px; font-family:'Tajawal',sans-serif; outline:none; background:#fff;
+  width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+  font-size:13.5px; font-family:'Tajawal',sans-serif; outline:none; background:#fff;
+  transition: border-color 0.2s;
 }
+.group-input:focus { border-color: var(--gold); }
 .group-btn-go{
-  padding:12px; background:var(--ink); color:#fff; font-size:14px;
-  font-weight:700; border-radius:8px; border:none; cursor:pointer; transition:.15s;
+  padding:14px; background:var(--ink); color:#fff; font-size:14.5px;
+  font-weight:700; border-radius:10px; border:none; cursor:pointer; transition:.15s;
 }
 .group-btn-go:active{ transform:scale(0.98); }
 
 .welcome-info-strip{
   background:#fff;
   border:1px dashed var(--gold-light);
-  border-radius:10px;
-  padding:12px;
-  margin:12px 18px 18px;
-  font-size:12px;
-  line-height:1.6;
+  border-radius:12px;
+  padding:14px;
+  margin:14px 20px 20px;
+  font-size:12.5px;
+  line-height:1.65;
   color:var(--ink-soft);
   text-align:center;
 }
 
 .lang-row{
   display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
-  padding:12px 18px 4px; background:var(--sand);
+  padding:14px 20px 8px; background:var(--sand);
 }
 .lang-chip{
   border:1px solid var(--line); background:#fff; color:var(--ink-soft);
-  font-size:12px; font-weight:600; padding:6px 12px; border-radius:999px; cursor:pointer;
+  font-size:11.5px; font-weight:600; padding:6px 14px; border-radius:999px; cursor:pointer;
+  transition: all 0.2s ease;
 }
 .lang-chip.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
 
-.body{ padding:16px 20px 8px; }
+.body{ padding:20px 22px 10px; }
 
 .section-title{
   display:flex; align-items:center; gap:8px;
   font-size:14px; font-weight:800; color:var(--ink-soft);
-  margin:18px 0 12px; text-transform:uppercase;
+  margin:22px 0 14px; text-transform:uppercase;
 }
 .section-title .star{ width:14px; height:14px; flex:none; color:var(--gold); }
 .section-title span.line{ flex:1; height:1px; background:var(--line); }
 
 .btn{
   display:flex; align-items:center; justify-content:center; gap:10px;
-  width:100%; padding:15px 14px; margin-bottom:10px;
+  width:100%; padding:16px 14px; margin-bottom:12px;
   border-radius:12px; text-decoration:none;
-  font-size:15.5px; font-weight:700; border:none; cursor:pointer;
+  font-size:15px; font-weight:700; border:none; cursor:pointer;
   transition:.15s;
 }
 .btn:active{ transform:scale(.98); }
 .btn-primary{ background:var(--ink); color:#fff; }
 .btn-secondary{ background:var(--green); color:#fff; }
-.btn-whatsapp{ background:var(--whatsapp); color:#fff; }
+.btn-whatsapp{ background:var(--whatsapp); color:#fff; box-shadow: 0 4px 14px rgba(34,189,92,0.2); }
 .btn-outline{ background:#fff; color:var(--ink); border:1px solid var(--line); }
 .btn-guide{ background: linear-gradient(135deg, #b8934a 0%, #9a7632 100%); color:#fff; }
 
-.info-box{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:12px; }
-.info-row{ display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:5px 0; }
-.info-row + .info-row{ border-top:1px dashed var(--line); }
+/* Modern Info Box */
+.info-box{ 
+  background:#fff; 
+  border:1px solid var(--line); 
+  border-radius:14px; 
+  padding:16px; 
+  margin-bottom:12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.info-row{ display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:6px 0; }
+.info-row + .info-row{ border-top:1px dashed var(--line); margin-top: 4px; padding-top: 10px; }
 .info-label{ color:var(--ink-soft); font-weight:500; }
-.info-value{ font-weight:700; text-align:end; }
+.info-value{ font-weight:700; text-align:end; color:var(--ink); }
 
 .transport-notes-box{
   background:#fcfaf5; border:1px solid var(--gold-light);
-  border-right:4px solid var(--gold); border-radius:12px; padding:14px; margin-bottom:12px;
+  border-right:4px solid var(--gold); border-radius:14px; padding:16px; margin-bottom:14px;
 }
 [dir="ltr"] .transport-notes-box{ border-right:1px solid var(--gold-light); border-left:4px solid var(--gold); }
 .bus-badge-row{
   display:flex; align-items:center; justify-content:space-between;
-  padding-bottom:8px; border-bottom:1px dashed var(--gold-light); margin-bottom:8px;
+  padding-bottom:10px; border-bottom:1px dashed var(--gold-light); margin-bottom:10px;
 }
 .bus-badge-label{ font-weight:800; font-size:13.5px; color:var(--ink); }
-.bus-badge-val{ font-weight:800; font-size:14px; color:var(--maroon); }
-.notes-content{ font-size:13px; line-height:1.6; color:var(--ink); white-space: pre-line; }
+.bus-badge-val{ font-weight:800; font-size:14.5px; color:var(--maroon); }
+.notes-content{ font-size:13px; line-height:1.65; color:var(--ink); white-space: pre-line; }
 
 .steps-box ol{ list-style:none; counter-reset:step; }
 .steps-box li{
-  counter-increment:step; display:flex; align-items:flex-start; gap:10px;
-  padding:9px 0; font-size:13.5px; line-height:1.65; color:var(--ink);
+  counter-increment:step; display:flex; align-items:flex-start; gap:12px;
+  padding:10px 0; font-size:13.5px; line-height:1.65; color:var(--ink);
 }
 .steps-box li + li{ border-top:1px dashed var(--line); }
 .steps-box li::before{
-  content:counter(step); flex:none; width:22px; height:22px; border-radius:50%;
+  content:counter(step); flex:none; width:24px; height:24px; border-radius:50%;
   background:var(--gold); color:#fff; font-size:12px; font-weight:800;
   display:flex; align-items:center; justify-content:center;
 }
 
-.em-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.em-card{ background:#fbf3f2; border:1px solid #ecd8d6; border-radius:10px; padding:10px; text-align:center; }
-.em-num{ font-size:17px; font-weight:800; color:var(--maroon); direction:ltr; }
-.em-label{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+.em-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.em-card{ background:#fbf3f2; border:1px solid #ecd8d6; border-radius:12px; padding:12px; text-align:center; }
+.em-num{ font-size:18px; font-weight:800; color:var(--maroon); direction:ltr; margin-bottom: 2px;}
+.em-label{ font-size:11.5px; color:var(--ink-soft); font-weight: 500;}
 
 .qr-box{
-  display:flex; align-items:center; gap:14px;
-  background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;
+  display:flex; align-items:center; gap:16px;
+  background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px;
 }
 .qr-render-frame{
   background:#fff; padding:4px; border:1px solid var(--line);
-  border-radius:8px; flex:none; width:92px; height:92px;
+  border-radius:10px; flex:none; width:96px; height:96px;
   display:flex; align-items:center; justify-content:center;
 }
 .qr-render-frame canvas, .qr-render-frame img{
-  width:84px !important; height:84px !important; display:block;
+  width:88px !important; height:88px !important; display:block;
 }
-.qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
+.qr-box p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; }
 
-.footer{ padding:6px 20px 22px; text-align:center; }
+.footer{ padding:10px 22px 24px; text-align:center; }
 .footer-btn-unified{
   width:100%; background:var(--ink); color:#fff; border:none;
-  font-size:14px; padding:13px 14px; border-radius:12px; cursor:pointer;
-  font-weight:700; margin-bottom:10px; display:flex; align-items:center; justify-content:center; gap:8px;
-  box-shadow:0 4px 12px rgba(28,28,30,0.12);
+  font-size:14.5px; padding:15px 14px; border-radius:12px; cursor:pointer;
+  font-weight:700; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 4px 14px rgba(28,28,30,0.15);
+  transition: transform 0.15s;
 }
 .footer-btn-unified:active{ transform:scale(0.98); }
-.footer .fine{ font-size:11px; color:#9a958a; line-height:1.6; margin-bottom:12px; }
+.footer .fine{ font-size:11.5px; color:#9a958a; line-height:1.6; margin-bottom:14px; }
 
 .admin-edit-card-btn{
   display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
-  padding:11px 14px; background:#f7f4ec; border:1px solid var(--gold-light);
-  border-radius:10px; color:var(--ink); text-decoration:none; font-size:12.5px; font-weight:700;
+  padding:12px 14px; background:#f7f4ec; border:1px solid var(--gold-light);
+  border-radius:12px; color:var(--ink); text-decoration:none; font-size:13px; font-weight:700;
 }
 
-/* بطاقات الخدمات العامة والأدوات المستقلة (تظهر دائماً) */
+/* 2. Interactive Dashboard Grid (Tools) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 14px;
+}
+.dash-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.dash-card:active { transform: scale(0.96); background: #f0f0f0; }
+.dash-icon { font-size: 24px; }
+.dash-title { font-size: 13px; font-weight: 700; }
+
 .bottom-action-card{
-  width:100%; max-width:460px; background:var(--card); border-radius:var(--radius);
-  box-shadow:var(--shadow); border:1px solid var(--line); padding:12px 14px; text-align:center;
+  width:100%; max-width:480px; background:var(--card); border-radius:var(--radius);
+  box-shadow:var(--shadow); border:1px solid var(--line); padding:14px; text-align:center;
 }
 
 /* بطاقة خدمات الشركات ودعم المنصة */
 .platform-business-card{
-  width:100%; max-width:460px; background:#fbf9f4; border-radius:var(--radius);
-  border:1px solid var(--gold-light); box-shadow:var(--shadow); padding:16px 18px; text-align:center;
+  width:100%; max-width:480px; background:#fbf9f4; border-radius:var(--radius);
+  border:1px solid var(--gold-light); box-shadow:var(--shadow); padding:18px 20px; text-align:center;
 }
-.platform-business-card h4{ font-size:14px; font-weight:800; color:var(--ink); margin-bottom:6px; }
-.platform-business-card p{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; }
-.b2b-btn-row{ display:flex; gap:8px; justify-content:center; margin-bottom:12px; }
+.platform-business-card h4{ font-size:14.5px; font-weight:800; color:var(--ink); margin-bottom:8px; }
+.platform-business-card p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; margin-bottom:14px; }
+.b2b-btn-row{ display:flex; gap:10px; justify-content:center; margin-bottom:14px; }
 .b2b-action-btn{
-  flex:1; padding:10px 12px; border-radius:8px; font-size:12.5px; font-weight:700;
+  flex:1; padding:12px 14px; border-radius:10px; font-size:13px; font-weight:700;
   text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;
   background:var(--gold); color:#fff; border:none; transition:.15s;
 }
 .b2b-action-btn:active{ transform:scale(0.98); }
 
 .support-subtle-toggle{
-  display:inline-flex; align-items:center; gap:5px;
-  font-size:11px; color:#8a857b; text-decoration:none;
-  cursor:pointer; padding:4px 8px; border-radius:6px;
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11.5px; color:#8a857b; text-decoration:none;
+  cursor:pointer; padding:6px 10px; border-radius:8px;
   background:transparent; border:none; transition:.15s;
-  border-top:1px dashed var(--line); width:100%; justify-content:center; padding-top:10px;
+  border-top:1px dashed var(--line); width:100%; justify-content:center; padding-top:12px;
 }
 .support-subtle-toggle:hover{ color:var(--gold); }
 .support-details-box{
-  display:none; margin-top:10px; padding:12px; background:#fff;
-  border:1px dashed var(--gold-light); border-radius:10px; text-align:start;
-  font-size:11.5px; line-height:1.6; color:var(--ink);
+  display:none; margin-top:12px; padding:14px; background:#fff;
+  border:1px dashed var(--gold-light); border-radius:12px; text-align:start;
+  font-size:12px; line-height:1.6; color:var(--ink);
 }
 .iban-copy-btn{
-  background:#f4eee2; border:1px solid var(--gold-light); padding:2px 8px;
-  border-radius:4px; font-size:10.5px; font-weight:bold; cursor:pointer; color:var(--ink); margin-right:4px;
+  background:#f4eee2; border:1px solid var(--gold-light); padding:4px 10px;
+  border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer; color:var(--ink); margin-right:6px;
 }
 .instapay-link{
-  display:inline-block; margin-top:6px; color:#582c8b; font-weight:bold; text-decoration:none;
+  display:inline-block; margin-top:8px; color:#582c8b; font-weight:bold; text-decoration:none;
 }
 
-/* Modal */
+/* 6. Action Bottom Sheet (Modal Upgrade) */
 .print-modal-overlay{
   position:fixed; top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.65); backdrop-filter:blur(4px);
-  display:none; align-items:center; justify-content:center;
-  z-index:9999; padding:14px;
+  background:rgba(0,0,0,0.5); backdrop-filter:blur(5px);
+  display:none; align-items:flex-end; justify-content:center;
+  z-index:9999; padding:0;
 }
 .print-modal-box{
-  background:#fff; border-radius:18px; width:100%; max-width:460px;
-  padding:22px 20px; box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  background:#fff; border-radius:24px 24px 0 0; width:100%; max-width:480px;
+  padding:24px 22px 30px; box-shadow:0 -10px 40px rgba(0,0,0,0.2);
   max-height:90vh; overflow-y:auto; position:relative;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.modal-drag-handle {
+  width: 40px; height: 5px; background: #ddd; border-radius: 5px; margin: 0 auto 16px;
 }
 .modal-close-btn{
   position:absolute; top:16px; left:16px; background:none; border:none;
-  font-size:20px; font-weight:bold; cursor:pointer; color:#888;
+  font-size:22px; font-weight:bold; cursor:pointer; color:#888;
 }
 [dir="ltr"] .modal-close-btn{ left:auto; right:16px; }
 
-.modal-header{ text-align:center; margin-bottom:16px; }
-.modal-header h3{ font-size:16.5px; font-weight:800; color:var(--ink); }
-.modal-header p{ font-size:12px; color:#666; margin-top:2px; }
+.modal-header{ text-align:center; margin-bottom:20px; }
+.modal-header h3{ font-size:17px; font-weight:800; color:var(--ink); }
+.modal-header p{ font-size:12.5px; color:#666; margin-top:4px; }
 
 .print-option-card{
-  border:1px solid var(--line); border-radius:12px; padding:14px;
-  margin-bottom:12px; background:#fbf9f4;
+  border:1px solid var(--line); border-radius:14px; padding:16px;
+  margin-bottom:14px; background:#fbf9f4;
 }
-.print-option-card h4{ font-size:13.5px; font-weight:800; color:var(--ink); }
-.print-option-card p{ font-size:11.5px; color:#666; line-height:1.5; margin:4px 0 10px; }
+.print-option-card h4{ font-size:14px; font-weight:800; color:var(--ink); }
+.print-option-card p{ font-size:12px; color:#666; line-height:1.5; margin:6px 0 12px; }
 
-.modal-btn-row{ display:flex; gap:8px; }
+.modal-btn-row{ display:flex; gap:10px; }
 .modal-action-btn{
-  flex:1; padding:9px 10px; border-radius:8px; font-size:12px;
+  flex:1; padding:11px 12px; border-radius:10px; font-size:12.5px;
   font-weight:700; border:none; cursor:pointer; display:inline-flex;
-  align-items:center; justify-content:center; gap:5px; transition:.15s;
+  align-items:center; justify-content:center; gap:6px; transition:.15s;
 }
 .btn-primary-m{ background:var(--ink); color:#fff; }
 .btn-gold-m{ background:var(--gold); color:#fff; }
@@ -341,6 +425,50 @@ body{
 }
 
 html[dir="ltr"] .info-value{ text-align:start; }
+
+/* 1. Floating Mobile App Bar */
+.floating-tab-bar {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border-radius: 24px;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 8px;
+  z-index: 1000;
+}
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 700;
+  transition: 0.2s;
+  flex: 1;
+}
+.tab-item.active {
+  color: var(--gold);
+}
+.tab-icon {
+  font-size: 20px;
+  filter: grayscale(100%) opacity(0.7);
+  transition: 0.2s;
+}
+.tab-item.active .tab-icon {
+  filter: grayscale(0%) opacity(1);
+  transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
@@ -351,6 +479,13 @@ html[dir="ltr"] .info-value{ text-align:start; }
   <div class="pattern-strip"></div>
 
   <div class="header">
+    
+    <!-- Smart Live Status Banner -->
+    <div class="live-status-banner" id="live-status">
+      <div class="live-status-item"><span id="live-weather">☀️ 34°C</span></div>
+      <div class="live-status-item"><span id="live-prayer">⏳ الأذان القادم: 01:25</span></div>
+    </div>
+
     <div class="emblem">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="الكعبة المشرفة">
         <polygon points="22,30 34,14 90,14 78,30" fill="#3a3a3c"/>
@@ -368,7 +503,12 @@ html[dir="ltr"] .info-value{ text-align:start; }
     <p id="t-cardSubtitle">إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.</p>
   </div>
 
-  <!-- صندوق اختيار الفوج التفاعلي (يظهر فقط إن لم يُحدد كود بالرابط) -->
+  <!-- Flash Notice Ribbon -->
+  <div class="flash-notice" id="flash-notice">
+    🔔 <span id="flash-notice-text">يوجد تنبيه هام من المشرف بالأسفل.</span>
+  </div>
+
+  <!-- صندوق اختيار الفوج التفاعلي -->
   <div class="group-selector-card" id="group-selector-box" style="display:none;">
     <h3 id="t-selectorTitle">🔍 اختر أو أدخل كود الفوج لعرض البطاقة</h3>
     <p id="t-selectorDesc">برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.</p>
@@ -390,7 +530,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
   <div class="lang-row" id="lang-row"></div>
 
-  <!-- حاوي بيانات الفوج المخصصة (يختفي بالكامل إذا لم يُحدد فوج لتجنب ظهور كروت فارغة) -->
+  <!-- حاوي بيانات الفوج المخصصة -->
   <div id="group-details-container" style="display:none;">
     <div class="body">
 
@@ -473,44 +613,41 @@ html[dir="ltr"] .info-value{ text-align:start; }
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- 2. بطاقة دليل المناسك المستقلة (تظهر دائماً في جميع الحالات) -->
-<div class="bottom-action-card">
-  <a href="umrah-guide.html" class="btn btn-guide" style="margin:0;">
-    <span id="t-btnUmrahGuide">📖 دليل مناسك العمرة والأدعية المأثورة</span>
+<!-- 2. Interactive Dashboard Grid (Always Visible) -->
+<div class="dashboard-grid">
+  <a href="umrah-guide.html" class="dash-card">
+    <span class="dash-icon">📖</span>
+    <span class="dash-title" id="t-btnUmrahGuide">دليل المناسك والعداد</span>
+  </a>
+  <a href="qibla-prayer.html" class="dash-card">
+    <span class="dash-icon">🧭</span>
+    <span class="dash-title" id="t-btnQibla">القبلة ومواقيت الصلاة</span>
+  </a>
+  <a href="landmarks.html" class="dash-card">
+    <span class="dash-icon">🗺️</span>
+    <span class="dash-title" id="t-btnLandmarks">محطات النقل والمعالم</span>
+  </a>
+  <a href="business.html" class="dash-card" style="border-color: var(--gold-light); background: #fbf9f4;">
+    <span class="dash-icon">💼</span>
+    <span class="dash-title" id="t-btnBusinessPage">باقات وحلول الشركات</span>
   </a>
 </div>
 
-<!-- 3. بطاقة القبلة ومواقيت الصلاة بالحرمين (تظهر دائماً في جميع الحالات) -->
-<div class="bottom-action-card">
-  <a href="qibla-prayer.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
-    <span id="t-btnQibla">🧭 القبلة ومواقيت الصلاة في الحرمين</span>
-  </a>
-</div>
-
-<!-- 4. بطاقة خريطة المعالم ومحطات النقل بالحرمين (تظهر دائماً في جميع الحالات) -->
-<div class="bottom-action-card">
-  <a href="landmarks.html" class="btn btn-outline" style="margin:0; border-color:var(--gold-light);">
-    <span id="t-btnLandmarks">🗺️ خريطة المعالم ومحطات النقل بالحرمين</span>
-  </a>
-</div>
-
-<!-- 5. بطاقة باقات الشركات وحلول السياحة (تظهر دائماً وتفتح business.html) -->
-<div class="platform-business-card">
+<!-- 5. Platform Business & Support Card -->
+<div class="platform-business-card" style="margin-bottom: 30px;">
   <h4 id="t-b2bTitle">💼 لشركات السياحة وتنظيم رحلات العمرة</h4>
   <p id="t-b2bDesc">احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.</p>
   
   <div class="b2b-btn-row">
     <a href="business.html" class="b2b-action-btn">
-      <span id="t-btnBusinessPage">✨ استعراض باقات الشركات (مجاني & Pro)</span>
+      <span id="t-btnBusinessPage2">✨ عرض الباقات والأسعار</span>
     </a>
   </div>
 
-  <!-- سطر التبرع الهادئ غير البارز -->
   <button class="support-subtle-toggle" onclick="toggleSupportDetails()">
-    <span id="t-btnSupport">☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن</span>
+    <span id="t-btnSupport">☕ للمساهمة في دعم المنصة لضيوف الرحمن</span>
   </button>
   
   <div id="support-details" class="support-details-box">
@@ -526,14 +663,15 @@ html[dir="ltr"] .info-value{ text-align:start; }
   </div>
 </div>
 
-<!-- 6. نافذة خيارات المشاركة والطباعة والتصدير (Modal) -->
-<div class="print-modal-overlay" id="print-modal">
+<!-- 6. Action Bottom Sheet (Modal Upgrade) -->
+<div class="print-modal-overlay" id="print-modal" onclick="if(event.target===this)closePrintModal()">
   <div class="print-modal-box">
+    <div class="modal-drag-handle"></div>
     <button class="modal-close-btn" onclick="closePrintModal()">✕</button>
     
     <div class="modal-header">
-      <h3 id="t-modalHeaderTitle">📤 مركز المشاركة وتصدير الكروت</h3>
-      <p id="t-modalHeaderSubtitle">اختر ما يناسبك لحفظ أو طباعة أو إرسال بيانات الفوج</p>
+      <h3 id="t-modalHeaderTitle">📤 خيارات المشاركة والطباعة</h3>
+      <p id="t-modalHeaderSubtitle">اختر التنسيق المناسب لحفظ أو طباعة البطاقة</p>
     </div>
 
     <!-- المشاركة السريعة -->
@@ -557,7 +695,7 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
     <!-- خلفية شاشة القفل -->
     <div class="print-option-card">
-      <h4 id="t-opt3Title">📱 3. خلفية شاشة قفل الجوال (Lock Screen)</h4>
+      <h4 id="t-opt3Title">📱 3. خلفية شاشة قفل الجوال</h4>
       <p id="t-opt3Desc">صورة بأبعاد الهاتف تحتوي على الباركود المباشر وأرقام الطوارئ للمسح دون فتح الهاتف.</p>
       <div class="modal-btn-row">
         <button class="modal-action-btn btn-green-m" onclick="generateLockScreen()"><span id="t-btnLockScreen">📲 توليد خلفية الشاشة</span></button>
@@ -565,9 +703,9 @@ html[dir="ltr"] .info-value{ text-align:start; }
     </div>
 
     <!-- كروت الشركات الدائمة -->
-    <div class="print-option-card" style="border-right: 4px solid var(--gold);">
-      <h4 id="t-opt4Title">🏢 4. كروت الشركات الذكية الدائمة (A4 / بادج)</h4>
-      <p id="t-opt4Desc">كروت مختصرة باسم الشركة والباركود الدائم دون كتابة أسماء الفنادق لتصلح لكل المواسم.</p>
+    <div class="print-option-card" style="border-right: 4px solid var(--gold); border-left: none;">
+      <h4 id="t-opt4Title">🏢 4. كروت الشركات الدائمة (A4 / بادج)</h4>
+      <p id="t-opt4Desc">كروت باسم الشركة والباركود الدائم دون أسماء الفنادق لتصلح لكل المواسم.</p>
       <div class="modal-btn-row">
         <button class="modal-action-btn btn-primary-m" onclick="printCompanyCardSingle()"><span id="t-btnBadge">💳 بادج مفرد</span></button>
         <button class="modal-action-btn btn-gold-m" onclick="printCompanyBatchA4()"><span id="t-btnA4Sheet">📄 طباعة 8 كروت (A4)</span></button>
@@ -579,29 +717,49 @@ html[dir="ltr"] .info-value{ text-align:start; }
 
 <div id="print-area"></div>
 
+<!-- 1. Floating Mobile App Bar -->
+<div class="floating-tab-bar">
+  <a href="#" class="tab-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    <span class="tab-icon">🏠</span>
+    <span id="t-tabHome">الرئيسية</span>
+  </a>
+  <a href="umrah-guide.html" class="tab-item">
+    <span class="tab-icon">📖</span>
+    <span id="t-tabGuide">المناسك</span>
+  </a>
+  <a href="qibla-prayer.html" class="tab-item">
+    <span class="tab-icon">🧭</span>
+    <span id="t-tabQibla">القبلة</span>
+  </a>
+  <a href="landmarks.html" class="tab-item">
+    <span class="tab-icon">🗺️</span>
+    <span id="t-tabMap">الخرائط</span>
+  </a>
+</div>
+
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxJhFjnjFT70f_82YsII66RVoR7d5xsg5taB6hip5HAcCAnsBxcEhIZcKpB5p22C8-I/exec";
 
 window.CURRENT_RECORD = null;
 window.CURRENT_GROUP_URL = window.location.href;
 
-// 🕋 اللغات المعتمدة والترجمة الشاملة لجميع أقسام المنصة
+// 🕋 اللغات المعتمدة والترجمة
 const LANGS = {
   ar: { dir:"rtl", flag:"🇸🇦", label:"العربية", font:"'Tajawal','Reem Kufi',sans-serif", t:{
     cardTitle:"بطاقة تعريف وطوارئ المعتمر",
     cardSubtitle:"إن كان حامل هذه البطاقة تائهاً أو بحاجة إلى مساعدة، برجاء التواصل فوراً مع المشرف عبر الأزرار أدناه.",
-    selectorTitle:"🔍 اختر أو أدخل كود الفوج لعرض البطاقة",
+    selectorTitle:"🔍 اختر أو أدخل كود الفوج לעرض البطاقة",
     selectorDesc:"برجاء اختيار الفوج من القائمة أو كتابة الكود المطبوع على بطاقتك لعرض بيانات المشرفين ومواقع الفنادق.",
     sectionContact:"التواصل الفوري مع المشرفين",
     btnPrimary:"اتصال بالمشرف الأساسي", btnSecondary:"اتصال بالمشرف الاحتياطي",
     btnWhatsapp:"إرسال موقعي الحالي عبر واتساب",
-    btnUmrahGuide:"📖 دليل مناسك العمرة والأدعية المأثورة",
-    btnQibla:"🧭 القبلة ومواقيت الصلاة في الحرمين",
-    btnLandmarks:"🗺️ خريطة المعالم ومحطات النقل بالحرمين",
+    btnUmrahGuide:"دليل المناسك والعداد",
+    btnQibla:"القبلة ومواقيت الصلاة",
+    btnLandmarks:"محطات النقل والمعالم",
     b2bTitle:"💼 لشركات السياحة وتنظيم رحلات العمرة",
     b2bDesc:"احصل على بطاقات ذكية مطبوعة باسم وشعار شركتك مع لوحة تحكم سحابية لإدارة وتعديل أفواجك لسنوات بدون إعادة طباعة.",
-    btnBusinessPage:"✨ استعراض باقات الشركات (مجاني & Pro)",
-    btnSupport:"☕ للمساهمة في دعم واستمرار المنصة لضيوف الرحمن",
+    btnBusinessPage:"باقات وحلول الشركات", btnBusinessPage2:"✨ عرض الباقات والأسعار",
+    btnSupport:"☕ للمساهمة في دعم المنصة لضيوف الرحمن",
     sectionLostSteps:"ماذا تفعل إن تهت؟",
     step1:"قف في مكانك ولا تتحرك كثيراً — يسهل العثور عليك إن بقيت ثابتاً.",
     step2:"اتصل بالمشرف الأساسي أو الاحتياطي فوراً عبر الأزرار أعلى هذه الصفحة.",
@@ -618,13 +776,14 @@ const LANGS = {
     footerBtnUnified:"📤 مشاركة وطباعة وتصدير البطاقة",
     footerNote:"يمكن حمل هذه الصفحة كرابط على الجوال أو طباعتها وحملها كبطاقة ورقية.",
     adminEditBtn:"تعديل بيانات هذه الرحلة في لوحة التحكم",
-    modalHeaderTitle:"📤 مركز المشاركة وتصدير الكروت", modalHeaderSubtitle:"اختر ما يناسبك لحفظ أو طباعة أو إرسال بيانات الفوج",
+    modalHeaderTitle:"📤 خيارات المشاركة والطباعة", modalHeaderSubtitle:"اختر التنسيق المناسب لحفظ أو طباعة البطاقة",
     opt1Title:"🔗 1. مشاركة الرابط المباشر للفوج", opt1Desc:"إرسال رابط الفوج الحالي عبر واتساب مع كامل بيانات الفندق والمشرفين.", btnShareLink:"📲 إرسال / نسخ الرابط",
     opt2Title:"👤 2. بطاقة المعتمر الشخصية الحالية", opt2Desc:"طباعة الكارت الفردي للرحلة الحالية أو حفظه كصورة في معرض الصور.", btnPrintStd:"🖨️ طباعة عادية", btnSaveImg:"🖼️ حفظ كصورة",
-    opt3Title:"📱 3. خلفية شاشة قفل الجوال (Lock Screen)", opt3Desc:"صورة بأبعاد الهاتف تحتوي على الباركود المباشر وأرقام الطوارئ للمسح دون فتح الهاتف.", btnLockScreen:"📲 توليد خلفية الشاشة",
-    opt4Title:"🏢 4. كروت الشركات الذكية الدائمة (A4 / بادج)", opt4Desc:"كروت مختصرة باسم الشركة والباركود الدائم دون كتابة أسماء الفنادق لتصلح لكل المواسم.", btnBadge:"💳 بادج مفرد", btnA4Sheet:"📄 طباعة 8 كروت (A4)",
+    opt3Title:"📱 3. خلفية شاشة قفل الجوال", opt3Desc:"صورة بأبعاد الهاتف تحتوي على الباركود المباشر وأرقام الطوارئ للمسح دون فتح الهاتف.", btnLockScreen:"📲 توليد خلفية الشاشة",
+    opt4Title:"🏢 4. كروت الشركات الدائمة (A4 / بادج)", opt4Desc:"كروت باسم الشركة والباركود الدائم دون أسماء الفنادق لتصلح لكل المواسم.", btnBadge:"💳 بادج مفرد", btnA4Sheet:"📄 طباعة 8 كروت (A4)",
     locating:"جاري تحديد الموقع...", locFail:"تعذّر تحديد الموقع — سيتم فتح واتساب بدون الموقع.",
-    waLostMsg:"السلام عليكم، معي معتمر يحتاج مساعدة. موقعه الحالي: "
+    waLostMsg:"السلام عليكم، معي معتمر يحتاج مساعدة. موقعه الحالي: ",
+    tabHome:"الرئيسية", tabGuide:"المناسك", tabQibla:"القبلة", tabMap:"الخرائط"
   }},
   id: { dir:"ltr", flag:"🇮🇩", label:"Indonesia", font:"'Inter',sans-serif", t:{
     cardTitle:"Kartu Identitas & Darurat Jamaah",
@@ -634,12 +793,12 @@ const LANGS = {
     sectionContact:"Hubungi Pembimbing",
     btnPrimary:"Telepon Pembimbing Utama", btnSecondary:"Telepon Pembimbing Cadangan",
     btnWhatsapp:"Kirim Lokasi Saya via WhatsApp",
-    btnUmrahGuide:"📖 Panduan Manasik & Doa Umrah",
-    btnQibla:"🧭 Kiblat & Jadwal Shalat Dua Kota Suci",
-    btnLandmarks:"🗺️ Peta Landmark & Terminal Transportasi",
+    btnUmrahGuide:"Panduan Manasik & Doa",
+    btnQibla:"Kiblat & Jadwal Shalat",
+    btnLandmarks:"Peta Landmark & Transportasi",
     b2bTitle:"💼 Solusi & Paket Biro Travel Umrah",
     b2bDesc:"Dapatkan kartu pintar tercetak dengan branding travel Anda serta panel kontrol cloud permanen.",
-    btnBusinessPage:"✨ Lihat Paket Travel (Gratis & Pro)",
+    btnBusinessPage:"Paket Travel B2B", btnBusinessPage2:"✨ Lihat Paket Travel (Gratis & Pro)",
     btnSupport:"☕ Donasi untuk Pengembangan Layanan Jamaah",
     sectionLostSteps:"Jika Anda Tersesat",
     step1:"Tetap di tempat Anda dan jangan banyak bergerak — lebih mudah ditemukan jika Anda diam.",
@@ -660,10 +819,11 @@ const LANGS = {
     modalHeaderTitle:"📤 Pusat Berbagi & Cetak Kartu", modalHeaderSubtitle:"Pilih format yang sesuai untuk menyimpan atau membagikan data rombongan",
     opt1Title:"🔗 1. Bagikan Tautan Rombongan", opt1Desc:"Kirim tautan langsung dengan detail akomodasi via WhatsApp.", btnShareLink:"📲 Kirim / Salin Tautan",
     opt2Title:"👤 2. Kartu Jamaah Saat Ini", opt2Desc:"Cetak kartu atau simpan sebagai gambar resolusi tinggi.", btnPrintStd:"🖨️ Cetak Kartu", btnSaveImg:"🖼️ Simpan Gambar",
-    opt3Title:"📱 3. Wallpaper Layar Kunci (Lock Screen)", opt3Desc:"Gambar ukuran ponsel dengan kode QR dan nomor darurat pembimbing.", btnLockScreen:"📲 Buat Wallpaper",
-    opt4Title:"🏢 4. Kartu Travel Permanen (PVC / A4)", opt4Desc:"Format ringkas dengan nama travel dan QR permanen.", btnBadge:"💳 Kartu Satuan", btnA4Sheet:"📄 Cetak 8 Kartu (A4)",
+    opt3Title:"📱 3. Wallpaper Layar Kunci", opt3Desc:"Gambar ukuran ponsel dengan kode QR dan nomor darurat pembimbing.", btnLockScreen:"📲 Buat Wallpaper",
+    opt4Title:"🏢 4. Kartu Travel Permanen (PVC/A4)", opt4Desc:"Format ringkas dengan nama travel dan QR permanen.", btnBadge:"💳 Kartu Satuan", btnA4Sheet:"📄 Cetak 8 Kartu (A4)",
     locating:"Mencari lokasi Anda...", locFail:"Gagal mendapatkan lokasi — WhatsApp akan terbuka tanpa lokasi.",
-    waLostMsg:"Halo, saya bersama jamaah umrah yang butuh bantuan. Lokasi saat ini: "
+    waLostMsg:"Halo, saya bersama jamaah umrah yang butuh bantuan. Lokasi saat ini: ",
+    tabHome:"Beranda", tabGuide:"Manasik", tabQibla:"Kiblat", tabMap:"Peta"
   }},
   ur: { dir:"rtl", flag:"🇵🇰", label:"اردو", font:"'Noto Nastaliq Urdu',serif", t:{
     cardTitle:"معتمر شناختی و ہنگامی کارڈ",
@@ -673,12 +833,12 @@ const LANGS = {
     sectionContact:"نگران سے فوری رابطہ",
     btnPrimary:"بنیادی نگران کو کال کریں", btnSecondary:"متبادل نگران کو کال کریں",
     btnWhatsapp:"واٹس ایپ پر اپنا محل وقوع بھیجیں",
-    btnUmrahGuide:"📖 عمرہ کے مناسک اور دعاؤں کی گائیڈ",
-    btnQibla:"🧭 قبلہ نما اور حرمین کے اوقات نماز",
-    btnLandmarks:"🗺️ حرمین کے اہم مقامات اور ٹرانسپورٹ اسٹیشنز",
+    btnUmrahGuide:"عمرہ گائیڈ اور دعائیں",
+    btnQibla:"قبلہ نما اور اوقات نماز",
+    btnLandmarks:"اہم مقامات اور ٹرانسپورٹ میپ",
     b2bTitle:"💼 ٹریول ایجنسیوں کے لیے اسمارٹ پیکجز",
     b2bDesc:"اپنی کمپنی کے نام اور بارکوڈ کے ساتھ کارڈز اور کلاؤڈ کنٹرول پینل حاصل کریں۔",
-    btnBusinessPage:"✨ ٹریول ایجنسی پیکجز دیکھیں (مفت اور پرو)",
+    btnBusinessPage:"ایجنسی پیکجز", btnBusinessPage2:"✨ ٹریول ایجنسی پیکجز دیکھیں (مفت اور پرو)",
     btnSupport:"☕ زائرین حرم کی خدمت کے لیے تعاون",
     sectionLostSteps:"اگر آپ راستہ بھول جائیں تو کیا کریں؟",
     step1:"جہاں ہیں وہیں رکیں اور زیادہ حرکت نہ کریں — آپ کو ڈھونڈنا آسان ہوگا۔",
@@ -702,7 +862,8 @@ const LANGS = {
     opt3Title:"📱 3. موبائل لاک اسکرین وال پیپر", opt3Desc:"موبائل کے لیے وال پیپر جس میں کیو آر کوڈ اور ایمرجنسی نمبرز ہوں۔", btnLockScreen:"📲 وال پیپر بنائیں",
     opt4Title:"🏢 4. ٹریول ایجنسی سمارٹ کارڈز", opt4Desc:"کمپنی کے نام اور بارکوڈ کے ساتھ کارڈز۔", btnBadge:"💳 سنگل بیج", btnA4Sheet:"📄 8 کارڈز شیٹ (A4)",
     locating:"محل وقوع معلوم کیا جا رہا ہے...", locFail:"محل وقوع حاصل نہیں ہو سکا — واٹس ایپ اس کے بغیر کھلے گا۔",
-    waLostMsg:"السلام علیکم، میرے پاس ایک معتمر ہیں جنہیں مدد کی ضرورت ہے۔ موجودہ مقام: "
+    waLostMsg:"السلام علیکم، میرے پاس ایک معتمر ہیں جنہیں مدد کی ضرورت ہے۔ موجودہ مقام: ",
+    tabHome:"ہوم", tabGuide:"گائیڈ", tabQibla:"قبلہ", tabMap:"نقشہ"
   }},
   tr: { dir:"ltr", flag:"🇹🇷", label:"Türkçe", font:"'Inter',sans-serif", t:{
     cardTitle:"Hacı/Umreci Kimlik ve Acil Durum Kartı",
@@ -712,13 +873,13 @@ const LANGS = {
     sectionContact:"Sorumlularla İletişim",
     btnPrimary:"Ana Sorumluyu Ara", btnSecondary:"Yedek Sorumluyu Ara",
     btnWhatsapp:"Konumumu WhatsApp ile Gönder",
-    btnUmrahGuide:"📖 Umre Rehberi ve Dualar",
-    btnQibla:"🧭 Kıble Pusulası ve Harem Namaz Vakitleri",
-    btnLandmarks:"🗺️ Haremeyn Ulaşım ve Önemli Noktalar Haritası",
-    b2bTitle:"💼 Acenteler İçin Akıllı Çözümler ve Paketler",
+    btnUmrahGuide:"Umre Rehberi",
+    btnQibla:"Kıble ve Vakitler",
+    btnLandmarks:"Ulaşım ve Haritalar",
+    b2bTitle:"💼 Acenteler İçin Akıllı Çözümler",
     b2bDesc:"Şirket logonuzla basılmış akıllı kartlar ve bulut kontrol paneli edinin.",
-    btnBusinessPage:"✨ Acente Paketlerini İncele (Ücretsiz & Pro)",
-    btnSupport:"☕ Platformun Devamlılığına Katkıda Bulun",
+    btnBusinessPage:"Acente Paketleri", btnBusinessPage2:"✨ Acente Paketlerini İncele",
+    btnSupport:"☕ Platforma Destek Ol",
     sectionLostSteps:"Kaybolursanız Ne Yapmalısınız?",
     step1:"Bulunduğunuz yerde kalın ve fazla hareket etmeyin — sabit kalırsanız bulunmanız daha kolay olur.",
     step2:"Yukarıdaki butonları kullanarak hemen ana veya yedek sorumluyu arayın.",
@@ -730,18 +891,19 @@ const LANGS = {
     btnMapMakkah:"Mekke Otel Konumunu Aç", btnMapMadinah:"Medine Otel Konumunu Aç",
     sectionTransportNotes:"Otobüs ve Talimatlar", labelBusNo:"🚌 Otobüs No:",
     sectionQr:"Hızlı İletişim için Tara", qrHint:"Otel bilgileri ve sorumlu iletişimi için telefon kamerasıyla tarayın.",
-    sectionEmergency:"Resmi Acil Durum Numaraları (Suudi Arabistan)",
+    sectionEmergency:"Resmi Acil Durum Numaraları",
     emSecurity:"Polis ve Güvenlik", emRedCrescent:"Kızılay (Ambulans)", emHajjMinistry:"Hac ve Umre Bakanlığı", emCivilDefense:"Sivil Savunma",
-    footerBtnUnified:"📤 Kartı Paylaş, Yazdır ve İndir",
+    footerBtnUnified:"📤 Kartı Paylaş ve İndir",
     footerNote:"Bu sayfa mobil bağlantı olarak saklanabilir veya kağıt kart olarak yazdırılabilir.",
-    adminEditBtn:"Kontrol Panelinde Grup Verilerini Düzenle",
-    modalHeaderTitle:"📤 Kart Paylaşım ve Yazdırma Merkezi", modalHeaderSubtitle:"Grup verilerini kaydetmek, yazdırmak veya göndermek için seçin",
-    opt1Title:"🔗 1. Doğrudan Grup Bağlantısını Paylaş", opt1Desc:"Tüm otel ve sorumlu bilgileriyle WhatsApp üzerinden bağlantı gönderin.", btnShareLink:"📲 Bağlantıyı Paylaş / Kopyala",
-    opt2Title:"👤 2. Bireysel Umreci Kartı", opt2Desc:"Kartı yazdırın veya galeriye resim olarak kaydedin.", btnPrintStd:"🖨️ Normal Yazdır", btnSaveImg:"🖼️ Resim Olarak Kaydet",
-    opt3Title:"📱 3. Kilit Ekranı Duvar Kağıdı (Lock Screen)", opt3Desc:"Kilit açılmadan taranabilecek QR kodlu telefon duvar kağıdı.", btnLockScreen:"📲 Duvar Kağıdı Oluştur",
-    opt4Title:"🏢 4. Acente Akıllı Kartları (A4 / Yaka Kartı)", opt4Desc:"Tüm sezonlar için otel adı yazmayan kalıcı acente kartları.", btnBadge:"💳 Tekli Kart", btnA4Sheet:"📄 8'li Sayfa Yazdır (A4)",
+    adminEditBtn:"Panelde Verileri Düzenle",
+    modalHeaderTitle:"📤 Paylaşım ve Yazdırma Merkezi", modalHeaderSubtitle:"Grup verilerini kaydetmek, yazdırmak veya göndermek için seçin",
+    opt1Title:"🔗 1. Grup Bağlantısını Paylaş", opt1Desc:"Tüm otel ve sorumlu bilgileriyle WhatsApp üzerinden bağlantı gönderin.", btnShareLink:"📲 Bağlantıyı Paylaş",
+    opt2Title:"👤 2. Bireysel Umreci Kartı", opt2Desc:"Kartı yazdırın veya galeriye resim olarak kaydedin.", btnPrintStd:"🖨️ Yazdır", btnSaveImg:"🖼️ Resim Olarak Kaydet",
+    opt3Title:"📱 3. Kilit Ekranı Duvar Kağıdı", opt3Desc:"Kilit açılmadan taranabilecek QR kodlu telefon duvar kağıdı.", btnLockScreen:"📲 Duvar Kağıdı Oluştur",
+    opt4Title:"🏢 4. Acente Akıllı Kartları (A4)", opt4Desc:"Otel adı yazmayan kalıcı acente kartları.", btnBadge:"💳 Tekli Kart", btnA4Sheet:"📄 8'li Sayfa (A4)",
     locating:"Konum belirleniyor...", locFail:"Konum alınamadı — WhatsApp konum olmadan açılacak.",
-    waLostMsg:"Selamün aleyküm, yanımda yardıma ihtiyacı olan bir umreci var. Mevcut konumu: "
+    waLostMsg:"Selamün aleyküm, yanımda yardıma ihtiyacı olan bir umreci var. Mevcut konumu: ",
+    tabHome:"Ana Sayfa", tabGuide:"Rehber", tabQibla:"Kıble", tabMap:"Harita"
   }},
   en: { dir:"ltr", flag:"🇬🇧", label:"English", font:"'Inter',sans-serif", t:{
     cardTitle:"Pilgrim ID & Emergency Card",
@@ -751,12 +913,12 @@ const LANGS = {
     sectionContact:"Contact the Supervisors",
     btnPrimary:"Call Primary Supervisor", btnSecondary:"Call Backup Supervisor",
     btnWhatsapp:"Send My Location via WhatsApp",
-    btnUmrahGuide:"📖 Umrah Steps & Supplications Guide",
-    btnQibla:"🧭 Qibla & Prayer Times in Holy Mosques",
-    btnLandmarks:"🗺️ Landmarks & Transport Map in Holy Cities",
+    btnUmrahGuide:"Umrah Guide & Tracker",
+    btnQibla:"Qibla & Prayer Times",
+    btnLandmarks:"Landmarks & Transport Map",
     b2bTitle:"💼 Travel Agency Packages & Smart Solutions",
     b2bDesc:"Get smart printed cards branded with your agency logo with lifetime cloud control panel.",
-    btnBusinessPage:"✨ View Agency Plans (Free & Pro)",
+    btnBusinessPage:"Agency B2B Plans", btnBusinessPage2:"✨ View Agency Plans (Free & Pro)",
     btnSupport:"☕ Support Platform Continuity for Pilgrims",
     sectionLostSteps:"If You Get Lost",
     step1:"Stay where you are and avoid moving further — it's easier to be found if you stay put.",
@@ -769,7 +931,7 @@ const LANGS = {
     btnMapMakkah:"Open Makkah Hotel Location", btnMapMadinah:"Open Madinah Hotel Location",
     sectionTransportNotes:"Bus & Group Instructions", labelBusNo:"🚌 Bus Number:",
     sectionQr:"Quick Scan to Contact", qrHint:"Scan with your phone camera to view accommodation details and contact supervisors directly.",
-    sectionEmergency:"Official Emergency Numbers (Saudi Arabia)",
+    sectionEmergency:"Official Emergency Numbers",
     emSecurity:"Police & Security", emRedCrescent:"Red Crescent (Ambulance)", emHajjMinistry:"Ministry of Hajj & Umrah", emCivilDefense:"Civil Defense",
     footerBtnUnified:"📤 Share, Print & Export Card",
     footerNote:"This page can be kept as a mobile link or printed and carried as a paper card.",
@@ -780,7 +942,8 @@ const LANGS = {
     opt3Title:"📱 3. Lock Screen Wallpaper", opt3Desc:"Phone-sized wallpaper with QR code and emergency contact numbers.", btnLockScreen:"📲 Generate Wallpaper",
     opt4Title:"🏢 4. Permanent Agency Smart Cards", opt4Desc:"Evergreen badge cards with agency branding and cloud QR code.", btnBadge:"💳 Single Badge", btnA4Sheet:"📄 Print 8 Cards (A4)",
     locating:"Locating you...", locFail:"Could not get your location — WhatsApp will open without it.",
-    waLostMsg:"Hello, I have a pilgrim who needs help. Current location: "
+    waLostMsg:"Hello, I have a pilgrim who needs help. Current location: ",
+    tabHome:"Home", tabGuide:"Guide", tabQibla:"Qibla", tabMap:"Maps"
   }},
   fr: { dir:"ltr", flag:"🇫🇷", label:"Français", font:"'Inter',sans-serif", t:{
     cardTitle:"Carte d'Identité & d'Urgence du Pèlerin",
@@ -790,13 +953,13 @@ const LANGS = {
     sectionContact:"Contacter les Superviseurs",
     btnPrimary:"Appeler le Superviseur Principal", btnSecondary:"Appeler le Superviseur Suppléant",
     btnWhatsapp:"Envoyer ma position via WhatsApp",
-    btnUmrahGuide:"📖 Guide des Rites de la Omra & Invocations",
-    btnQibla:"🧭 Qibla & Horaires de Prière aux Saintes Mosquées",
-    btnLandmarks:"🗺️ Plan des Lieux & Transports aux Lieux Saints",
+    btnUmrahGuide:"Guide Omra & Invocations",
+    btnQibla:"Qibla & Horaires de Prière",
+    btnLandmarks:"Plan des Lieux & Transports",
     b2bTitle:"💼 Solutions & Offres Agences de Voyage",
     b2bDesc:"Obtenez des cartes intelligentes au nom de votre agence avec panneau de contrôle cloud.",
-    btnBusinessPage:"✨ Découvrir les Offres Agences (Gratuit & Pro)",
-    btnSupport:"☕ Soutenir la continuité du service pour les pèlerins",
+    btnBusinessPage:"Offres B2B Agences", btnBusinessPage2:"✨ Découvrir les Offres Agences",
+    btnSupport:"☕ Soutenir la continuité du service",
     sectionLostSteps:"Que Faire en Cas de Perte",
     step1:"Restez où vous êtes et évitez de trop bouger — il est plus facile de vous retrouver si vous restez sur place.",
     step2:"Appelez immédiatement le superviseur principal ou suppléant via les boutons ci-dessus.",
@@ -808,18 +971,19 @@ const LANGS = {
     btnMapMakkah:"Ouvrir la Localisation (La Mecque)", btnMapMadinah:"Ouvrir la Localisation (Médine)",
     sectionTransportNotes:"Bus et Instructions", labelBusNo:"🚌 Numéro de Bus:",
     sectionQr:"Scan Rapide pour Contacter", qrHint:"Scannez pour afficher les informations de l'hôtel et contacter le superviseur.",
-    sectionEmergency:"Numéros d'Urgence Officiels (Arabie Saoudite)",
-    emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj et de la Omra", emCivilDefense:"Défense Civile",
+    sectionEmergency:"Numéros d'Urgence Officiels",
+    emSecurity:"Police & Sécurité", emRedCrescent:"Croissant-Rouge (Ambulance)", emHajjMinistry:"Ministère du Hajj", emCivilDefense:"Défense Civile",
     footerBtnUnified:"📤 Partager, Imprimer et Exporter",
     footerNote:"Cette page peut être conservée comme lien mobile ou imprimée sous forme de carte papier.",
-    adminEditBtn:"Modifier les données dans le panneau de contrôle",
+    adminEditBtn:"Modifier les données dans le panneau",
     modalHeaderTitle:"📤 Centre de Partage et d'Impression", modalHeaderSubtitle:"Choisissez le format adapté pour enregistrer ou envoyer les données",
-    opt1Title:"🔗 1. Partager le Lien Direct du Groupe", opt1Desc:"Envoyez le lien complet avec hôtels et contacts via WhatsApp.", btnShareLink:"📲 Envoyer / Copier le Lien",
-    opt2Title:"👤 2. Carte Individuelle du Pèlerin", opt2Desc:"Imprimez la carte ou enregistrez-la comme image HD.", btnPrintStd:"🖨️ Impression Standard", btnSaveImg:"🖼️ Enregistrer l'Image",
-    opt3Title:"📱 3. Fond d'Écran de Verrouillage (Lock Screen)", opt3Desc:"Image adaptée au téléphone avec QR code scannable écran verrouillé.", btnLockScreen:"📲 Générer Fond d'Écran",
-    opt4Title:"🏢 4. Cartes Intelligentes Agence (A4 / Badge)", opt4Desc:"Badges permanents au nom de l'agence avec QR code cloud.", btnBadge:"💳 Badge Individuel", btnA4Sheet:"📄 Imprimer 8 Cartes (A4)",
+    opt1Title:"🔗 1. Partager le Lien Direct du Groupe", opt1Desc:"Envoyez le lien complet avec hôtels et contacts via WhatsApp.", btnShareLink:"📲 Envoyer / Copier",
+    opt2Title:"👤 2. Carte Individuelle du Pèlerin", opt2Desc:"Imprimez la carte ou enregistrez-la comme image HD.", btnPrintStd:"🖨️ Imprimer", btnSaveImg:"🖼️ Enregistrer l'Image",
+    opt3Title:"📱 3. Fond d'Écran de Verrouillage", opt3Desc:"Image adaptée au téléphone avec QR code scannable écran verrouillé.", btnLockScreen:"📲 Générer Fond d'Écran",
+    opt4Title:"🏢 4. Cartes Intelligentes Agence", opt4Desc:"Badges permanents au nom de l'agence avec QR code cloud.", btnBadge:"💳 Badge Individuel", btnA4Sheet:"📄 Imprimer 8 Cartes (A4)",
     locating:"Localisation en cours...", locFail:"Localisation impossible — WhatsApp s'ouvrira sans elle.",
-    waLostMsg:"Bonjour, je suis avec un pèlerin qui a besoin d'aide. Sa position actuelle : "
+    waLostMsg:"Bonjour, je suis avec un pèlerin qui a besoin d'aide. Sa position actuelle : ",
+    tabHome:"Accueil", tabGuide:"Guide", tabQibla:"Qibla", tabMap:"Cartes"
   }}
 };
 
@@ -855,9 +1019,17 @@ function renderUI(data){
   const notesEl = document.getElementById("v-notes");
   if(data.notes && String(data.notes).trim() !== ""){
     notesEl.textContent = data.notes;
-    notesEl.style.display = "block";
+    
+    // Check for Flash Notice
+    if (data.notes.includes("تنبيه") || data.notes.includes("هام") || data.notes.includes("عاجل")) {
+      document.getElementById('flash-notice-text').textContent = data.notes;
+      document.getElementById('flash-notice').style.display = 'flex';
+    } else {
+      document.getElementById('flash-notice').style.display = 'none';
+    }
   } else {
     notesEl.textContent = "لا توجد ملاحظات إضافية مسجلة.";
+    document.getElementById('flash-notice').style.display = 'none';
   }
 
   const pPhone = data.p1 || "+201004509977";
@@ -868,7 +1040,7 @@ function renderUI(data){
   document.getElementById("btn-mapMakkah").href = data.mm || "https://maps.google.com";
   document.getElementById("btn-mapMadinah").href = data.md || "https://maps.google.com";
 
-  generateLocalQR("qr-local-container", groupDirectUrl, 84);
+  generateLocalQR("qr-local-container", groupDirectUrl, 88);
   
   window.ACTIVE_PRIMARY_PHONE = pPhone;
 }
@@ -1025,7 +1197,18 @@ function printPersonalCard(){
 function downloadCardImage(){
   closePrintModal();
   const card = document.getElementById("card");
-  html2canvas(card, { scale: 2, useCORS: true, allowTaint: true }).then(canvas => {
+  
+  // Temporarily hide things we don't want in the screenshot
+  const btnsToHide = card.querySelectorAll('.btn-outline, .btn-primary, .btn-secondary, .btn-whatsapp');
+  btnsToHide.forEach(btn => btn.style.display = 'none');
+  const footer = card.querySelector('.footer');
+  if(footer) footer.style.display = 'none';
+
+  html2canvas(card, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#fffdf8' }).then(canvas => {
+    // Restore elements
+    btnsToHide.forEach(btn => btn.style.display = '');
+    if(footer) footer.style.display = '';
+
     const link = document.createElement("a");
     link.download = `بطاقة_المعتمر_${window.CURRENT_RECORD?.group_id || 'رحلة'}.png`;
     link.href = canvas.toDataURL("image/png");
@@ -1042,14 +1225,14 @@ function generateLockScreen(){
 
   const temp = document.createElement("div");
   temp.style.width = "400px";
-  temp.style.height = "750px";
+  temp.style.height = "800px";
   temp.style.background = "linear-gradient(180deg, #1c1c1e 0%, #2f5233 100%)";
   temp.style.color = "#fff";
   temp.style.display = "flex";
   temp.style.flexDirection = "column";
   temp.style.alignItems = "center";
   temp.style.justifyContent = "space-between";
-  temp.style.padding = "40px 20px";
+  temp.style.padding = "50px 20px 40px";
   temp.style.fontFamily = LANGS[currentLang].font;
   temp.style.textAlign = "center";
   temp.style.position = "fixed";
@@ -1057,21 +1240,21 @@ function generateLockScreen(){
 
   temp.innerHTML = `
     <div>
-      <h2 style="font-size:20px; color:#e8d9b5; margin-bottom:4px;">${comp}</h2>
-      <div style="font-size:14px; opacity:0.85;">بطاقة طوارئ المعتمر | كود الفوج: ${gId}</div>
+      <h2 style="font-size:24px; color:#e8d9b5; margin-bottom:8px;">${comp}</h2>
+      <div style="font-size:16px; opacity:0.9;">بطاقة طوارئ المعتمر | كود الفوج: ${gId}</div>
     </div>
-    <div style="background:#fff; padding:12px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,0.3); display:flex; flex-direction:column; align-items:center;">
-      <div id="lock-screen-qr" style="width:180px; height:180px;"></div>
-      <div style="color:#1c1c1e; font-size:12px; font-weight:bold; margin-top:8px;">امسح الرمز لبيانات السكن والمشرف</div>
+    <div style="background:#fff; padding:16px; border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.4); display:flex; flex-direction:column; align-items:center;">
+      <div id="lock-screen-qr" style="width:200px; height:200px;"></div>
+      <div style="color:#1c1c1e; font-size:13.5px; font-weight:bold; margin-top:12px;">امسح الرمز لبيانات السكن والمشرف</div>
     </div>
-    <div style="background:rgba(255,255,255,0.1); padding:12px 18px; border-radius:10px; width:100%;">
-      <div style="font-size:13px; font-weight:bold;">رقم طوارئ المشرف: ${phone}</div>
-      <div style="font-size:11.5px; opacity:0.8; margin-top:4px;">طوارئ المملكة: 911 | الإسعاف: 997</div>
+    <div style="background:rgba(255,255,255,0.15); padding:16px 20px; border-radius:14px; width:100%; border:1px solid rgba(255,255,255,0.2);">
+      <div style="font-size:15px; font-weight:bold;">رقم طوارئ المشرف: ${phone}</div>
+      <div style="font-size:12.5px; opacity:0.85; margin-top:6px;">طوارئ المملكة: 911 | الإسعاف: 997</div>
     </div>
   `;
 
   document.body.appendChild(temp);
-  generateLocalQR("lock-screen-qr", directUrl, 180);
+  generateLocalQR("lock-screen-qr", directUrl, 200);
 
   setTimeout(() => {
     html2canvas(temp, { scale: 2, useCORS: true, allowTaint: true }).then(canvas => {
@@ -1081,7 +1264,7 @@ function generateLockScreen(){
       link.click();
       document.body.removeChild(temp);
     });
-  }, 300);
+  }, 400);
 }
 
 function printCompanyCardSingle(){
@@ -1136,7 +1319,7 @@ function printCompanyBatchA4(){
           <div style="font-size:10px; color:#333; line-height:1.4; flex:1;">
             <div>الاسم: ___________________</div>
             <div style="margin-top:4px;">الغرفة: _____ | باص: ____</div>
-            <div style="margin-top:4px; font-size:9px; color:#666;">امسح لمعرفة موقع الفندق والمشرفين</div>
+            <div style="margin-top:4px; font-size:9px; color:#666;">امسح لمعرفة موقع الفندق ve مشرفين</div>
           </div>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:9px; color:#555; border-top:1px dashed #eee; padding-top:2px;">
@@ -1168,6 +1351,20 @@ function copyIBAN(){
   const val = document.getElementById('iban-val').textContent;
   navigator.clipboard.writeText(val).then(() => alert("تم نسخ رقم الآيبان بنجاح"));
 }
+
+// Logic for Smart Live Status Banner
+function updateLivePrayer() {
+  // Simple mock countdown for demonstration.
+  // In a real scenario, this would calculate time to the next prayer based on current time.
+  const el = document.getElementById('live-prayer');
+  if(!el) return;
+  const now = new Date();
+  const nextPrayerName = "العصر";
+  const minutesLeft = 60 - now.getMinutes(); 
+  el.textContent = `⏳ ${nextPrayerName} بعد: ${minutesLeft} دقيقة`;
+}
+setInterval(updateLivePrayer, 60000); // update every minute
+updateLivePrayer();
 
 (function init(){
   applyStatic();
